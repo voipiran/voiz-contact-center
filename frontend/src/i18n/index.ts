@@ -21,14 +21,7 @@ i18n
       en: { translation: en },
       fa: { translation: fa },
     },
-
     // VOIPIRAN: Persian is the default language.
-    lng: savedLang,
-
-    fallbackLng: 'fa',
-
-    interpolation: {
-      escapeValue: false,
     },
   });
 
