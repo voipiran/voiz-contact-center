@@ -348,17 +348,21 @@ export class WebPhone {
       const uri = UserAgent.makeURI(`sip:${username}@${this.domain}`);
       if (!uri) throw new Error('Failed to create URI');
 
-      const configuration: UserAgentOptions = {
-        uri,
-        transportOptions: {
-          server: this.serverUrl,
-          // Ping every 25 s to keep the WebSocket alive on mobile — without this,
-          // iOS/Android kill idle connections within ~30 s when the tab is backgrounded.
-          keepAliveInterval: 25,
-          connectionTimeout: 10,
-        },
-        authorizationUsername: username,
-        authorizationPassword: password,
+const configuration: UserAgentOptions = {
+  uri,
+
+  contactParams: {
+    transport: "wss",
+  },
+
+  transportOptions: {
+    server: this.serverUrl,
+    keepAliveInterval: 25,
+    connectionTimeout: 10,
+  },
+
+  authorizationUsername: username,
+  authorizationPassword: password,
         // reconnectionAttempts defaults to 0 (we handle reconnect ourselves below
         // to avoid conflicting with the hook-level reconnect triggered by status changes).
         // With debug logging on, capture SIP.js's full output (incl. the sent/received
