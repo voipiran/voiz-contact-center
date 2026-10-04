@@ -64,14 +64,6 @@ WebRTC ارائه می‌دهد.
 
 روی سرور Issabel با کاربر root اجرا کنید:
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/install-from-github.sh \
-  -o /tmp/voipiran-contactcenter-install.sh
-
-chmod +x /tmp/voipiran-contactcenter-install.sh
-
-sudo /tmp/voipiran-contactcenter-install.sh
-```
 
 یا:
 
