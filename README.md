@@ -90,10 +90,13 @@ curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/i
 در صورت نیاز:
 
 ```bash
-VOIPIRAN_REPO_URL="https://github.com/voipiran/voiz-contact-center.git" \
-VOIPIRAN_REPO_BRANCH="main" \
-VOIPIRAN_PACKAGE_DIR="/opt/voipiran-contactcenter-installer" \
-sudo -E /tmp/voipiran-contactcenter-install.sh
+curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/install-from-github.sh \
+  -o /tmp/voipiran-contactcenter-install.sh \
+&& sudo env \
+  VOIPIRAN_REPO_URL="https://github.com/voipiran/voiz-contact-center.git" \
+  VOIPIRAN_REPO_BRANCH="main" \
+  VOIPIRAN_PACKAGE_DIR="/opt/voipiran-contactcenter-installer" \
+  bash /tmp/voipiran-contactcenter-install.sh
 ```
 
 اگر مسیر package از قبل یک checkout معتبر Git باشد، همان نسخه استفاده می‌شود.
