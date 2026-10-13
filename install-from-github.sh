@@ -17,5 +17,8 @@ if [ ! -f "$CONTACT_CENTER_DIR/contactcenter.sh" ]; then
     exit 1
 fi
 
+# Fix OS detection syntax error
+sed -i 's/echo -e "${RED}Unsupported OS ($ID $VERSION_ID).${NC}"/echo -e "${RED}Unsupported OS: $ID $VERSION_ID${NC}"/' "$CONTACT_CENTER_DIR/contactcenter.sh"
+
 echo "Running the ContactCenter installer..."
 bash "$CONTACT_CENTER_DIR/contactcenter.sh"
