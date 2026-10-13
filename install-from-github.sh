@@ -20,5 +20,10 @@ fi
 # Fix OS detection syntax error
 sed -i 's/echo -e "${RED}Unsupported OS ($ID $VERSION_ID).${NC}"/echo -e "${RED}Unsupported OS: $ID $VERSION_ID${NC}"/' "$CONTACT_CENTER_DIR/contactcenter.sh"
 
+# Fix the platform detection: add ISSABEL_VERSION and change the echo line
+sed -i '/OS_FAMILY="el8"/a \    ISSABEL_VERSION=5' "$CONTACT_CENTER_DIR/contactcenter.sh"
+sed -i '/OS_FAMILY="el7"/a \    ISSABEL_VERSION=4' "$CONTACT_CENTER_DIR/contactcenter.sh"
+sed -i 's/echo -e "${YELLOW}Detected platform: ${BOLD}${OS_FAMILY^^}${NC}  (Issabel.*/echo -e "${YELLOW}Detected platform: ${BOLD}${OS_FAMILY^^}${NC}  (Issabel $ISSABEL_VERSION)"/' "$CONTACT_CENTER_DIR/contactcenter.sh"
+
 echo "Running the ContactCenter installer..."
 bash "$CONTACT_CENTER_DIR/contactcenter.sh"
