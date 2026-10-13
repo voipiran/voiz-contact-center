@@ -68,8 +68,7 @@ WebRTC ارائه می‌دهد.
 یا:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/install-from-github.sh | sudo bash
-```
+curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/install-from-github.sh | sudo bash```
 
 نصب‌کننده مراحل زیر را انجام می‌دهد:
 
