@@ -806,6 +806,13 @@ _read_port() {
     done
 }
 
+# Print the first enabled Nginx site (other than OpDesk's own) that listens on <port>
+_nginx_other_site() {
+    local port="$1"
+    sudo grep -lE "^\s*listen\s+(\[::\]:)?$port([^0-9]|\$)" /etc/nginx/sites-enabled/* /etc/nginx/conf.d/*.conf 2>/dev/null \
+        | while read -r f; do [ "$(readlink -f "$f")" != "$(readlink -f "$PROJECT_ROOT/nginx/opdesk.conf")" ] && echo "$f"; done | head -1
+}
+
 # Resolve a port conflict interactively.
 # Sets NGINX_HTTPS_PORT or NGINX_HTTP_PORT as a side-effect via caller's variable.
 # Usage: _resolve_port_conflict <port> <varname> <pbx_fallback_port>
@@ -819,7 +826,13 @@ _resolve_port_conflict() {
     [ -z "$pid" ] && return          # port is free
     proc=$(ps -p "$pid" -o comm= 2>/dev/null || true)
     [ -z "$proc" ] && return         # process gone
-    [ "$proc" = "nginx" ] && return  # already ours
+    if [ "$proc" = "nginx" ]; then
+        # Only ours if no *other* enabled site listens there (e.g. a second panel on the same box)
+        local other
+        other=$(_nginx_other_site "$port")
+        [ -z "$other" ] && return
+        proc="nginx (site $other)"
+    fi
 
     echo -e "${RED}Port $port is in use by '$proc' (PID $pid).${NC}"
     echo -e "${YELLOW}How would you like to resolve this?${NC}"
@@ -967,20 +980,34 @@ PORT="${_port_val:-8765}"
 # Write Nginx vhost config — stored in project folder, symlinked into Nginx
 mkdir -p "$PROJECT_ROOT/nginx"
 sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+NGINX_REDIRECT_BLOCK=""
+if [ -n "$NGINX_HTTP_PORT" ]; then
+    _https_suffix=""
+    [ "$NGINX_HTTPS_PORT" != "443" ] && _https_suffix=":$NGINX_HTTPS_PORT"
+    NGINX_REDIRECT_BLOCK="
+server {
+    listen $NGINX_HTTP_PORT;
+    listen [::]:$NGINX_HTTP_PORT;
+    server_name $NGINX_SERVER_NAME;
+    return 301 https://\$host$_https_suffix\$request_uri;
+}"
+fi
 tee "$PROJECT_ROOT/nginx/opdesk.conf" > /dev/null <<NGINXEOF
+# upstream/map names are opdesk_-prefixed: they share nginx's global http{} namespace
+# with any other site on the box, and a duplicate name fails the whole config.
 upstream opdesk_app  { server 127.0.0.1:$PORT; keepalive 32; }
-upstream asterisk_ws { server 127.0.0.1:8088; keepalive 16; }
+upstream opdesk_asterisk_ws { server 127.0.0.1:8088; keepalive 16; }
 
-map \$http_upgrade \$connection_upgrade {
+map \$http_upgrade \$opdesk_connection_upgrade {
     default upgrade;
     ''      close;
 }
 
 # Route SIP WebSocket (Sec-WebSocket-Protocol: sip) to Asterisk; everything else to the app.
 # Using a variable avoids the "if in location" anti-pattern which can silently mis-route.
-map \$http_sec_websocket_protocol \$root_proxy {
+map \$http_sec_websocket_protocol \$opdesk_root_proxy {
     "sip"   "http://127.0.0.1:8088/ws";
-    default "http://127.0.0.1:8765";
+    default "http://opdesk_app";
 }
 
 server {
@@ -996,10 +1023,10 @@ server {
     ssl_session_timeout 10m;
 
     location = /ws {
-        proxy_pass         \$root_proxy;
+        proxy_pass         \$opdesk_root_proxy;
         proxy_http_version 1.1;
         proxy_set_header   Upgrade           \$http_upgrade;
-        proxy_set_header   Connection        \$connection_upgrade;
+        proxy_set_header   Connection        \$opdesk_connection_upgrade;
         proxy_set_header   Host              \$host;
         proxy_set_header   X-Forwarded-For   \$proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto \$scheme;
@@ -1008,10 +1035,10 @@ server {
     }
 
     location = /sip-ws {
-        proxy_pass         http://asterisk_ws/ws;
+        proxy_pass         http://opdesk_asterisk_ws/ws;
         proxy_http_version 1.1;
         proxy_set_header   Upgrade           \$http_upgrade;
-        proxy_set_header   Connection        \$connection_upgrade;
+        proxy_set_header   Connection        \$opdesk_connection_upgrade;
         proxy_set_header   Host              \$host;
         proxy_set_header   X-Forwarded-For   \$proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto \$scheme;
@@ -1020,10 +1047,10 @@ server {
     }
 
     location / {
-        proxy_pass         \$root_proxy;
+        proxy_pass         \$opdesk_root_proxy;
         proxy_http_version 1.1;
         proxy_set_header   Upgrade           \$http_upgrade;
-        proxy_set_header   Connection        \$connection_upgrade;
+        proxy_set_header   Connection        \$opdesk_connection_upgrade;
         proxy_set_header   Host              \$host;
         proxy_set_header   X-Forwarded-For   \$proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto \$scheme;
@@ -1032,13 +1059,7 @@ server {
         client_max_body_size 25m;
     }
 }
-
-server {
-    listen $NGINX_HTTP_PORT;
-    listen [::]:$NGINX_HTTP_PORT;
-    server_name $NGINX_SERVER_NAME;
-    return 301 https://\$host\$request_uri;
-}
+$NGINX_REDIRECT_BLOCK
 NGINXEOF
 
 sudo ln -sf "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/sites-available/opdesk
