@@ -524,19 +524,22 @@ if [[ "$OS_FAMILY" == "el8" ]]; then
 
   echo -e "${GREEN}nginx default port changed to 8080.${NC}"
 
-  # PHP-FPM pool must hand its socket to nginx (not apache) from now on
+  # Only systems running PHP 8.3 (Remi) behind nginx need the PHP-FPM pool handover.
+  # Standard Issabel 5 (PHP 7.4 + Apache) must keep its system pool untouched,
+  # otherwise the Issabel web interface would break.
 
   PHP_POOL="/etc/opt/remi/php83/php-fpm.d/www.conf"
 
-  if [ ! -f "$PHP_POOL" ]; then
-      if [ -f "${PHP_POOL}.bak" ]; then
-          cp -f "${PHP_POOL}.bak" "$PHP_POOL"
-      else
-          echo -e "${RED}php-fpm pool file not found: $PHP_POOL${NC}"
-          exit 1
-      fi
+  if [ ! -f "$PHP_POOL" ] && [ -f "${PHP_POOL}.bak" ]; then
+      cp -f "${PHP_POOL}.bak" "$PHP_POOL"
   fi
 
+  if [ ! -f "$PHP_POOL" ]; then
+    echo -e "${YELLOW}PHP 8.3 (Remi) pool not found; skipping PHP-FPM handover (not needed by OpDesk).${NC}"
+    systemctl daemon-reload
+    systemctl enable nginx
+    echo -e "${GREEN}nginx installed.${NC}"
+  else
   sed -i \
     -e 's|^user = .*|user = nginx|' \
     -e 's|^group = .*|group = nginx|' \
@@ -556,6 +559,7 @@ if [[ "$OS_FAMILY" == "el8" ]]; then
   systemctl daemon-reload
   systemctl enable php83-php-fpm nginx
   echo -e "${GREEN}nginx installed and PHP-FPM pool handed over to it.${NC}"
+  fi
 fi
 
 
