@@ -1259,7 +1259,6 @@ EOF
 echo -e "\n${YELLOW}Step 9: Configuring OpDesk systemd service...${NC}"
 
 sudo systemctl daemon-reload
-sudo systemctl enable opdesk.service
 
 SERVICE_USER="${SUDO_USER:-$USER}"
 SERVICE_HOME=$(eval echo ~"$SERVICE_USER" 2>/dev/null || echo "$HOME")
@@ -1291,6 +1290,8 @@ SyslogIdentifier=opdesk
 WantedBy=multi-user.target
 EOF
 
+    sudo systemctl daemon-reload
+    sudo systemctl enable opdesk.service
     echo -e "${GREEN}OpDesk service installed and enabled to start on boot.${NC}"
 else
     echo -e "${GREEN}systemd service already exists — skipping creation.${NC}"
