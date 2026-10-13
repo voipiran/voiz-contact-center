@@ -64,18 +64,29 @@ WebRTC ارائه می‌دهد.
 
 روی سرور Issabel با کاربر root اجرا کنید:
 
+```bash
+cd /opt && \
+rm -rf voiz-contact-center voiz-contact-center.tar.gz && \
+curl -fL https://github.com/voipiran/voiz-contact-center/archive/refs/heads/main.tar.gz -o voiz-contact-center.tar.gz && \
+tar -xzf voiz-contact-center.tar.gz && \
+mv voiz-contact-center-main voiz-contact-center && \
+cd voiz-contact-center && \
+bash contactcenter.sh
+```
 
-یا:
+یا با `git`:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/install-from-github.sh | sudo bash
+git clone --depth 1 https://github.com/voipiran/voiz-contact-center.git /opt/voiz-contact-center \
+  && cd /opt/voiz-contact-center \
+  && bash contactcenter.sh
 ```
 
 
 نصب‌کننده مراحل زیر را انجام می‌دهد:
 
 1. بررسی root بودن کاربر و شناسایی Issabel
-2. دریافت همین Repository از GitHub
+2. نصب وابستگی‌های RPM و Python
 3. اجرای [install.sh](./install.sh)
 4. نصب OpDesk در `/opt/OpDesk`
 5. نصب Python و وابستگی‌های backend
@@ -84,24 +95,6 @@ curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/i
 8. Deploy کردن frontend آماده
 9. اجرای [voipiran-patch/apply.sh](./voipiran-patch/apply.sh)
 10. تنظیم WebRTC، Asterisk و سرویس `opdesk`
-
-### تنظیم Repository، branch و مسیر دریافت
-
-نصب‌کننده به‌صورت پیش‌فرض از Repository رسمی و branch `main` استفاده می‌کند.
-در صورت نیاز:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/voipiran/voiz-contact-center/main/install-from-github.sh \
-  -o /tmp/voipiran-contactcenter-install.sh \
-&& sudo env \
-  VOIPIRAN_REPO_URL="https://github.com/voipiran/voiz-contact-center.git" \
-  VOIPIRAN_REPO_BRANCH="main" \
-  VOIPIRAN_PACKAGE_DIR="/opt/voipiran-contactcenter-installer" \
-  bash /tmp/voipiran-contactcenter-install.sh
-```
-
-اگر مسیر package از قبل یک checkout معتبر Git باشد، همان نسخه استفاده می‌شود.
-مسیر غیرخالی و غیر Git به‌صورت خودکار حذف یا بازنویسی نمی‌شود.
 
 ## پیش‌نیازها
 
@@ -162,16 +155,15 @@ frontend/                رابط React و خروجی dist
 nginx/                   کانفیگ Nginx
 scripts/                 اسکریپت‌های کمکی
 voipiran-patch/          سفارشی‌سازی‌های اختصاصی VOIPIRAN
-install.sh               نصب‌کننده اصلی OpDesk
-install-from-github.sh   نصب‌کننده مستقیم از GitHub
+contactcenter.sh         نقطه ورود نصب (اجرا با: bash contactcenter.sh)
+install.sh               نصب‌کننده اصلی OpDesk (توسط contactcenter.sh اجرا می‌شود)
 ```
 
 ## به‌روزرسانی
 
 برای به‌روزرسانی، ابتدا نسخه جدید را در یک محیط آزمایشی بررسی کنید. سپس
-checkout نصب‌کننده را به‌صورت کنترل‌شده به‌روزرسانی کنید و مراحل اعتبارسنجی
-را اجرا کنید. نصب‌کننده مستقیم، checkout موجود را خودکار pull نمی‌کند تا
-تغییرات محلی یا تنظیمات مشتری از بین نرود.
+مخزن را در `/opt/voiz-contact-center` با `git pull` به‌روزرسانی کنید و دوباره
+`bash contactcenter.sh` را اجرا کنید.
 
 ## مشارکت و حمایت
 

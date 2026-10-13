@@ -178,7 +178,7 @@ ON DUPLICATE KEY UPDATE defaultcode='*34', enabled='1';"
 # DTMF Mode Change
 run_query "INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest)
 VALUES ('core','ChanSpy-DTMF','ØªØºÛŒÛŒØ± Ω­Ø§Ù„Øª Ω´Ù†ÙˆØ¯ Ω­ÛŒÙ† ΩªÙ…Ø§Ø³ Ω¨Ø§ Ú©Ù„ÛŒØ¯ 4/5/6ØŒ Ú©Ø¯ + Ω�Ø§Ø®Ù„ÛŒ','*35',NULL,'1','1')
-ON DUPLICATE KEY UPDATE defaultcode='*35', enabled='1';
+ON DUPLICATE KEY UPDATE defaultcode='*35', enabled='1';"
 
 
 
@@ -195,6 +195,7 @@ ON DUPLICATE KEY UPDATE defaultcode='*35', enabled='1';
 set -e
 
 PROJECT_ROOT="/opt/OpDesk"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # VOIPIRAN ContactCenter paths
 PATCH_ROOT="$SCRIPT_DIR/voipiran-patch"
@@ -214,7 +215,6 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 BOLD='\033[1m'
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
 echo ""
@@ -264,13 +264,15 @@ echo -e "${GREEN}Issabel MySQL root password detected.${NC}"
 source /etc/os-release
 if [[ "$ID" =~ (rocky|almalinux|rhel|centos) && "${VERSION_ID%%.*}" == "8" ]]; then
   OS_FAMILY="el8"
+  ISSABEL_VERSION=5
 elif [[ "$ID" =~ (centos|rhel) && "${VERSION_ID%%.*}" == "7" ]]; then
   OS_FAMILY="el7"
+  ISSABEL_VERSION=4
 else
-  echo -e "${RED}Unsupported OS ($ID $VERSION_ID).${NC}"
+  echo -e "${RED}Unsupported OS: $ID $VERSION_ID${NC}"
   exit 1
 fi
-echo -e "${YELLOW}Detected platform: ${BOLD}${OS_FAMILY^^}${NC}  (Issabel $( [[ $OS_FAMILY == "el8" ]] && echo 5 || echo 4 ))"
+echo -e "${YELLOW}Detected platform: ${BOLD}${OS_FAMILY^^}${NC}  (Issabel $ISSABEL_VERSION)"
 
 
 # ===============================================================
