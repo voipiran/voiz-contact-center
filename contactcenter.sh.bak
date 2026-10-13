@@ -1,0 +1,589 @@
+#!/bin/bash
+
+
+#Install ChanSPY
+DB_USER=""
+DB_PASS=""
+DB_HOST="127.0.0.1"
+DB_NAME="asterisk"
+
+if [[ -f /etc/issabel.conf ]]; then
+  # Issabel
+  echo -e "${CYAN}Detected Issabel...${NC}"
+  rootpw=$(sed -ne 's/.*mysqlrootpwd=//p' /etc/issabel.conf | tr -d '[:space:]')
+  if [[ -n "${rootpw:-}" ]]; then
+    DB_USER="root"
+    DB_PASS="$rootpw"
+    DB_NAME="asterisk"
+  fi
+fi
+
+if [[ -z "$DB_PASS" && -f /etc/freepbx.conf ]]; then
+  # FreePBX (جدید)
+  echo -e "${CYAN}Detected FreePBX (freepbx.conf)...${NC}"
+  amp_user=$(grep -Po "(?<=amp_conf\['AMPDBUSER'\]\s*=\s*')[^']+" /etc/freepbx.conf | head -n1)
+  amp_pass=$(grep -Po "(?<=amp_conf\['AMPDBPASS'\]\s*=\s*')[^']+" /etc/freepbx.conf | head -n1)
+  amp_host=$(grep -Po "(?<=amp_conf\['AMPDBHOST'\]\s*=\s*')[^']+" /etc/freepbx.conf | head -n1)
+  amp_name=$(grep -Po "(?<=amp_conf\['AMPDBNAME'\]\s*=\s*')[^']+" /etc/freepbx.conf | head -n1)
+
+  [[ -n "$amp_user" ]] && DB_USER="$amp_user"
+  [[ -n "$amp_pass" ]] && DB_PASS="$amp_pass"
+  [[ -n "$amp_host" ]] && DB_HOST="$amp_host"
+  [[ -n "$amp_name" ]] && DB_NAME="$amp_name"
+fi
+
+if [[ -z "$DB_PASS" && -f /etc/amportal.conf ]]; then
+  # FreePBX (قدیمی)
+  echo -e "${CYAN}Detected FreePBX (amportal.conf legacy)...${NC}"
+  amp_user=$(awk -F= '/^AMPDBUSER/ {print $2}' /etc/amportal.conf | tr -d '[:space:]')
+  amp_pass=$(awk -F= '/^AMPDBPASS/ {print $2}' /etc/amportal.conf | tr -d '[:space:]')
+  amp_host=$(awk -F= '/^AMPDBHOST/ {print $2}' /etc/amportal.conf | tr -d '[:space:]')
+  amp_name=$(awk -F= '/^AMPDBNAME/ {print $2}' /etc/amportal.conf | tr -d '[:space:]')
+
+  [[ -n "$amp_user" ]] && DB_USER="$amp_user"
+  [[ -n "$amp_pass" ]] && DB_PASS="$amp_pass"
+  [[ -n "$amp_host" ]] && DB_HOST="$amp_host"
+  [[ -n "$amp_name" ]] && DB_NAME="$amp_name"
+fi
+
+if [[ -z "$DB_PASS" && -f /root/.my.cnf ]]; then
+  # اگر root .my.cnf موجود است
+  echo -e "${CYAN}Using /root/.my.cnf credentials...${NC}"
+  rootpw=$(awk -F= '/^[[:space:]]*password[[:space:]]*=/ {print $2}' /root/.my.cnf | tr -d '[:space:]')
+  if [[ -n "${rootpw:-}" ]]; then
+    DB_USER="root"
+    DB_PASS="$rootpw"
+  fi
+fi
+
+if [[ -z "$DB_USER" || -z "$DB_PASS" ]]; then
+  echo -e "${YELLOW}Could not auto-detect DB credentials. Please enter manually.${NC}"
+  read -rp "MySQL username (default root): " tmpu
+  read -srp "MySQL password: " tmpp; echo
+  [[ -n "${tmpu:-}" ]] && DB_USER="$tmpu" || DB_USER="root"
+  DB_PASS="$tmpp"
+fi
+
+echo -e "DB user: ${GREEN}${DB_USER}${NC}"
+echo -e "DB host: ${GREEN}${DB_HOST}${NC}"
+echo -e "DB name: ${GREEN}${DB_NAME}${NC}"
+
+# ------------------------------
+# 2) افزودن کانتکست و اینکلود در extensions_custom.conf
+# ------------------------------
+FILE="/etc/asterisk/extensions_custom.conf"
+LINE="[from-internal-custom]"
+
+# اگر سکشن وجود ندارد، اضافه‌اش کن
+if ! grep -qF "$LINE" "$FILE" 2>/dev/null; then
+  echo -e "${YELLOW}Adding [from-internal-custom] to ${FILE}${NC}"
+  echo "$LINE" | sudo tee -a "$FILE" >/dev/null
+fi
+
+# include => voipiran-chanspypro را بعد از سکشن اضافه کن اگر نبود
+if grep -qF "include => voipiran-chanspypro" "$FILE" 2>/dev/null; then
+  echo -e "${GREEN}include => voipiran-chanspypro already exists${NC}"
+else
+  echo -e "${YELLOW}Adding include => voipiran-chanspypro${NC}"
+  sudo sed -i '/\[from-internal-custom\]/a include => voipiran-chanspypro' "$FILE"
+fi
+
+# خود کانتکست voipiran-chanspypro اگر نیست، اضافه کن
+if grep -qF "[voipiran-chanspypro]" "$FILE" 2>/dev/null; then
+  echo -e "${GREEN}[voipiran-chanspypro] already exists${NC}"
+else
+  echo -e "${YELLOW}Appending [voipiran-chanspypro] context${NC}"
+
+  cat <<'EOD' | sudo tee -a "$FILE" >/dev/null
+[voipiran-chanspypro]
+;; voipiran.io - Hamed Kouhfallah
+;; ChanSpy Pro - SIP / PJSIP compatible
+;; Uses Issabel device database to resolve the actual channel technology.
+
+;; فقط شنیدن
+exten => _*30X.,1,Set(DEV=${DB(AMPUSER/${EXTEN:3}/device)})
+ same => n,Set(DEV=${CUT(DEV,&,1)})
+ same => n,Set(CHAN=${DB(DEVICE/${DEV}/dial)})
+ same => n,ChanSpy(${CHAN},Eq)
+
+;; فقط شنیدن - Only listen to audio coming from this channel
+exten => _*31X.,1,Set(DEV=${DB(AMPUSER/${EXTEN:3}/device)})
+ same => n,Set(DEV=${CUT(DEV,&,1)})
+ same => n,Set(CHAN=${DB(DEVICE/${DEV}/dial)})
+ same => n,ChanSpy(${CHAN},Eqo)
+
+;; Whisper به Agent
+exten => _*32X.,1,Set(DEV=${DB(AMPUSER/${EXTEN:3}/device)})
+ same => n,Set(DEV=${CUT(DEV,&,1)})
+ same => n,Set(CHAN=${DB(DEVICE/${DEV}/dial)})
+ same => n,ChanSpy(${CHAN},Eqw)
+
+;; Private Whisper
+exten => _*33X.,1,Set(DEV=${DB(AMPUSER/${EXTEN:3}/device)})
+ same => n,Set(DEV=${CUT(DEV,&,1)})
+ same => n,Set(CHAN=${DB(DEVICE/${DEV}/dial)})
+ same => n,ChanSpy(${CHAN},EqW)
+
+;; Barge-in
+exten => _*34X.,1,Set(DEV=${DB(AMPUSER/${EXTEN:3}/device)})
+ same => n,Set(DEV=${CUT(DEV,&,1)})
+ same => n,Set(CHAN=${DB(DEVICE/${DEV}/dial)})
+ same => n,ChanSpy(${CHAN},EqB)
+
+;; DTMF switchable
+exten => _*35X.,1,Set(DEV=${DB(AMPUSER/${EXTEN:3}/device)})
+ same => n,Set(DEV=${CUT(DEV,&,1)})
+ same => n,Set(CHAN=${DB(DEVICE/${DEV}/dial)})
+ same => n,ChanSpy(${CHAN},Eqd)
+EOD
+fi
+
+# ------------------------------
+# 3) درج/به‌روزرسانی Feature Codes در دیتابیس
+# جدول: featurecodes  (FreePBX/Issabel هردو)
+# ------------------------------
+run_query () {
+  local sql="$1"
+  mysql -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" -e "$sql" >/dev/null 2>&1
+  return $?
+}
+
+echo -e "${CYAN}Updating feature codes...${NC}"
+
+# شنود ساده
+run_query "INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest)
+VALUES ('core','ChanSpy-Simple','شنود ساده، کد + داخلی','*30',NULL,'1','1')
+ON DUPLICATE KEY UPDATE defaultcode='*30', enabled='1';"
+
+# فقط صدای کارشناس
+run_query "INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest)
+VALUES ('core','ChanSpy-OnlyListen','فقط صدای کارشناس، کد + داخلی','*31',NULL,'1','1')
+ON DUPLICATE KEY UPDATE defaultcode='*31', enabled='1';"
+
+# شنود + نجوا (Whisper)
+run_query "INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest)
+VALUES ('core','ChanSpy-Whisper','شنود و صحبت پنهانی، کد + داخلی','*32',NULL,'1','1')
+ON DUPLICATE KEY UPDATE defaultcode='*32', enabled='1';"
+
+# نجوا خصوصی
+run_query "INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest)
+VALUES ('core','ChanSpy-PrivateWhisper','صحبت با کارشناس بدون شنیدن مشتری، کد + داخلی','*33',NULL,'1','1')
+ON DUPLICATE KEY UPDATE defaultcode='*33', enabled='1';"
+
+# Barge
+run_query "INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest)
+VALUES ('core','ChanSpy-Barge','شنود و مکالمه با هر دو طرف، کد + داخلی','*34',NULL,'1','1')
+ON DUPLICATE KEY UPDATE defaultcode='*34', enabled='1';"
+
+# DTMF Mode Change
+run_query "INSERT INTO featurecodes (modulename, featurename, description, defaultcode, customcode, enabled, providedest)
+VALUES ('core','ChanSpy-DTMF','تغییر حالت شنود حین تماس با کلید 4/5/6، کد + داخلی','*35',NULL,'1','1')
+ON DUPLICATE KEY UPDATE defaultcode='*35', enabled='1';"
+
+
+
+
+# Responsibilities:
+#   1. Install VOIPIRAN ContactCenter RPM dependencies
+#   2. Install VOIPIRAN ContactCenter Python dependencies
+#   3. Run the main OpDesk install.sh
+#   4. Verify /opt/OpDesk
+#   5. Apply VOIPIRAN customizations
+#   6. Reload Asterisk and restart Apache
+
+set -e
+
+PROJECT_ROOT="/opt/OpDesk"
+
+# VOIPIRAN ContactCenter paths
+PATCH_ROOT="/var/www/voipiran/voipiran/voipiran-ContactCenter/voipiran-patch"
+MAIN_INSTALLER="/var/www/voipiran/voipiran/voipiran-ContactCenter/install.sh"
+
+# RPM dependencies
+RPM_BASE_URL="https://voipiran.io/clover/contactcenter-rpms"
+RPM_DIR="/tmp/contactcenter-rpms"
+
+# Python Wheel dependencies
+WHEEL_BASE_URL="https://voipiran.io/clover/contactcenter-wheels"
+WHEEL_DIR="/tmp/contactcenter-wheels"
+
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+
+echo ""
+echo "====================================="
+echo "Install VOIPIRAN ContactCenter"
+echo "VOIPIRAN.io"
+echo "====================================="
+echo ""
+
+
+# ===============================================================
+# 1. Root check
+# ===============================================================
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo -e "${RED}ERROR: This installer must be run as root.${NC}"
+    exit 1
+fi
+
+
+# ===============================================================
+# 2. Check Issabel
+# ===============================================================
+
+if [ ! -f /etc/issabel.conf ]; then
+    echo -e "${RED}ERROR: /etc/issabel.conf was not found.${NC}"
+    echo "This installer is intended for Issabel."
+    exit 1
+fi
+
+
+# ===============================================================
+# 3. Get Issabel MySQL root password
+# ===============================================================
+
+rootpw=$(sed -ne 's/.*mysqlrootpwd=//gp' /etc/issabel.conf)
+
+if [ -z "$rootpw" ]; then
+    echo -e "${RED}ERROR: Could not read mysqlrootpwd from /etc/issabel.conf${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}Issabel MySQL root password detected.${NC}"
+
+
+# ===============================================================
+# 4. Install ContactCenter RPM Dependencies
+#
+# Includes:
+#   - Python 3.11
+#   - Python development packages
+#   - Python pip
+#   - Git
+#   - lsof
+#   - Other required RPM dependencies
+#
+# Packages are downloaded from VOIPIRAN server.
+# DNF repositories are disabled during installation.
+# ===============================================================
+
+echo ""
+echo "====================================="
+echo "Installing ContactCenter RPM Dependencies"
+echo "====================================="
+echo ""
+
+rm -rf "$RPM_DIR"
+mkdir -p "$RPM_DIR"
+
+echo "Downloading RPM manifest..."
+
+curl -fsSL -k \
+    "${RPM_BASE_URL}/manifest.txt" \
+    -o "$RPM_DIR/manifest.txt" || {
+        echo -e "${RED}Failed to download ContactCenter RPM manifest!${NC}"
+        exit 1
+    }
+
+
+if [ ! -s "$RPM_DIR/manifest.txt" ]; then
+    echo -e "${RED}ContactCenter RPM manifest is empty!${NC}"
+    exit 1
+fi
+
+
+echo ""
+echo "Downloading RPM packages..."
+echo ""
+
+while IFS= read -r rpm_file || [ -n "$rpm_file" ]; do
+
+    rpm_file=$(echo "$rpm_file" | tr -d '\r')
+
+    # Ignore empty lines and comments
+    [[ -z "$rpm_file" || "$rpm_file" =~ ^# ]] && continue
+
+    echo "Downloading: $rpm_file"
+
+    curl -fsSL -k \
+        "${RPM_BASE_URL}/${rpm_file}" \
+        -o "$RPM_DIR/$rpm_file" || {
+            echo -e "${RED}Failed to download: $rpm_file${NC}"
+            exit 1
+        }
+
+    if [ ! -s "$RPM_DIR/$rpm_file" ]; then
+        echo -e "${RED}Downloaded RPM is empty: $rpm_file${NC}"
+        exit 1
+    fi
+
+done < "$RPM_DIR/manifest.txt"
+
+
+echo ""
+echo "Installing ContactCenter RPM packages..."
+echo ""
+
+dnf install -y \
+    --disablerepo="*" \
+    "$RPM_DIR"/*.rpm || {
+        echo -e "${RED}Failed to install ContactCenter RPM packages!${NC}"
+        exit 1
+    }
+
+
+# Verify Python 3.11
+
+if ! command -v python3.11 >/dev/null 2>&1; then
+    echo -e "${RED}ERROR: Python 3.11 was not installed successfully!${NC}"
+    exit 1
+fi
+
+
+echo ""
+echo "Python version:"
+python3.11 --version
+
+rm -rf "$RPM_DIR"
+
+echo ""
+echo -e "${GREEN}ContactCenter RPM dependencies installed successfully.${NC}"
+
+
+# ===============================================================
+# 5. Install ContactCenter Python Dependencies
+#
+# Python packages are downloaded as Wheels from VOIPIRAN server.
+# Installation uses --no-index to prevent pip from accessing
+# PyPI or any external internet repository.
+# ===============================================================
+
+echo ""
+echo "====================================="
+echo "Installing ContactCenter Python Dependencies"
+echo "====================================="
+echo ""
+
+rm -rf "$WHEEL_DIR"
+mkdir -p "$WHEEL_DIR"
+
+echo "Downloading Python wheel manifest..."
+
+curl -fsSL -k \
+    "${WHEEL_BASE_URL}/manifest.txt" \
+    -o "$WHEEL_DIR/manifest.txt" || {
+        echo -e "${RED}Failed to download ContactCenter wheel manifest!${NC}"
+        exit 1
+    }
+
+
+if [ ! -s "$WHEEL_DIR/manifest.txt" ]; then
+    echo -e "${RED}ContactCenter wheel manifest is empty!${NC}"
+    exit 1
+fi
+
+
+echo ""
+echo "Downloading Python wheel packages..."
+echo ""
+
+while IFS= read -r wheel_file || [ -n "$wheel_file" ]; do
+
+    wheel_file=$(echo "$wheel_file" | tr -d '\r')
+
+    # Ignore empty lines and comments
+    [[ -z "$wheel_file" || "$wheel_file" =~ ^# ]] && continue
+
+    echo "Downloading: $wheel_file"
+
+    curl -fsSL -k \
+        "${WHEEL_BASE_URL}/${wheel_file}" \
+        -o "$WHEEL_DIR/$wheel_file" || {
+            echo -e "${RED}Failed to download wheel: $wheel_file${NC}"
+            exit 1
+        }
+
+    if [ ! -s "$WHEEL_DIR/$wheel_file" ]; then
+        echo -e "${RED}Downloaded wheel is empty: $wheel_file${NC}"
+        exit 1
+    fi
+
+done < "$WHEEL_DIR/manifest.txt"
+
+
+echo ""
+echo "Installing Python packages offline..."
+echo ""
+
+python3.11 -m pip install \
+    --no-index \
+    --no-cache-dir \
+    "$WHEEL_DIR"/*.whl || {
+        echo -e "${RED}ContactCenter Python dependencies installation failed!${NC}"
+        exit 1
+    }
+
+
+echo ""
+echo "Verifying ContactCenter Python dependencies..."
+echo ""
+
+python3.11 -c "
+import dotenv
+import mysql.connector
+import fastapi
+import uvicorn
+import websockets
+import httpx
+import jwt
+import bcrypt
+import openpyxl
+import google.auth
+import h2
+import cryptography
+import webrtcvad
+import onnxruntime
+" || {
+    echo -e "${RED}ContactCenter Python dependencies verification failed!${NC}"
+    exit 1
+}
+
+
+rm -rf "$WHEEL_DIR"
+
+echo ""
+echo -e "${GREEN}ContactCenter Python dependencies installed successfully.${NC}"
+
+
+# ===============================================================
+# 6. Run Main OpDesk Installer
+# ===============================================================
+
+if [ ! -f "$MAIN_INSTALLER" ]; then
+    echo -e "${RED}ERROR: Main OpDesk install.sh was not found:${NC}"
+    echo "$MAIN_INSTALLER"
+    exit 1
+fi
+
+
+echo ""
+echo "====================================="
+echo "Running Main OpDesk Installer"
+echo "====================================="
+echo ""
+
+chmod +x "$MAIN_INSTALLER"
+
+bash "$MAIN_INSTALLER" || {
+    echo -e "${RED}Main OpDesk installer failed!${NC}"
+    exit 1
+}
+
+
+echo ""
+echo -e "${GREEN}Main OpDesk installation completed successfully.${NC}"
+
+
+# ===============================================================
+# 7. Verify OpDesk Project
+# ===============================================================
+
+if [ ! -d "$PROJECT_ROOT" ]; then
+    echo -e "${RED}ERROR: OpDesk project was not created:${NC}"
+    echo "$PROJECT_ROOT"
+    exit 1
+fi
+
+
+echo -e "${GREEN}OpDesk project found:${NC} $PROJECT_ROOT"
+
+
+# ===============================================================
+# 8. Apply VOIPIRAN Customizations
+#
+# This applies:
+#   - Persian translation
+#   - English translation
+#   - Persian default language
+#   - RTL
+#   - English + Persian language menu
+#   - ContactCenter branding
+#   - Disable automatic frontend build
+#   - Issabel DB configuration
+#   - Nginx configuration
+# ===============================================================
+
+if [ ! -f "$PATCH_ROOT/apply.sh" ]; then
+    echo -e "${RED}ERROR: VOIPIRAN apply.sh was not found:${NC}"
+    echo "$PATCH_ROOT/apply.sh"
+    exit 1
+fi
+
+
+echo ""
+echo "====================================="
+echo "Applying VOIPIRAN Customizations"
+echo "====================================="
+echo ""
+
+chmod +x "$PATCH_ROOT/apply.sh"
+
+"$PATCH_ROOT/apply.sh" || {
+    echo -e "${RED}VOIPIRAN customization failed!${NC}"
+    exit 1
+}
+
+
+echo ""
+echo -e "${GREEN}VOIPIRAN customizations applied successfully.${NC}"
+
+
+# ===============================================================
+# 9. Restart Services
+# ===============================================================
+
+echo ""
+echo "====================================="
+echo "Restart Services"
+echo "====================================="
+echo ""
+
+systemctl reload asterisk || true
+systemctl restart httpd || true
+
+
+# ===============================================================
+# 10. Final Message
+#
+# IMPORTANT:
+# Frontend build is intentionally manual.
+# ===============================================================
+
+echo ""
+echo "====================================="
+echo "VOIPIRAN ContactCenter Installed"
+echo "====================================="
+echo ""
+
+echo -e "${GREEN}Installation completed successfully.${NC}"
+
+echo ""
+echo -e "${YELLOW}Frontend build was NOT performed.${NC}"
+
+echo ""
+echo "Build manually before starting OpDesk:"
+echo ""
+echo "  cd $PROJECT_ROOT/frontend"
+echo "  npm run build"
+
+echo ""
+echo "Then start the service:"
+echo ""
+echo "  systemctl start opdesk"
+
+echo ""
