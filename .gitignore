@@ -3,7 +3,7 @@
 .vscode
 
 frontend/node_modules
-frontend/dist
+# frontend/dist is committed on purpose: servers install the pre-built bundle (no npm build in production)
 
 backend/__pycache__
 backend/**/*.pyc
