@@ -1118,7 +1118,7 @@ SELECT password
 FROM voipiran.users
 WHERE user_name='admin'
 LIMIT 1;
-" 2>/dev/null)
+" 2>/dev/null) || CCPANEL_ADMIN_HASH=""
 
 if [ -n "$CCPANEL_ADMIN_HASH" ]; then
 
