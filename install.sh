@@ -1106,6 +1106,10 @@ ADMIN_INIT_PASSWORD_HASH=""
 # Both applications use Laravel-compatible bcrypt hashes.
 # Therefore we reuse the existing VOIPIRAN admin password hash
 # for the OpDesk administrator.
+#
+# [CONNECT-ONLY] The shared-password logic applies only on VOIPIRAN
+# Connect (database `voipiran` exists). On a plain Issabel server
+# (open-source install) the else-branch below sets admin / admin.
 # ===============================================================
 
 
@@ -1121,6 +1125,7 @@ LIMIT 1;
 " 2>/dev/null) || CCPANEL_ADMIN_HASH=""
 
 if [ -n "$CCPANEL_ADMIN_HASH" ]; then
+    # [CONNECT-ONLY] reuse the Connect panel admin password
 
     echo "$CCPANEL_ADMIN_HASH" > "$PROJECT_ROOT/backend/.admin_init_hash"
 
@@ -1129,11 +1134,9 @@ if [ -n "$CCPANEL_ADMIN_HASH" ]; then
     echo -e "${GREEN}VOIPIRAN: Admin password hash loaded from VOIPIRAN panel.${NC}"
 
 else
-
-    echo -e "${RED}ERROR: VOIPIRAN admin password hash was not found.${NC}"
-    echo "Expected database: voipiran"
-    echo "Expected user: admin"
-    exit 1
+    # [OPEN-SOURCE / plain Issabel] no Connect panel: default admin/admin database (voipiran.users) not found. Setting default admin password: admin${NC}"
+    echo '$2b$12$xK1ewkMJfZlIlr0z6.TIm..GqCqJ747tvPTzsdm4ZI7j/oKhiDVP.' > "$PROJECT_ROOT/backend/.admin_init_hash"
+    chmod 600 "$PROJECT_ROOT/backend/.admin_init_hash"
 
 fi
 
