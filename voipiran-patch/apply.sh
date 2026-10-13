@@ -276,6 +276,16 @@ PY
 
     WEBRTC_URL="wss://${SERVER_IP}:9001/sip-ws"
 
+    # The OpDesk database is normally created by the backend on first start,
+    # which has not happened yet on a fresh install - create it from schema.sql.
+    if ! mysql -u root -p"$ROOT_PASS" -N -e "SHOW DATABASES LIKE 'OpDesk';" 2>/dev/null | grep -q '^OpDesk$'; then
+        echo -e "${YELLOW}OpDesk database not found. Creating it from schema.sql...${NC}"
+        if ! mysql -u root -p"$ROOT_PASS" < "$PROJECT_ROOT/backend/schema.sql"; then
+            echo -e "${RED}ERROR: Failed to create OpDesk database from schema.sql${NC}"
+            exit 1
+        fi
+    fi
+
 mysql -u root -p"$ROOT_PASS" -D OpDesk -e \
     "INSERT INTO OpDesk_settings (setting_key, setting_value)
      VALUES ('WEBRTC_PBX_SERVER', '$WEBRTC_URL')
