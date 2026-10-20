@@ -21,7 +21,10 @@ i18n
       en: { translation: en },
       fa: { translation: fa },
     },
-    // VOIPIRAN: Persian is the default language.
+    lng: savedLang,
+    fallbackLng: 'fa',
+    interpolation: {
+      escapeValue: false,
     },
   });
 
@@ -34,9 +37,11 @@ i18n
 export function setLanguage(lang: string) {
   // VOIPIRAN:
   // Only Persian and English are supported.
-  if (!SUPPORTED_LANGUAGES.includes(
-    lang as (typeof SUPPORTED_LANGUAGES)[number]
-  )) {
+  if (
+    !SUPPORTED_LANGUAGES.includes(
+      lang as (typeof SUPPORTED_LANGUAGES)[number]
+    )
+  ) {
     lang = 'fa';
   }
 
