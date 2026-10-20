@@ -1,180 +1,177 @@
-# VOIPIRAN ContactCenter
+# OpDesk — Operator Panel for Asterisk
 
-<div dir="rtl">
+A real-time operator panel for **Asterisk PBX** (Issabel / FreePBX), like **FOP2** but built on React and FastAPI. Monitor extensions and queues, manage live calls, browse CDR and recordings, take calls in the browser, and analyse call-center performance, all in one web app.
 
-پنل هوشمند مرکز تماس **voipiran.io** برای مدیریت و مانیتورینگ تماس‌های
-مرکز تماس مبتنی بر **Asterisk** و **Issabel** است. این پروژه یک راهکار
-یکپارچه برای مشاهده تماس‌ها، صف‌ها، کارشناسان، ضبط مکالمات، گزارش‌ها و
-WebRTC ارائه می‌دهد.
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-22%2B-43853d.svg)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18-61dafb.svg)](https://reactjs.org/)
+[![OS](https://img.shields.io/badge/OS-Debian%2012%2B%20%7C%20Linux-orange.svg)](https://www.debian.org/)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-</div>
+[Features](#features) • [Screenshots](#screenshots) • [Prerequisites](#prerequisites) • [Install](#install) • [Architecture](#architecture) • [Tech stack](#tech-stack) • [Documentation](#documentation) • [Community](#community--support)
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![React](https://img.shields.io/badge/React-18%2B-61DAFB?logo=react&logoColor=111827)](https://react.dev/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Node.js](https://img.shields.io/badge/Node.js-24%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Issabel](https://img.shields.io/badge/Issabel-compatible-1f2937)](https://www.issabel.org/)
-[![Asterisk](https://img.shields.io/badge/Asterisk-compatible-2c3e50?logo=asterisk&logoColor=white)](https://www.asterisk.org/)
-[![WebRTC](https://img.shields.io/badge/WebRTC-supported-333333?logo=webrtc&logoColor=white)](https://webrtc.org/)
-[![RTL](https://img.shields.io/badge/UI-RTL%20%7C%20فارسی-16a34a)](#)
+[![OpDesk dashboard](screenshots/dashboard.png)](screenshots/dashboard.png)
 
-> توسعه و سفارشی‌سازی: **[voipiran.io](https://voipiran.io)**
+---
 
-## ارزش پروژه
+## Features
 
-راه‌اندازی و مدیریت مرکز تماس معمولاً به چند ابزار جداگانه برای Asterisk،
-گزارش‌گیری، ضبط مکالمه، WebRTC و مانیتورینگ نیاز دارد. VOIPIRAN ContactCenter
-این بخش‌ها را در یک پنل واحد جمع می‌کند تا مدیر و کارشناس مرکز تماس بدون
-کار با چند سامانه متفاوت، وضعیت تماس‌ها و عملکرد مجموعه را مشاهده و مدیریت
-کنند.
+**Live operations**
+- **Real-time panel**: extension status, active calls, queues and call notifications pushed over a WebSocket, with no polling.
+- **Dashboard**: active, waiting and ringing calls, longest wait, agent availability and today's KPIs.
+- **Supervision**: listen, whisper and barge, allowed per user.
+- **Three roles**: **Admin** (everything), **Supervisor** (their assigned agents and queues), **Agent** (their own calls).
 
-مزیت‌های اصلی:
+**Calling**
+- **Web softphone**: make and take calls in the browser over WebRTC, with hold, mute, transfer, queue login/logout, and Ready / Not Ready with a reason code.
+- **Mobile softphone**: sign a phone in by scanning a QR code, and wake a closed app for incoming calls with **RFC 8599** push (FCM / APNs VoIP). Recommended app: [Medut Softphone](https://github.com/Ibrahimgamal99/medut-softphone). → [guide](docs/guides/mobile-push.md)
+- **Recording**: full-call and per-leg recordings, with automatic talk/silence analysis (Silero VAD).
 
-- کاهش زمان راه‌اندازی مرکز تماس روی Issabel
-- اتصال مستقیم به Asterisk و دیتابیس Issabel
-- مشاهده زنده وضعیت داخلی‌ها، صف‌ها و تماس‌ها
-- دسترسی یکپارچه به ضبط مکالمات و گزارش‌های تماس
-- پشتیبانی از تماس WebRTC در پنل
-- آماده برای رابط فارسی و راست‌به‌چپ
-- امکان توسعه و سفارشی‌سازی برای سازمان‌ها و مشتریان مختلف
-- نصب تکرارپذیر با اسکریپت و وابستگی‌های نسخه‌بندی‌شده
+**History and analytics**
+- **Call log**: whole-history search, recording playback, QoS, and a **Call Journey** timeline for multi-leg calls.
+- **Analytics**: 12 KPIs with period-over-period change, per-queue and per-agent breakdowns, a 7×24 heatmap, and drill-down with CSV/XLSX export. → [guide](docs/guides/analytics.md)
+- **Contacts**: a shared phonebook that puts names on numbers everywhere, filled by hand or from your CRM. → [contract](docs/api/contact-lookup.md)
 
-## امکانات
+**Integration**
+- **CRM push**: send call data to any CRM (API key, Basic, Bearer or OAuth2) with your own field names and outcome values. Every delivery is logged and can be resent. → [contract](docs/api/webhooks.md)
+- **REST API**: scoped API keys for live state, call history and analytics, plus click-to-call. → [reference](docs/api/endpoints.md)
+- **Logs**: a live AMI event console, SIP trace and CRM delivery log for debugging.
 
-- داشبورد مانیتورینگ اپراتورها و تماس‌های فعال
-- مشاهده داخلی‌ها، صف‌ها و وضعیت کارشناسان
-- نمایش تماس‌های ورودی و خروجی
-- جست‌وجو و گزارش‌گیری از CDR
-- دسترسی به فایل‌های ضبط‌شده مکالمات
-- WebRTC Softphone و اتصال SIP از طریق مرورگر
-- تنظیم WebSocket مربوط به Asterisk
-- پشتیبانی از Issabel و FreePBX
-- رابط کاربری فارسی و RTL
-- frontend آماده برای نصب Production
-- backend مبتنی بر FastAPI
-- نصب و اجرای سرویس با systemd
-- تنظیم Nginx، گواهی و reverse proxy
-- تنظیم دیتابیس Issabel و تنظیمات WebRTC
-- اعمال patchهای اختصاصی VOIPIRAN پس از نصب
+**Interface**: English, Arabic (RTL), Spanish, Portuguese and Ukrainian; light and dark themes; works on phones.
 
-## نصب مستقیم روی Issabel
+---
 
-این Repository برای نصب مستقل روی Issabel آماده شده است و برای اجرای
-نصب‌کننده به پروژه دیگری وابسته نیست.
+## Screenshots
 
-روی سرور Issabel با کاربر root اجرا کنید:
+*Shown with demo data.*
 
-```bash
-cd /opt && \
-rm -rf voiz-contact-center voiz-contact-center.tar.gz && \
-curl -fL https://github.com/voipiran/voiz-contact-center/archive/refs/heads/main.tar.gz -o voiz-contact-center.tar.gz && \
-tar -xzf voiz-contact-center.tar.gz && \
-mv voiz-contact-center-main voiz-contact-center && \
-cd voiz-contact-center && \
-bash contactcenter.sh
-```
+| Extensions | Active calls | Queues |
+|---|---|---|
+| [![Extensions](screenshots/extensions.png)](screenshots/extensions.png) | [![Active calls](screenshots/active_calls.png)](screenshots/active_calls.png) | [![Queues](screenshots/queues.png)](screenshots/queues.png) |
 
-یا با `git`:
+| Call log | Call Journey | Contacts |
+|---|---|---|
+| [![Call log](screenshots/call_log.png)](screenshots/call_log.png) | [![Call Journey](screenshots/call_journey.png)](screenshots/call_journey.png) | [![Contacts](screenshots/contacts.png)](screenshots/contacts.png) |
 
-```bash
-git clone --depth 1 https://github.com/voipiran/voiz-contact-center.git /opt/voiz-contact-center \
-  && cd /opt/voiz-contact-center \
-  && bash contactcenter.sh
-```
+| Analytics | Queue performance | Agent performance |
+|---|---|---|
+| [![Analytics](screenshots/analytics.png)](screenshots/analytics.png) | [![Queue performance](screenshots/analytics_queues.png)](screenshots/analytics_queues.png) | [![Agent performance](screenshots/analytics_agents.png)](screenshots/analytics_agents.png) |
 
+| Softphone | Incoming call | Mobile app QR |
+|---|---|---|
+| [![Softphone](screenshots/softphone.png)](screenshots/softphone.png) | [![Incoming call](screenshots/softphone_ringing.png)](screenshots/softphone_ringing.png) | [![Mobile app QR](screenshots/mobile_qr.png)](screenshots/mobile_qr.png) |
 
-نصب‌کننده مراحل زیر را انجام می‌دهد:
+| Mobile Wake settings | Dark theme |   |
+|---|---|---|
+| [![Mobile Wake settings](screenshots/mobile_wake.png)](screenshots/mobile_wake.png) | [![Dark theme](screenshots/dashboard_dark.png)](screenshots/dashboard_dark.png) |   |
 
-1. بررسی root بودن کاربر و شناسایی Issabel
-2. نصب وابستگی‌های RPM و Python
-3. اجرای [install.sh](./install.sh)
-4. نصب OpDesk در `/opt/OpDesk`
-5. نصب Python و وابستگی‌های backend
-6. نصب و تنظیم Nginx
-7. تنظیم دسترسی دیتابیس Issabel
-8. Deploy کردن frontend آماده
-9. اجرای [voipiran-patch/apply.sh](./voipiran-patch/apply.sh)
-10. تنظیم WebRTC، Asterisk و سرویس `opdesk`
+---
 
-## پیش‌نیازها
+## Prerequisites
 
-- Issabel 4/5 یا سیستم سازگار مبتنی بر RHEL/CentOS
-- دسترسی root
-- دسترسی شبکه برای دریافت Repository و وابستگی‌ها
-- Asterisk و MariaDB/MySQL
-- حداقل Python 3.11 برای backend
-- دسترسی آزاد پورت‌های مورد استفاده Nginx و WebRTC
-- فضای کافی برای frontend، backend و وابستگی‌های Python
+- **Issabel or FreePBX** with Asterisk, **AMI** enabled, and the Asterisk HTTP server on port 8088 (the installer checks it).
+- **MySQL / MariaDB**: the PBX's own database server.
+- **Debian 12+, Ubuntu or a RHEL family OS**, with `sudo` and `curl`. The installer adds Python 3.11+, Node.js, Nginx and the other tools it needs.
+- **For a public install**: a DNS name pointing at the server, with port 80 open for Let's Encrypt.
 
-## پورت‌ها و سرویس‌ها
+> **Port 443 is usually taken.** FreePBX and Issabel run Apache on 80 and 443. The installer
+> detects this and offers to serve OpDesk on another port (default `8443`) or to move Apache
+> to `4443`. See [Ports](docs/guides/installation.md#ports).
 
-نصب‌کننده از تنظیمات پروژه برای اجرای OpDesk استفاده می‌کند. پس از نصب،
-وضعیت سرویس را با دستورات زیر بررسی کنید:
+---
+
+## Install
+
+**Native (recommended)**: run on the PBX server.
 
 ```bash
-systemctl status opdesk --no-pager
-systemctl status nginx --no-pager
-nginx -t
+curl -k -O https://raw.githubusercontent.com/Ibrahimgamal99/OpDesk/main/install.sh
+chmod +x install.sh
+
+sudo ./install.sh                                                                  # LAN, self-signed certificate
+sudo OPDESK_DOMAIN=opdesk.example.com OPDESK_LE_EMAIL=admin@example.com ./install.sh   # public, Let's Encrypt
 ```
 
-برای مشاهده لاگ‌ها:
+The installer clones to `/opt/OpDesk`, sets up the database, AMI user, Nginx, certificate and the `opdesk` systemd service.
+
+Then:
+
+1. Open **`https://<server>`** (add `:8443` or whichever port you chose if it isn't 443).
+2. Sign in as **`admin`** with the password the installer printed, and change it from the profile menu.
+3. Under **Users**, link users to their extensions so they get a softphone.
+
+**To update**, re-run `sudo ./install.sh` from `/opt/OpDesk`. Your settings and port are kept.
+
+**Docker**:
 
 ```bash
-journalctl -u opdesk -n 100 --no-pager
-journalctl -u nginx -n 100 --no-pager
+git clone https://github.com/Ibrahimgamal99/OpDesk.git && cd OpDesk
+cp .env.example .env && nano .env
+docker compose up --build -d
 ```
 
-## توسعه و Build
+The container uses host networking and serves HTTP on `127.0.0.1:8765`. Put Nginx with [`nginx/opdesk.conf`](nginx/opdesk.conf) in front of it for TLS.
 
-### Backend
+→ Full details, service commands and troubleshooting: **[Installation guide](docs/guides/installation.md)** · Settings and `.env`: **[Configuration guide](docs/guides/configuration.md)**
 
-```bash
-cd backend
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Browser["Browser<br/>React app + WebRTC softphone"] -- "HTTPS / WSS" --> Nginx["Nginx :443<br/>TLS"]
+    Nginx -- "/ · /api · /ws" --> API["FastAPI (uvicorn)<br/>127.0.0.1:8765"]
+    Nginx -- "/sip-ws" --> AstWS["Asterisk HTTP / WS<br/>127.0.0.1:8088"]
+    API -- "AMI :5038" --> Asterisk["Asterisk<br/>(Issabel / FreePBX)"]
+    API -- "SQL" --> DB[("MySQL / MariaDB<br/>asterisk · asteriskcdrdb · OpDesk")]
+    AstWS --- Asterisk
+    Phone["Mobile softphone<br/>(Medut)"] -- "SIP TLS / TCP / UDP" --> Asterisk
+    API -. "FCM / APNs wake push" .-> Phone
+    API -. "call data" .-> CRM["Your CRM"]
 ```
 
-### Frontend
+| Component | Role |
+|---|---|
+| **React frontend** | The panel. Live state arrives over the `/ws` WebSocket; history and settings use the REST API. The softphone registers to Asterisk through `/sip-ws`. |
+| **FastAPI backend** | Keeps one AMI connection, turns Asterisk events into presence, queue and call events, and sends each user the part their role may see. Serves the REST API and pushes call data to your CRM. |
+| **Asterisk** | Still owns the dialplan. OpDesk uses AMI for monitoring and call control (originate, transfer, listen / whisper / barge). |
+| **Nginx** | Terminates TLS (the browser needs HTTPS for the microphone) and proxies to the backend and to Asterisk. |
+| **Database** | Reads FreePBX's `asterisk` config and `asteriskcdrdb` CDR. Its own database holds users, groups, contacts, settings, API keys, the CRM delivery log and analytics rollups. Call history is read from the CDR, not copied. |
 
-```bash
-cd frontend
-npm install
-npm run build
-```
+---
 
-خروجی Production در `frontend/dist` قرار می‌گیرد. نصب‌کننده روی سرور
-Production عملیات build را انجام نمی‌دهد و از frontend آماده داخل Repository
-استفاده می‌کند.
+## Tech stack
 
-## ساختار پروژه
+| Layer | Technologies |
+|---|---|
+| **Backend** | Python 3.11+, FastAPI, uvicorn, asyncio, WebSockets, MySQL/MariaDB, PyJWT + bcrypt, httpx (CRM push), openpyxl (XLSX export), onnxruntime (Silero VAD) |
+| **Frontend** | React 18, TypeScript, Vite, SIP.js (WebRTC), Recharts, Framer Motion, Lucide icons, react-i18next |
+| **Telephony** | Asterisk AMI, Asterisk HTTP/WebSocket (SIP over WSS), RFC 8599 push via FCM and APNs, VAPID Web Push |
+| **Deployment** | Nginx, systemd, Let's Encrypt; or Docker Compose |
 
-```text
-backend/                 API و سرویس‌های Python/FastAPI
-frontend/                رابط React و خروجی dist
-nginx/                   کانفیگ Nginx
-scripts/                 اسکریپت‌های کمکی
-voipiran-patch/          سفارشی‌سازی‌های اختصاصی VOIPIRAN
-contactcenter.sh         نقطه ورود نصب (اجرا با: bash contactcenter.sh)
-install.sh               نصب‌کننده اصلی OpDesk (توسط contactcenter.sh اجرا می‌شود)
-```
+---
 
-## به‌روزرسانی
+## Documentation
 
-برای به‌روزرسانی، ابتدا نسخه جدید را در یک محیط آزمایشی بررسی کنید. سپس
-مخزن را در `/opt/voiz-contact-center` با `git pull` به‌روزرسانی کنید و دوباره
-`bash contactcenter.sh` را اجرا کنید.
+| Guide | What it covers |
+|---|---|
+| [Installation](docs/guides/installation.md) | Prerequisites, ports, native and Docker installs, running, updating, troubleshooting. |
+| [Configuration](docs/guides/configuration.md) | `backend/.env`, the Settings page, roles and groups, debugging. |
+| [Mobile softphone](docs/guides/mobile-push.md) | QR sign-in, RFC 8599 wake-up, Firebase and APNs setup. |
+| [Analytics](docs/guides/analytics.md) | Every KPI, how it is computed, and how to tune it. |
+| [API overview](docs/api/overview.md) · [Endpoints](docs/api/endpoints.md) | Authentication, API keys and scopes, and every endpoint. |
+| [CRM push](docs/api/webhooks.md) · [Contact lookup](docs/api/contact-lookup.md) | The outgoing call-data push and the incoming contact lookup. |
 
-## مشارکت و حمایت
+The full index is in [docs/](docs/README.md). A running server also serves interactive API docs at `/docs` and `/redoc`, and the OpenAPI spec at `/api/openapi.yaml`.
 
-گزارش خطا، پیشنهاد قابلیت و Pull Request با ذکر نسخه Issabel، نسخه Python،
-لاگ سرویس و مراحل بازتولید خطا بسیار ارزشمند است.
+---
 
-اگر پروژه برای شما مفید است، لطفاً به Repository یک ⭐ بدهید و آن را با
-تیم‌های فنی، شرکت‌ها و مراکز تماس دیگر به اشتراک بگذارید.
+## Community & support
 
-## مالکیت
+- **Questions and discussion**: [Telegram group](https://t.me/+i1OVDDPgGLo0MGZh) · mailing list [opdesk-dev@googlegroups.com](mailto:opdesk-dev@googlegroups.com)
+- **Bugs and feature requests**: [GitHub Issues](https://github.com/Ibrahimgamal99/OpDesk/issues). Include your PBX (Issabel / FreePBX and version) and the output of `sudo journalctl -u opdesk -n 200`.
+- **Contributing**: pull requests are welcome. Open an issue first for larger changes.
+- **Author**: [Ibrahim Gamal](https://github.com/Ibrahimgamal99) · [LinkedIn](https://www.linkedin.com/in/ibrahim-gamal99) · ib.gamal.a@gmail.com
 
-این پروژه و سفارشی‌سازی‌های VOIPIRAN متعلق به **voipiran.io** است. استفاده
-تجاری، بازنشر یا توزیع نسخه سفارشی باید مطابق مجوز و توافق مالک پروژه انجام
-شود.
+If OpDesk is useful to you, star the repo. OpDesk is licensed under the **[GNU GPL v3](LICENSE)**: you may use, modify and redistribute it, and anything you distribute that is based on it must be released under GPL v3 with its source. It is developed by Ibrahim Gamal, with AI-assisted tooling for boilerplate and acceleration.
