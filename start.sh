@@ -63,7 +63,22 @@ cd "$PROJECT_ROOT/backend" || {
     exit 1
 }
 
-python server.py &
+if [ -n "${PYTHON_BIN:-}" ] && command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+  :
+elif command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="python3"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON_BIN="python"
+elif [ -x /usr/bin/python3.11 ]; then
+  PYTHON_BIN="/usr/bin/python3.11"
+elif [ -x /usr/local/bin/python ]; then
+  PYTHON_BIN="/usr/local/bin/python"
+else
+  echo -e "${RED}Error: Python 3.11+ was not found${NC}"
+  exit 1
+fi
+
+"$PYTHON_BIN" server.py &
 BACKEND_PID=$!
 
 if [[ "$MODE" == "production" ]]; then

@@ -51,15 +51,34 @@ else
 fi
 echo -e "${GREEN}Detected OS: $OS${NC}"
 
-# --- Step 2: Install Git & Required Tools ---
-echo -e "\n${YELLOW}Step 2: Installing Git & Required Tools...${NC}"
-if command_exists git && command_exists lsof && command_exists curl && command_exists openssl; then
-    echo -e "${GREEN}All required tools already installed — skipping.${NC}"
+# --- Step 2: Check bootstrap tools ---
+# The Voiz package is bundled locally. Git is not needed here, and lsof is
+# optional because ss is used first for port detection. Avoid installing either
+# package just because one optional utility is missing.
+echo -e "\n${YELLOW}Step 2: Checking bootstrap tools...${NC}"
+BOOTSTRAP_TOOLS=(curl openssl)
+MISSING_TOOLS=()
+for TOOL in "${BOOTSTRAP_TOOLS[@]}"; do
+    if ! command_exists "$TOOL"; then
+        MISSING_TOOLS+=("$TOOL")
+    fi
+done
+
+if [ "${#MISSING_TOOLS[@]}" -eq 0 ]; then
+    echo -e "${GREEN}Bootstrap tools already available — skipping package installation.${NC}"
 else
+    echo -e "${YELLOW}Installing missing tools: ${MISSING_TOOLS[*]}${NC}"
     if [ "$OS" == "debian" ] || [ "$OS" == "ubuntu" ]; then
-        sudo apt-get update && sudo apt-get install -y git lsof curl openssl
+        sudo apt-get update && sudo apt-get install -y "${MISSING_TOOLS[@]}"
     elif [[ "$OS" =~ (centos|rhel|rocky|fedora) ]]; then
-        sudo dnf install -y git lsof curl openssl || sudo yum install -y git lsof curl openssl
+        if command_exists dnf; then
+            sudo dnf install -y "${MISSING_TOOLS[@]}"
+        else
+            sudo yum install -y "${MISSING_TOOLS[@]}"
+        fi
+    else
+        echo -e "${RED}Unsupported OS for automatic bootstrap-tool installation: $OS${NC}"
+        exit 1
     fi
 fi
 
@@ -310,9 +329,9 @@ fi
 FINAL_PYTHON_PATH="$PYTHON_11_PLUS_PATH"
 echo -e "${GREEN}Using Python: $FINAL_PYTHON_PATH${NC}"
 sudo ln -sf "$FINAL_PYTHON_PATH" /usr/local/bin/python || true
-sudo tee /usr/local/bin/pip > /dev/null << 'EOF'
+sudo tee /usr/local/bin/pip > /dev/null << EOF
 #!/bin/bash
-python -m pip "$@"
+"$FINAL_PYTHON_PATH" -m pip "\$@"
 EOF
 sudo chmod +x /usr/local/bin/pip || true
 
@@ -578,10 +597,16 @@ cd "$PROJECT_ROOT/backend"
 # Only use --break-system-packages on Debian/Ubuntu systems
 if [ "$OS" == "debian" ] || [ "$OS" == "ubuntu" ]; then
     echo -e "${YELLOW}Installing Python dependencies (Debian/Ubuntu)...${NC}"
-    python -m pip install --break-system-packages -r requirements.txt || true
+    if ! "$FINAL_PYTHON_PATH" -m pip install --break-system-packages -r requirements.txt; then
+        echo -e "${RED}Python dependency installation failed.${NC}"
+        exit 1
+    fi
 else
     echo -e "${YELLOW}Installing Python dependencies (non-Debian system)...${NC}"
-    python -m pip install -r requirements.txt || true
+    if ! "$FINAL_PYTHON_PATH" -m pip install -r requirements.txt; then
+        echo -e "${RED}Python dependency installation failed.${NC}"
+        exit 1
+    fi
 fi
 
 # Generate or reuse OpDesk HTTPS certificate (for backend and optional Asterisk)
@@ -744,7 +769,9 @@ _listening_pid() {
     local pid
     pid=$(ss -tlnp "sport = :$port" 2>/dev/null | awk 'NR>1{print $NF}' \
           | grep -oP 'pid=\K[0-9]+' | head -1)
-    [ -z "$pid" ] && pid=$(lsof -iTCP:"$port" -sTCP:LISTEN -t 2>/dev/null | head -1)
+    if [ -z "$pid" ] && command_exists lsof; then
+        pid=$(lsof -iTCP:"$port" -sTCP:LISTEN -t 2>/dev/null | head -1)
+    fi
     echo "$pid"
 }
 
@@ -979,7 +1006,6 @@ PORT="${_port_val:-8765}"
 
 # Write Nginx vhost config — stored in project folder, symlinked into Nginx
 mkdir -p "$PROJECT_ROOT/nginx"
-sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
 NGINX_REDIRECT_BLOCK=""
 if [ -n "$NGINX_HTTP_PORT" ]; then
     _https_suffix=""
@@ -1062,14 +1088,42 @@ server {
 $NGINX_REDIRECT_BLOCK
 NGINXEOF
 
-sudo ln -sf "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/sites-available/opdesk
-sudo ln -sf /etc/nginx/sites-available/opdesk /etc/nginx/sites-enabled/opdesk
-sudo rm -f /etc/nginx/sites-enabled/default
-if sudo nginx -t 2>/dev/null; then
-    sudo systemctl reload nginx 2>/dev/null || sudo systemctl start nginx 2>/dev/null || true
+if [[ "$OS" =~ (centos|rhel|rocky|fedora) ]]; then
+    # RHEL-family nginx normally includes /etc/nginx/conf.d/*.conf, not
+    # Debian's sites-enabled directory.
+    sudo mkdir -p /etc/nginx/conf.d
+    sudo cp "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/conf.d/opdesk.conf
+    sudo rm -f /etc/nginx/sites-enabled/opdesk /etc/nginx/sites-available/opdesk
+
+    # Rocky's nginx package ships a default vhost on port 80. Issabel/httpd
+    # already owns that port, so disable only this known default vhost when it
+    # would conflict; leave other administrator-managed configs untouched.
+    if [ -f /etc/nginx/conf.d/default.conf ] \
+        && sudo grep -qE '^[[:space:]]*listen[[:space:]]+(\[::\]:)?80([;[:space:]]|$)' /etc/nginx/conf.d/default.conf; then
+        sudo mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled
+        echo -e "${YELLOW}Disabled nginx default vhost on port 80 (Issabel/httpd owns that port).${NC}"
+    fi
+else
+    sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+    sudo ln -sf "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/sites-available/opdesk
+    sudo ln -sf /etc/nginx/sites-available/opdesk /etc/nginx/sites-enabled/opdesk
+    sudo rm -f /etc/nginx/sites-enabled/default
+fi
+if sudo nginx -t; then
+    if ! sudo systemctl reload nginx 2>/dev/null && ! sudo systemctl start nginx; then
+        echo -e "${RED}Nginx could not be started after a successful config test.${NC}"
+        sudo systemctl status nginx --no-pager || true
+        exit 1
+    fi
+    if ! sudo systemctl is-active --quiet nginx; then
+        echo -e "${RED}Nginx is not active after installation.${NC}"
+        sudo systemctl status nginx --no-pager || true
+        exit 1
+    fi
     echo -e "${GREEN}Nginx configured and running (config: $PROJECT_ROOT/nginx/opdesk.conf)${NC}"
 else
     echo -e "${RED}Nginx config test failed — check $PROJECT_ROOT/nginx/opdesk.conf${NC}"
+    exit 1
 fi
 
 # --- Admin Password Setup (fresh install only) ---
@@ -1336,6 +1390,16 @@ else
     fi
 fi
 
+if ! systemctl is-active --quiet opdesk.service 2>/dev/null; then
+    echo -e "${YELLOW}Starting OpDesk service...${NC}"
+    if ! sudo systemctl start opdesk.service; then
+        echo -e "${RED}OpDesk service failed to start.${NC}"
+        sudo systemctl status opdesk.service --no-pager || true
+        sudo journalctl -u opdesk.service -n 80 --no-pager || true
+        exit 1
+    fi
+fi
+
 # ===============================================================
 # FINAL SUMMARY REPORT
 # ===============================================================
@@ -1359,7 +1423,8 @@ echo -e "  Password:      (saved to $PROJECT_ROOT/backend/.env)"
 echo -e "  Database:      $DB_NAME"
 echo ""
 echo -e "${BLUE}ASTERISK AMI DETAILS:${NC}"
-AMI_STATUS=$(lsof -i :$AMI_PORT > /dev/null && echo -e "${GREEN}Active${NC}" || echo -e "${RED}Inactive (Check Asterisk)${NC}")
+AMI_STATUS=$(ss -ltn "sport = :$AMI_PORT" 2>/dev/null | awk 'NR > 1 {found=1} END {exit !found}' \
+    && echo -e "${GREEN}Active${NC}" || echo -e "${RED}Inactive (Check Asterisk)${NC}")
 echo -e "  Status:        $AMI_STATUS"
 echo -e "  Host/Port:     $AMI_HOST:$AMI_PORT"
 echo -e "  Username:      $AMI_USER$AMI_USER_EXISTING"
@@ -1367,7 +1432,7 @@ echo -e "  Secret:        (saved to $PROJECT_ROOT/backend/.env)"
 echo ""
 echo -e "${BLUE}RUNTIME VERSIONS:${NC}"
 echo -e "  Node.js:       $(node -v)"
-echo -e "  Python:        $(python --version)"
+echo -e "  Python:        $("$FINAL_PYTHON_PATH" --version 2>&1)"
 echo ""
 echo -e "${BLUE}SYSTEMD SERVICE:${NC}"
 echo -e "  Auto-start:    ${GREEN}Enabled${NC}"
