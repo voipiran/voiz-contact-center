@@ -1103,6 +1103,21 @@ if [[ "$OS" =~ (centos|rhel|rocky|fedora) ]]; then
         sudo mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled
         echo -e "${YELLOW}Disabled nginx default vhost on port 80 (Issabel/httpd owns that port).${NC}"
     fi
+
+    # Rocky/RHEL may also define the package default server directly in
+    # nginx.conf. Move it to an unused loopback port rather than leaving an
+    # implicit server that would bind port 80.
+    if sudo grep -qE '^[[:space:]]*listen[[:space:]]+80[[:space:]]+default_server;' /etc/nginx/nginx.conf \
+        || sudo grep -qE '^[[:space:]]*listen[[:space:]]+\[::\]:80[[:space:]]+default_server;' /etc/nginx/nginx.conf; then
+        if [ ! -f /etc/nginx/nginx.conf.voiz-backup ]; then
+            sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.voiz-backup
+        fi
+        sudo sed -i \
+            -e 's/^[[:space:]]*listen[[:space:]]\+80[[:space:]]\+default_server;/        listen       127.0.0.1:65535;/' \
+            -e 's/^[[:space:]]*listen[[:space:]]\+\[::\]:80[[:space:]]\+default_server;/        listen       [::1]:65535;/' \
+            /etc/nginx/nginx.conf
+        echo -e "${YELLOW}Moved nginx package default server away from port 80 (Issabel/httpd owns that port).${NC}"
+    fi
 else
     sudo mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
     sudo ln -sf "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/sites-available/opdesk
