@@ -541,6 +541,33 @@ else
     echo -e "${YELLOW}No specific PBX detected, using Generic configuration${NC}"
 fi
 
+# Reconcile an existing Issabel database account before verification. A stale
+# .env must not make a reinstall continue with an empty or invalid password.
+if [ "$PBX" == "Issabel" ] && command_exists mysql && [ -f /etc/issabel.conf ]; then
+    ISSABEL_ROOT_PASSWORD=$(awk -F= '$1=="mysqlrootpwd"{print substr($0,index($0,"=")+1); exit}' /etc/issabel.conf)
+    if [ -n "$ISSABEL_ROOT_PASSWORD" ]; then
+        if ! mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1;" >/dev/null 2>&1; then
+            DB_PASS=$(openssl rand -hex 16)
+            echo -e "${YELLOW}Existing OpDesk database credentials are invalid; synchronizing the account from Issabel root access...${NC}"
+            if ! mysql -u root -p"$ISSABEL_ROOT_PASSWORD" -e "
+                CREATE USER IF NOT EXISTS 'OpDesk'@'localhost' IDENTIFIED BY '$DB_PASS';
+                ALTER USER 'OpDesk'@'localhost' IDENTIFIED BY '$DB_PASS';
+                CREATE USER IF NOT EXISTS 'OpDesk'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';
+                ALTER USER 'OpDesk'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';
+                GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO 'OpDesk'@'localhost';
+                GRANT SELECT ON asteriskcdrdb.* TO 'OpDesk'@'localhost';
+                GRANT ALL PRIVILEGES ON OpDesk.* TO 'OpDesk'@'localhost';
+                GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO 'OpDesk'@'127.0.0.1';
+                GRANT SELECT ON asteriskcdrdb.* TO 'OpDesk'@'127.0.0.1';
+                GRANT ALL PRIVILEGES ON OpDesk.* TO 'OpDesk'@'127.0.0.1';
+                FLUSH PRIVILEGES;" >/dev/null 2>&1; then
+                echo -e "${RED}Could not synchronize the OpDesk database account.${NC}"
+                exit 1
+            fi
+        fi
+    fi
+fi
+
 # Verify database connection if possible
 if command_exists mysql; then
     echo -e "${YELLOW}Verifying database connection...${NC}"
@@ -550,13 +577,15 @@ if command_exists mysql; then
         elif sudo mysql -e "SELECT 1;" 2>/dev/null >/dev/null; then
             echo -e "${GREEN}Database connection successful (using sudo)${NC}"
         else
-            echo -e "${YELLOW}Could not verify database connection. Please check credentials manually.${NC}"
+            echo -e "${RED}Could not verify database connection. Installation cannot continue safely.${NC}"
+            exit 1
         fi
     else
         if sudo mysql -e "SELECT 1;" 2>/dev/null >/dev/null; then
             echo -e "${GREEN}Database connection successful (using sudo)${NC}"
         else
-            echo -e "${YELLOW}Could not verify database connection. Please check MySQL/MariaDB is running.${NC}"
+            echo -e "${RED}Could not verify database connection. Installation cannot continue safely.${NC}"
+            exit 1
         fi
     fi
 fi
