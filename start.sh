@@ -63,17 +63,37 @@ cd "$PROJECT_ROOT/backend" || {
     exit 1
 }
 
-if [ -n "${PYTHON_BIN:-}" ] && command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+python_supports_opdesk() {
+  "$1" -c 'from contextlib import asynccontextmanager' >/dev/null 2>&1
+}
+
+if [ -n "${PYTHON_BIN:-}" ] &&
+   command -v "$PYTHON_BIN" >/dev/null 2>&1 &&
+   python_supports_opdesk "$PYTHON_BIN"; then
   :
-elif command -v python3 >/dev/null 2>&1; then
-  PYTHON_BIN="python3"
-elif command -v python >/dev/null 2>&1; then
-  PYTHON_BIN="python"
-elif [ -x /usr/bin/python3.11 ]; then
-  PYTHON_BIN="/usr/bin/python3.11"
-elif [ -x /usr/local/bin/python ]; then
-  PYTHON_BIN="/usr/local/bin/python"
 else
+  PYTHON_BIN=""
+  for candidate in \
+    /usr/bin/python3.13 \
+    /usr/bin/python3.12 \
+    /usr/bin/python3.11 \
+    /usr/local/bin/python3.13 \
+    /usr/local/bin/python3.12 \
+    /usr/local/bin/python3.11 \
+    python3.13 \
+    python3.12 \
+    python3.11 \
+    python3 \
+    python; do
+    if command -v "$candidate" >/dev/null 2>&1 &&
+       python_supports_opdesk "$candidate"; then
+      PYTHON_BIN="$candidate"
+      break
+    fi
+  done
+fi
+
+if [ -z "${PYTHON_BIN:-}" ]; then
   echo -e "${RED}Error: Python 3.11+ was not found${NC}"
   exit 1
 fi

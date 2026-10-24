@@ -594,16 +594,26 @@ fi
 echo -e "\n${YELLOW}Step 8: Configuring Application, HTTPS & Installing Dependencies...${NC}"
 cd "$PROJECT_ROOT/backend"
 
+# PyPI downloads can be slow on PBX hosts and may use files.pythonhosted.org
+# for wheel files. Use a longer timeout and retries so a transient network
+# stall does not abort an otherwise valid installation.
+PIP_INSTALL_OPTIONS=(
+    --retries 10
+    --timeout 120
+    --prefer-binary
+    --disable-pip-version-check
+)
+
 # Only use --break-system-packages on Debian/Ubuntu systems
 if [ "$OS" == "debian" ] || [ "$OS" == "ubuntu" ]; then
     echo -e "${YELLOW}Installing Python dependencies (Debian/Ubuntu)...${NC}"
-    if ! "$FINAL_PYTHON_PATH" -m pip install --break-system-packages -r requirements.txt; then
+    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" --break-system-packages -r requirements.txt; then
         echo -e "${RED}Python dependency installation failed.${NC}"
         exit 1
     fi
 else
     echo -e "${YELLOW}Installing Python dependencies (non-Debian system)...${NC}"
-    if ! "$FINAL_PYTHON_PATH" -m pip install -r requirements.txt; then
+    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" -r requirements.txt; then
         echo -e "${RED}Python dependency installation failed.${NC}"
         exit 1
     fi
@@ -1404,6 +1414,15 @@ else
         echo -e "${GREEN}OpDesk service restarted.${NC}"
     fi
 fi
+
+# Pin the service to the interpreter used successfully during installation.
+# The system `python3` on older Rocky/Issabel hosts may still be Python 3.6.
+sudo mkdir -p /etc/systemd/system/opdesk.service.d
+sudo tee /etc/systemd/system/opdesk.service.d/voiz-python.conf > /dev/null <<EOF
+[Service]
+Environment=PYTHON_BIN=$FINAL_PYTHON_PATH
+EOF
+sudo systemctl daemon-reload
 
 if ! systemctl is-active --quiet opdesk.service 2>/dev/null; then
     echo -e "${YELLOW}Starting OpDesk service...${NC}"
