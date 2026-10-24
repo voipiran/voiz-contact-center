@@ -443,7 +443,7 @@ elif [ -d /usr/share/issabel ]; then
                 _opdesk_exists=1
             fi
         fi
-        if [ -z "$_opdesk_exists" ] && sudo mysql -e "SELECT 1 FROM mysql.user WHERE User='OpDesk' AND Host='localhost';" 2>/dev/null | grep -q 1; then
+        if [ -z "$_opdesk_exists" ] && sudo -n mysql -e "SELECT 1 FROM mysql.user WHERE User='OpDesk' AND Host='localhost';" 2>/dev/null | grep -q 1; then
             _opdesk_exists=1
         fi
     fi
@@ -472,8 +472,8 @@ elif [ -d /usr/share/issabel ]; then
             if [ -n "$_root_pass" ] && mysql -u root -p"$_root_pass" -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>/dev/null; then
                 mysql -u root -p"$_root_pass" -e "GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO '$DB_USER'@'localhost'; GRANT SELECT ON asteriskcdrdb.* TO '$DB_USER'@'localhost'; GRANT ALL PRIVILEGES ON OpDesk.* TO '$DB_USER'@'localhost'; FLUSH PRIVILEGES;" 2>/dev/null
                 echo -e "${GREEN}Successfully created database user '$DB_USER'${NC}"
-            elif sudo mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>/dev/null; then
-                sudo mysql -e "GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO '$DB_USER'@'localhost'; GRANT SELECT ON asteriskcdrdb.* TO '$DB_USER'@'localhost'; GRANT ALL PRIVILEGES ON OpDesk.* TO '$DB_USER'@'localhost'; FLUSH PRIVILEGES;" 2>/dev/null
+            elif sudo -n mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>/dev/null; then
+                sudo -n mysql -e "GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO '$DB_USER'@'localhost'; GRANT SELECT ON asteriskcdrdb.* TO '$DB_USER'@'localhost'; GRANT ALL PRIVILEGES ON OpDesk.* TO '$DB_USER'@'localhost'; FLUSH PRIVILEGES;" 2>/dev/null
                 echo -e "${GREEN}Successfully created database user '$DB_USER'${NC}"
             elif mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>/dev/null; then
                 mysql -u root -e "GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO '$DB_USER'@'localhost'; GRANT SELECT ON asteriskcdrdb.* TO '$DB_USER'@'localhost'; GRANT ALL PRIVILEGES ON OpDesk.* TO '$DB_USER'@'localhost'; FLUSH PRIVILEGES;" 2>/dev/null
@@ -493,7 +493,7 @@ elif [ -f /etc/freepbx.conf ]; then
     # Check if OpDesk user already exists in MySQL (do not overwrite)
     _opdesk_exists=""
     if command_exists mysql; then
-        if sudo mysql -e "SELECT 1 FROM mysql.user WHERE User='OpDesk' AND Host='localhost';" 2>/dev/null | grep -q 1; then
+        if sudo -n mysql -e "SELECT 1 FROM mysql.user WHERE User='OpDesk' AND Host='localhost';" 2>/dev/null | grep -q 1; then
             _opdesk_exists=1
         elif mysql -u root -e "SELECT 1 FROM mysql.user WHERE User='OpDesk' AND Host='localhost';" 2>/dev/null | grep -q 1; then
             _opdesk_exists=1
@@ -523,8 +523,8 @@ elif [ -f /etc/freepbx.conf ]; then
         fi
         echo -e "${YELLOW}Creating database user '$DB_USER'...${NC}"
         if command_exists mysql; then
-            if sudo mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>/dev/null; then
-                sudo mysql -e "GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO '$DB_USER'@'localhost'; GRANT SELECT ON asteriskcdrdb.* TO '$DB_USER'@'localhost'; GRANT ALL PRIVILEGES ON OpDesk.* TO '$DB_USER'@'localhost'; FLUSH PRIVILEGES;" 2>/dev/null
+            if sudo -n mysql -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>/dev/null; then
+                sudo -n mysql -e "GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO '$DB_USER'@'localhost'; GRANT SELECT ON asteriskcdrdb.* TO '$DB_USER'@'localhost'; GRANT ALL PRIVILEGES ON OpDesk.* TO '$DB_USER'@'localhost'; FLUSH PRIVILEGES;" 2>/dev/null
                 echo -e "${GREEN}Successfully created database user '$DB_USER'${NC}"
             elif mysql -u root -e "CREATE USER IF NOT EXISTS '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';" 2>/dev/null; then
                 mysql -u root -e "GRANT SELECT, INSERT, UPDATE, DELETE ON asterisk.* TO '$DB_USER'@'localhost'; GRANT SELECT ON asteriskcdrdb.* TO '$DB_USER'@'localhost'; GRANT ALL PRIVILEGES ON OpDesk.* TO '$DB_USER'@'localhost'; FLUSH PRIVILEGES;" 2>/dev/null
@@ -546,7 +546,8 @@ fi
 if [ "$PBX" == "Issabel" ] && command_exists mysql && [ -f /etc/issabel.conf ]; then
     ISSABEL_ROOT_PASSWORD=$(awk -F= '$1=="mysqlrootpwd"{print substr($0,index($0,"=")+1); exit}' /etc/issabel.conf)
     if [ -n "$ISSABEL_ROOT_PASSWORD" ]; then
-        if ! mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1;" >/dev/null 2>&1; then
+        if [ -z "$DB_PASS" ] ||
+           ! mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1;" >/dev/null 2>&1; then
             DB_PASS=$(openssl rand -hex 16)
             echo -e "${YELLOW}Existing OpDesk database credentials are invalid; synchronizing the account from Issabel root access...${NC}"
             if ! mysql -u root -p"$ISSABEL_ROOT_PASSWORD" -e "
@@ -572,21 +573,16 @@ fi
 if command_exists mysql; then
     echo -e "${YELLOW}Verifying database connection...${NC}"
     if [ -n "$DB_PASS" ]; then
-        if mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1;" 2>/dev/null >/dev/null; then
+        if [ -n "$DB_PASS" ] &&
+           mysql -h"$DB_HOST" -P"$DB_PORT" -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1;" 2>/dev/null >/dev/null; then
             echo -e "${GREEN}Database connection successful${NC}"
-        elif sudo mysql -e "SELECT 1;" 2>/dev/null >/dev/null; then
-            echo -e "${GREEN}Database connection successful (using sudo)${NC}"
         else
             echo -e "${RED}Could not verify database connection. Installation cannot continue safely.${NC}"
             exit 1
         fi
     else
-        if sudo mysql -e "SELECT 1;" 2>/dev/null >/dev/null; then
-            echo -e "${GREEN}Database connection successful (using sudo)${NC}"
-        else
-            echo -e "${RED}Could not verify database connection. Installation cannot continue safely.${NC}"
-            exit 1
-        fi
+        echo -e "${RED}Could not verify database connection. Installation cannot continue safely.${NC}"
+        exit 1
     fi
 fi
 
