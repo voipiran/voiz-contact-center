@@ -1127,7 +1127,9 @@ if [[ "$OS" =~ (centos|rhel|rocky|fedora) ]]; then
     # RHEL-family nginx normally includes /etc/nginx/conf.d/*.conf, not
     # Debian's sites-enabled directory.
     sudo mkdir -p /etc/nginx/conf.d
-    sudo cp "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/conf.d/opdesk.conf
+    if ! sudo cmp -s "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/conf.d/opdesk.conf 2>/dev/null; then
+        sudo cp "$PROJECT_ROOT/nginx/opdesk.conf" /etc/nginx/conf.d/opdesk.conf
+    fi
     sudo rm -f /etc/nginx/sites-enabled/opdesk /etc/nginx/sites-available/opdesk
 
     # Rocky's nginx package ships a default vhost on port 80. Issabel/httpd

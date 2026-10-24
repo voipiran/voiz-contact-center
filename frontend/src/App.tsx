@@ -58,14 +58,12 @@ import {
   PauseCircle,
   Terminal,
   KeyRound,
-  BookUser,
   UserCircle,
 } from 'lucide-react';
 import { quickRanges, type DateRange } from './components/analyticsUtils';
 import { raiseFor } from './lib/api';
 
 type TabType = 'dashboard' | 'extensions' | 'calls' | 'queues' | 'call-log' | 'contacts' | 'groups' | 'users' | 'analytics' | 'logs' | 'settings' | 'profile';
-const LANGUAGE_OPTIONS = ['fa', 'en'] as const;
 /** Kept in sync with the pre-paint theme script in index.html. */
 const THEME_KEY = 'opdesk:theme';
 
