@@ -14,7 +14,9 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
-clear
+if [[ -t 1 && -n "${TERM:-}" ]] && command -v clear >/dev/null 2>&1; then
+    clear || true
+fi
 
 # Function to check if command exists
 command_exists() {
