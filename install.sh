@@ -172,23 +172,15 @@ echo -e "${GREEN}Offline OpDesk project prepared successfully.${NC}"
 
 
 
-# --- Step 4: NVM & Node 24 ---
-echo -e "\n${YELLOW}Step 4: Installing NVM & Node.js 24...${NC}"
-export NVM_DIR="$HOME/.nvm"
-if [ ! -d "$NVM_DIR" ]; then
-    echo -e "${YELLOW}Installing NVM...${NC}"
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+# --- Step 4: Node.js (production-safe) ---
+# The production package contains a pre-built frontend and apply.sh explicitly
+# forbids npm install/build on the PBX. Do not install NVM or download Node.js
+# during deployment; an existing Node runtime is optional for this flow.
+echo -e "\n${YELLOW}Step 4: Checking optional Node.js runtime...${NC}"
+if command_exists node; then
+    echo -e "${GREEN}Node.js already available: $(node --version)${NC}"
 else
-    echo -e "${GREEN}NVM already installed — skipping.${NC}"
-fi
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-CURRENT_NODE=$(node --version 2>/dev/null | grep -oE '^v24\.' || true)
-if [ -n "$CURRENT_NODE" ]; then
-    echo -e "${GREEN}Node.js 24 already active ($(node --version)) — skipping install.${NC}"
-    nvm use 24 2>/dev/null || true
-else
-    echo -e "${YELLOW}Installing Node.js 24...${NC}"
-    nvm install 24 && nvm use 24 && nvm alias default 24
+    echo -e "${GREEN}Node.js installation skipped — bundled frontend is pre-built.${NC}"
 fi
 
 # --- Step 5: ORIGINAL PYTHON LOGIC ---
