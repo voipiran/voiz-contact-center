@@ -1,12 +1,17 @@
 import { useState } from 'react';
+import type React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronUp, ChevronDown, Download, FileSpreadsheet } from 'lucide-react';
-import { fetchWithAuth } from '../auth';
+import { ChevronUp, ChevronDown, ClipboardCheck, Download, FileSpreadsheet } from 'lucide-react';
+import { downloadWithAuth } from '../lib/download';
+import { messageOf } from '../lib/api';
 import type { DateRange } from './analyticsUtils';
 import type { AgentAdherenceRow } from '../types';
-import { fmtSecs, fmtPct, slaProgressClass, buildDateParams, analyticsGet, useAnalyticsFetch } from './analyticsUtils';
+import { fmtSecs, fmtPct, slaProgressClass, buildDateParams, analyticsGet, useAnalyticsFetch, kpiTip } from './analyticsUtils';
+import { AgentTimelineModal } from './AgentTimelineModal';
+import { Alert, Badge, Card, EmptyState, Tooltip } from './ui';
 
-type SortKey = 'agent' | 'logged_in_secs' | 'ready_secs' | 'on_call_secs' | 'wrap_secs' | 'not_ready_secs' | 'occupancy_pct';
+type SortKey = 'agent' | 'sessions' | 'logged_in_secs' | 'ready_secs' | 'on_call_secs'
+  | 'wrap_secs' | 'break_secs' | 'not_ready_secs' | 'dnd_secs' | 'occupancy_pct';
 type SortDir = 'asc' | 'desc';
 
 function sortRows(rows: AgentAdherenceRow[], key: SortKey, dir: SortDir): AgentAdherenceRow[] {
@@ -29,10 +34,17 @@ function fmtClock(iso: string | null): string {
 interface Props { dateRange: DateRange }
 
 /**
- * Agent Adherence report. Login, Logout, Logged In, Ready, On Call, Wrap-up,
- * Not Ready and Occupancy per agent for the selected period, sourced from
- * agent_activity presence segments (GET /api/analytics/agent-adherence).
- * Cloned from AnalyticsAgents (sortable .an-table). Occupancy = handling / available.
+ * Agent Adherence report. Login, Logout, Sessions, Logged In, Ready, On Call, Wrap-up,
+ * Break, Not Ready, DND and Occupancy per agent for the selected period, sourced from
+ * agent_activity presence segments (GET /api/analytics/agent-adherence). Sortable .an-table,
+ * like Agent Performance.
+ *
+ * Logged In is the whole signed-in shift (ready + on call + wrap-up + not ready + DND).
+ * Occupancy = handling / available: Break and DND sit outside that denominator, since an
+ * agent on lunch was never available to be given a call.
+ *
+ * A row opens that agent's state-change trace (AgentTimelineModal): every move they made,
+ * including the DND and the logout/login the summary row can only total.
  */
 export function AnalyticsAdherence({ dateRange }: Props) {
   const { t } = useTranslation();
@@ -40,6 +52,7 @@ export function AnalyticsAdherence({ dateRange }: Props) {
   const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [exporting, setExporting] = useState<'csv' | 'xlsx' | null>(null);
   const [exportError, setExportError] = useState<string | null>(null);
+  const [traceFor, setTraceFor] = useState<AgentAdherenceRow | null>(null);
   const { data, loading, error } = useAnalyticsFetch(
     () => {
       const params = buildDateParams(dateRange.from, dateRange.to);
@@ -71,19 +84,12 @@ export function AnalyticsAdherence({ dateRange }: Props) {
     try {
       const params = buildDateParams(dateRange.from, dateRange.to);
       params.set('format', format);
-      const resp = await fetchWithAuth(`/api/analytics/agent-adherence/export?${params}`);
-      if (!resp.ok) throw new Error('Export failed');
-      const blob = await resp.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `agent_adherence_${dateRange.from}_${dateRange.to}.${format}`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 100);
-    } catch {
-      setExportError(t('agent.adherence.exportFailed', 'Export failed. Please try again.'));
+      await downloadWithAuth(
+        `/api/analytics/agent-adherence/export?${params}`,
+        `agent_adherence_${dateRange.from}_${dateRange.to}.${format}`,
+      );
+    } catch (e) {
+      setExportError(messageOf(e, t('common.exportFailed', 'Export failed. Please try again.')));
     } finally {
       setExporting(null);
     }
@@ -93,59 +99,78 @@ export function AnalyticsAdherence({ dateRange }: Props) {
     return <div className="an-loading"><div className="an-spinner" />{t('analytics.loading')}</div>;
   }
   if (error) {
-    return <div className="an-empty">{t('analytics.error')}</div>;
+    return <Alert>{t('analytics.error')}</Alert>;
   }
 
   const sorted = sortRows(agents, sortKey, sortDir);
 
-  const columns: { key: SortKey; label: string; num?: boolean }[] = [
-    { key: 'agent',          label: t('agent.adherence.agent') },
-    { key: 'logged_in_secs', label: t('agent.adherence.loggedIn'), num: true },
-    { key: 'ready_secs',     label: t('agent.adherence.ready'), num: true },
-    { key: 'on_call_secs',   label: t('agent.adherence.onCall'), num: true },
-    { key: 'wrap_secs',      label: t('agent.adherence.wrapUp'), num: true },
-    { key: 'not_ready_secs', label: t('agent.adherence.notReady'), num: true },
-    { key: 'occupancy_pct',  label: t('agent.adherence.occupancy'), num: true },
+  type Tip = { text: string; formula?: string };
+  const columns: { key: SortKey; label: string; tipKey?: string; tip?: Tip }[] = [
+    { key: 'agent',          label: t('fields.agent') },
+    { key: 'sessions',       label: t('agent.adherence.sessions', 'Sessions'), tipKey: 'agent.adherence.tip.sessions',
+      tip: { text: 'How many times the agent logged in. A logout, or the daily shift reset, ends a session.' } },
+    { key: 'logged_in_secs', label: t('agent.adherence.loggedIn'), tipKey: 'agent.adherence.tip.loggedInTotal',
+      tip: { text: 'Total time the agent was signed in.', formula: 'ready + on call + wrap-up + not ready + DND' } },
+    { key: 'ready_secs',     label: t('agent.state.ready'), tipKey: 'agent.adherence.tip.ready',
+      tip: { text: 'Available: signed in and waiting for a call.' } },
+    { key: 'on_call_secs',   label: t('agent.state.onCall'), tipKey: 'agent.adherence.tip.onCall',
+      tip: { text: 'On a call.' } },
+    { key: 'wrap_secs',      label: t('agent.state.wrapUp'), tipKey: 'agent.adherence.tip.wrapUp',
+      tip: { text: 'Finishing up after a call.' } },
+    { key: 'break_secs',     label: t('agent.adherence.break', 'Break'), tipKey: 'agent.adherence.tip.break',
+      tip: { text: 'The unpaid part of Not Ready: reasons not marked productive, such as lunch. Hover the number for the reasons.' } },
+    { key: 'not_ready_secs', label: t('agent.state.notReady'), tipKey: 'agent.adherence.tip.notReady',
+      tip: { text: 'Paused with any reason, productive or not. Hover the number for the reasons.' } },
+    { key: 'dnd_secs',       label: t('agent.adherence.dnd', 'DND'), tipKey: 'agent.adherence.tip.dnd',
+      tip: { text: 'Signed in but on Do Not Disturb: no queue or direct calls reach the agent.' } },
+    { key: 'occupancy_pct',  label: t('agent.adherence.occupancy'), tipKey: 'agent.adherence.tip.occupancy',
+      tip: { text: 'Of the time they were available, how much was spent working. Over 85% for long is a burnout sign.',
+             formula: '(on call + wrap-up) ÷ (on call + wrap-up + ready)' } },
   ];
+  const tip = (key: string, label: string, text: string) => kpiTip(t, key, label, undefined, { text });
 
   return (
-    <div className="an-section">
-      <div className="an-section-header">
-        <div>
-          <div className="an-section-title">{t('agent.adherence.title')}</div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>
-            {t('agent.adherence.subtitle')}
-          </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {exportError && (
-            <span style={{ color: 'var(--accent-danger)', fontSize: '0.78rem' }}>
-              {exportError}
-            </span>
-          )}
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            {agents.length} {t('analytics.agents.agents', 'agents')}
-          </span>
+    <Card
+      icon={ClipboardCheck}
+      title={(
+        <span className="u-inline-row u-gap-1h">
+          {t('agent.adherence.title')}
+          <Tooltip {...tip('agent.adherence.tip.source', t('agent.adherence.title'),
+            'Based on the status agents set themselves, not on their phones.')} />
+        </span>
+      )}
+      description={`${t('agent.adherence.subtitle')} · ${agents.length} ${t('analytics.agents.agents', 'agents')}`}
+      actions={(
+        <>
           <button
-            className="an-export-btn"
+            type="button"
+            className="btn"
             onClick={() => downloadExport('csv')}
             disabled={exporting !== null || agents.length === 0}
           >
-            <Download size={13} />
-            {exporting === 'csv' ? t('agent.adherence.exporting', 'Exporting…') : t('agent.adherence.exportCsv', 'CSV')}
+            <Download size={14} />
+            {exporting === 'csv' ? t('common.exporting', 'Exporting…') : t('agent.adherence.exportCsv', 'CSV')}
           </button>
           <button
-            className="an-export-btn"
+            type="button"
+            className="btn"
             onClick={() => downloadExport('xlsx')}
             disabled={exporting !== null || agents.length === 0}
           >
-            <FileSpreadsheet size={13} />
-            {exporting === 'xlsx' ? t('agent.adherence.exporting', 'Exporting…') : t('agent.adherence.exportXlsx', 'Excel')}
+            <FileSpreadsheet size={14} />
+            {exporting === 'xlsx' ? t('common.exporting', 'Exporting…') : t('agent.adherence.exportXlsx', 'Excel')}
           </button>
+        </>
+      )}
+      flush
+    >
+      {exportError && (
+        <div className="u-p-3">
+          <Alert onDismiss={() => setExportError(null)}>{exportError}</Alert>
         </div>
-      </div>
+      )}
       {agents.length === 0 ? (
-        <div className="an-empty">{t('agent.adherence.empty')}</div>
+        <EmptyState size="sm" icon={ClipboardCheck} title={t('agent.adherence.empty')} />
       ) : (
         <div className="an-table-wrap">
           <table className="an-table">
@@ -155,10 +180,16 @@ export function AnalyticsAdherence({ dateRange }: Props) {
                   className={['sticky', sortKey === 'agent' ? 'sorted' : ''].filter(Boolean).join(' ')}
                   onClick={() => toggleSort('agent')}
                 >
-                  {t('agent.adherence.agent')} <SortIcon col="agent" />
+                  {t('fields.agent')} <SortIcon col="agent" />
                 </th>
-                <th className="num">{t('agent.adherence.login')}</th>
-                <th className="num">{t('agent.adherence.logout')}</th>
+                <th className="num">
+                  {t('agent.adherence.login')}
+                  <Tooltip {...tip('agent.adherence.tip.login', t('agent.adherence.login'), 'When the agent first went active.')} />
+                </th>
+                <th className="num">
+                  {t('agent.adherence.logout')}
+                  <Tooltip {...tip('agent.adherence.tip.logout', t('agent.adherence.logout'), 'When the agent last logged out. "In" while still signed in.')} />
+                </th>
                 {columns.slice(1).map(c => (
                   <th
                     key={c.key}
@@ -166,17 +197,27 @@ export function AnalyticsAdherence({ dateRange }: Props) {
                     onClick={() => toggleSort(c.key)}
                   >
                     {c.label} <SortIcon col={c.key} />
+                    {c.tipKey && <Tooltip {...kpiTip(t, c.tipKey, c.label, undefined, c.tip)} />}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {sorted.map(a => (
-                <tr key={a.agent}>
+                <tr key={a.agent} className="an-row-clickable" onClick={() => setTraceFor(a)}>
                   <td className="sticky">
                     <div className="an-agent-cell">
                       <div className="an-agent-info">
-                        <div className="an-agent-name">{a.name || a.agent}</div>
+                        {/* The name is the control, not the row: a role="button" on the <tr>
+                            would strip every cell of its column for a screen reader. */}
+                        <button
+                          type="button"
+                          className="an-agent-name an-tl-open"
+                          onClick={e => { e.stopPropagation(); setTraceFor(a); }}
+                          title={t('agent.timeline.open', 'Show every status change')}
+                        >
+                          {a.name || a.agent}
+                        </button>
                         <div className="an-agent-ext">{a.agent}</div>
                       </div>
                     </div>
@@ -184,25 +225,34 @@ export function AnalyticsAdherence({ dateRange }: Props) {
                   <td className="num">{fmtClock(a.login)}</td>
                   <td className="num">
                     {a.logged_in
-                      ? <span className="an-badge sla-met">{t('agent.adherence.stillIn')}</span>
+                      ? <Badge tone="success">{t('agent.adherence.stillIn')}</Badge>
                       : fmtClock(a.logout)}
                   </td>
-                  <td className="num" style={{ fontWeight: 600 }}>{fmtSecs(a.logged_in_secs)}</td>
-                  <td className="num" style={{ color: 'var(--status-idle)' }}>{fmtSecs(a.ready_secs)}</td>
-                  <td className="num" style={{ color: 'var(--status-call)' }}>{fmtSecs(a.on_call_secs)}</td>
-                  <td className="num" style={{ color: 'var(--status-hold)' }}>{fmtSecs(a.wrap_secs)}</td>
+                  <td className="num">{a.sessions ?? '—'}</td>
+                  <td className="num u-semibold">{fmtSecs(a.logged_in_secs)}</td>
+                  <td className="num an-fg-ready">{fmtSecs(a.ready_secs)}</td>
+                  <td className="num an-fg-on-call">{fmtSecs(a.on_call_secs)}</td>
+                  <td className="num an-fg-wrap">{fmtSecs(a.wrap_secs)}</td>
+                  <td
+                    className="num u-fg-warning"
+                    title={a.not_ready_breakdown.filter(b => !b.productive)
+                      .map(b => `${b.label}: ${fmtSecs(b.secs)}`).join('\n')}
+                  >
+                    {fmtSecs(a.break_secs ?? 0)}
+                  </td>
                   <td className="num" title={a.not_ready_breakdown.map(b => `${b.label}: ${fmtSecs(b.secs)}`).join('\n')}>
                     {fmtSecs(a.not_ready_secs)}
                   </td>
+                  <td className="num u-fg-danger">{fmtSecs(a.dnd_secs ?? 0)}</td>
                   <td>
                     <div className="an-sla-cell">
-                      <span className={`an-badge ${a.occupancy_pct >= 70 ? 'sla-met' : a.occupancy_pct >= 40 ? 'neutral' : 'sla-fail'}`}>
+                      <Badge tone={a.occupancy_pct >= 70 ? 'success' : a.occupancy_pct >= 40 ? 'neutral' : 'danger'}>
                         {fmtPct(a.occupancy_pct)}
-                      </span>
+                      </Badge>
                       <div className="an-progress">
                         <div
-                          className={`an-progress-fill ${slaProgressClass(a.occupancy_pct)}`}
-                          style={{ width: `${Math.min(100, a.occupancy_pct)}%` }}
+                          className={`an-progress-fill u-fill-x ${slaProgressClass(a.occupancy_pct)}`}
+                          style={{ '--u-fill': `${Math.min(100, a.occupancy_pct)}%` } as React.CSSProperties}
                         />
                       </div>
                     </div>
@@ -213,6 +263,14 @@ export function AnalyticsAdherence({ dateRange }: Props) {
           </table>
         </div>
       )}
-    </div>
+      {traceFor && (
+        <AgentTimelineModal
+          agent={traceFor.agent}
+          name={traceFor.name}
+          dateRange={dateRange}
+          onClose={() => setTraceFor(null)}
+        />
+      )}
+    </Card>
   );
 }

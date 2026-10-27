@@ -1,7 +1,20 @@
 {
   "app": {
+<<<<<<< HEAD
     "title": "ContactCenter",
     "subtitle": "ContactCenter Real-time Dashboard"
+=======
+    "title": "OpDesk",
+    "subtitle": "Asterisk PBX real-time monitor"
+  },
+  "language": {
+    "select": "Language",
+    "en": "English",
+    "ar": "Arabic",
+    "es": "Spanish",
+    "pt": "Portuguese",
+    "uk": "Ukrainian"
+>>>>>>> upstream/main
   },
 "language": {
   "select": "زبان",
@@ -10,15 +23,33 @@
 },
   "nav": {
     "extensions": "Extensions",
-    "activeCalls": "Active Calls",
+    "activeCalls": "Active calls",
     "queues": "Queues",
-    "callHistory": "Call History",
+    "callHistory": "Call history",
+    "calls": "Calls",
     "softphone": "Softphone",
     "groups": "Groups",
     "users": "Users",
     "analytics": "Analytics",
+    "recordings": "Recordings",
     "openMenu": "Open menu",
+<<<<<<< HEAD
     "closeMenu": "Close menu"
+=======
+    "closeMenu": "Close menu",
+    "logs": "Logs",
+    "contacts": "Contacts",
+    "admin": "Admin",
+    "collapseSidebar": "Collapse sidebar",
+    "dashboard": "Dashboard",
+    "expandSidebar": "Expand sidebar",
+    "group": {
+      "reports": "Reports",
+      "work": "Work"
+    },
+    "main": "Main navigation",
+    "teams": "Teams"
+>>>>>>> upstream/main
   },
   "header": {
     "softphoneRegistered": "Softphone (registered)",
@@ -32,11 +63,9 @@
     "callNotifications": "Call notifications",
     "newNotifications": "{{count}} new notifications",
     "notifications": "Notifications",
-    "missedBusyCalls": "Missed & busy calls",
     "noNewNotifications": "No new notifications",
     "ext": "Ext",
     "from": "From",
-    "queue": "Queue",
     "read": "Read",
     "markRead": "Mark read",
     "markAllRead": "Mark all as read",
@@ -46,16 +75,18 @@
   },
   "stats": {
     "extensions": "Extensions",
-    "activeCalls": "Active Calls",
+    "activeCalls": "Active calls",
     "waiting": "Waiting"
   },
   "login": {
+<<<<<<< HEAD
     "title": "ContactCenter",
     "subtitle": "ContactCenter Real-time Dashboard",
+=======
+    "subtitle": "Asterisk operator panel",
+>>>>>>> upstream/main
     "extensionLabel": "Extension or username",
     "extensionPlaceholder": "e.g. 1001 or admin",
-    "passwordLabel": "Password",
-    "passwordPlaceholder": "Password",
     "signIn": "Sign in",
     "signingIn": "Signing in…",
     "errorEmpty": "Enter extension/username and password",
@@ -64,10 +95,7 @@
     "errorNetwork": "Network error. Please try again."
   },
   "extensions": {
-    "title": "Extensions",
     "noExtensions": "No extensions being monitored",
-    "sync": "Sync",
-    "syncAll": "Sync all data",
     "webrtcEnabled": "WebRTC enabled (click to disable)",
     "webrtcDisabled": "WebRTC disabled (click to enable)",
     "webrtcOn": "WebRTC on",
@@ -75,108 +103,165 @@
     "status": {
       "idle": "Idle",
       "ringing": "Ringing",
-      "in_call": "In Call",
+      "in_call": "In call",
       "dialing": "Dialing",
       "unavailable": "Unavailable",
-      "on_hold": "On Hold"
-    }
+      "on_hold": "On hold",
+      "dnd": "Do not disturb",
+      "notReady": "Not ready",
+      "ready": "Ready"
+    },
+    "dndOff": "Do Not Disturb: off",
+    "dndOn": "Do Not Disturb: on",
+    "filter": {
+      "allTypes": "All types",
+      "deskPhone": "Desk phone",
+      "matches": "{{shown}} of {{total}}",
+      "type": "Type"
+    },
+    "noMatches": "No extensions match these filters.",
+    "noMatchesTitle": "No matching extensions",
+    "search": "Search extensions",
+    "searchPlaceholder": "Search by number or name"
   },
   "activeCalls": {
-    "title": "Active Calls",
     "noActiveCalls": "No active calls",
-    "sync": "Sync",
-    "syncAll": "Sync all data",
     "table": {
-      "extension": "Extension",
       "state": "State",
-      "talkingTo": "Talking To",
-      "duration": "Duration",
-      "talkTime": "Talk Time",
-      "actions": "Actions"
+      "talkingTo": "Talking to",
+      "talkTime": "Talk time",
+      "direction": "Direction"
+    },
+    "route": {
+      "inbound_queue": "Inbound · Queue",
+      "inbound_direct": "Inbound · Direct",
+      "internal": "Internal",
+      "outbound": "Outbound"
     },
     "actions": {
-      "listen": "Listen (Silent)",
-      "whisper": "Whisper to Agent",
-      "barge": "Barge In",
-      "transfer": "Transfer Call",
-      "endCall": "End Call"
+      "listen": "Listen (silent)",
+      "whisper": "Whisper to agent",
+      "barge": "Barge in",
+      "transfer": "Transfer call"
     },
     "transfer": {
       "source": "Source",
       "option1": "Option 1:",
       "transferTo": "Transfer to",
       "extOrNumber": "Ext or number",
-      "transfer": "Transfer",
       "option2": "Option 2:",
       "takeOver": "Take over",
-      "cancel": "Cancel",
       "legExtension": "Extension ({{ext}})",
-      "legTalkingTo": "Talking to ({{ext}})"
+      "legTalkingTo": "Talking to ({{ext}})",
+      "takeOverTitle": "Transfer caller ({{caller}}) to your extension ({{ext}})"
     }
   },
   "queues": {
-    "title": "Queues",
     "noQueues": "No queues configured",
-    "sync": "Sync",
-    "syncAll": "Sync all data",
     "waiting": "{{count}} waiting",
-    "callersWaiting": "Callers Waiting",
+    "callersWaiting": "Callers waiting",
     "members": "Members ({{count}})",
-    "addMember": "Add Member",
+    "addMember": "Add member",
     "extensionPlaceholder": "Extension (e.g., 100)",
+<<<<<<< HEAD
+=======
+    "selectExtension": "Search extension or name…",
+    "noExtensions": "No available extensions",
+    "loginStatus": "Login status",
+>>>>>>> upstream/main
     "namePlaceholder": "Name (optional)",
     "add": "Add",
-    "cancel": "Cancel",
     "noMembers": "No members in queue",
-    "pause": "Pause",
     "unpause": "Unpause",
     "removeStatic": "Cannot remove: Member is statically configured in queues.conf. Edit config and reload Asterisk to remove.",
+<<<<<<< HEAD
     "removeDynamic": "Remove from Queue (Dynamic member)",
     "removeCheck": "Remove from Queue (Will check if removable)"
+=======
+    "removeDynamic": "Remove from queue (dynamic member)",
+    "removeCheck": "Remove from queue (will check if removable)",
+    "removeConfirm": "Remove {{member}} from queue {{queue}}?",
+    "addMemberTo": "Add member to {{queue}}",
+    "filter": {
+      "agentSearch": "Find an agent",
+      "allAgents": "All agents",
+      "idle": "Idle",
+      "matches": "{{shown}} of {{total}}",
+      "noReady": "No agents ready",
+      "waiting": "Has callers waiting"
+    },
+    "memberUnavailable": "Unavailable",
+    "memberUnknown": "Unknown",
+    "noMatches": "No queues match these filters.",
+    "noMatchesTitle": "No matching queues",
+    "removeMember": "Remove member",
+    "removeTitle": "Remove member?",
+    "search": "Search queues",
+    "searchPlaceholder": "Search by queue name or number",
+    "pauseReason": "Reason",
+    "pickReason": "Pick a reason",
+    "pauseTitle": "Set {{member}} Not Ready",
+    "pauseHint": "Not Ready is always recorded with a reason, so adherence can tell work from breaks."
+  },
+  "agentBoard": {
+    "tab": "Agents",
+    "search": "Search agents",
+    "searchPlaceholder": "Search by name or extension",
+    "empty": "No agents in your scope",
+    "noMatches": "No agents match this search",
+    "setReady": "Set Ready",
+    "setNotReady": "Set Not Ready",
+    "logoutTitle": "Log {{agent}} out?",
+    "logoutConfirm": "{{agent}} leaves every queue and stops receiving queue calls."
+>>>>>>> upstream/main
   },
   "callLog": {
-    "title": "Call History",
     "viewManage": "View and manage call records",
-    "searchPlaceholder": "Search by src or dest...",
+    "searchPlaceholder": "Number, name or Call ID...",
     "sortOldest": "Sort: Oldest First",
     "sortNewest": "Sort: Newest First",
-    "sortOldestBtn": "Oldest First",
-    "sortNewestBtn": "Newest First",
-    "dateFrom": "Date From",
-    "dateTo": "Date To",
-    "today": "Today",
-    "yesterday": "Yesterday",
+    "sortOldestBtn": "Oldest first",
+    "sortNewestBtn": "Newest first",
+    "dateFrom": "Date from",
+    "dateTo": "Date to",
     "noRecording": "No recording",
-    "viewQoS": "View QOS Report",
+    "viewQoS": "View QoS report",
     "showJourney": "Show call journey",
     "loading": "Loading call history...",
-    "retry": "Retry",
     "noCallsFound": "No calls found",
+<<<<<<< HEAD
     "allStatuses": "All Statuses",
     "allDirections": "All Directions",
     "allApps": "All Apps",
     "totalCalls": "Total Calls",
+=======
+    "allApps": "All apps",
+    "supervisionOff": "Supervision hidden",
+    "supervisionShown": "Showing supervision",
+    "supervision": {
+      "LISTEN": "LISTEN",
+      "WHISPER": "WHISPER",
+      "BARGE": "BARGE"
+    },
+    "totalCalls": "Total calls",
+>>>>>>> upstream/main
     "showing": "Showing {{start}} to {{end}} of {{total}} calls",
+    "showingCapped": "Showing {{start}} to {{end}} of more than {{total}} calls",
     "previous": "Previous",
     "next": "Next",
     "play": "Play",
-    "pause": "Pause",
     "download": "Download",
     "na": "N/A",
     "table": {
       "src": "Src",
       "dest": "Dest",
       "app": "App",
-      "direction": "Direction",
-      "status": "Status",
-      "agent": "Agent",
-      "duration": "Duration",
       "talk": "Talk",
       "recording": "Recording",
-      "dateTime": "Date & Time",
-      "callJourney": "Call Journey",
+      "dateTime": "Date & time",
       "qos": "QOS"
     },
+<<<<<<< HEAD
     "status": {
       "completed": "Completed",
       "failed": "Failed",
@@ -185,6 +270,8 @@
       "busy": "Busy",
       "switched_off": "Switched Off"
     },
+=======
+>>>>>>> upstream/main
     "direction": {
       "incoming": "Incoming",
       "outgoing": "Outgoing"
@@ -208,23 +295,21 @@
       "low": "Low"
     },
     "qos": {
-      "title": "📊 Quality of Service Report",
-      "overallScore": "Overall Score:",
+      "title": "Quality of service report",
+      "overallScore": "Overall score:",
       "metric": "Metric",
       "audioFromSystem": "Audio from system (TX)",
       "audioToSystem": "Audio to system (RX)",
-      "totalPackets": "Total Packets",
-      "jitter": "Jitter (Timing)",
-      "dataLoss": "Data Loss",
-      "audioScore": "Audio Score (MES)",
-      "rtt": "RTT (Round Trip Time)",
-      "close": "Close",
+      "totalPackets": "Total packets",
+      "jitter": "Jitter (timing)",
+      "dataLoss": "Data loss",
+      "audioScore": "Audio score (MES)",
+      "rtt": "RTT (round trip time)",
       "packets": "{{count}} packets",
-      "agent": "Agent",
       "customer": "Customer"
     },
     "journey": {
-      "title": "Call Journey",
+      "title": "Call journey",
       "steps": "{{count}} step",
       "stepsPlural": "{{count}} steps",
       "contact": "Contact",
@@ -240,33 +325,82 @@
         "QUEUE_ENTER": "Queue",
         "RING": "Ringing",
         "ANSWER": "Answered",
-        "NO_ANSWER": "No Answer",
         "TRANSFER": "Transfer",
-        "HANGUP": "Hangup"
-      }
-    }
+        "HANGUP": "Hangup",
+        "BARGE": "Barge",
+        "LISTEN": "Listen",
+        "UNANSWERED": "Unanswered",
+        "WHISPER": "Whisper",
+        "IVR": "IVR menu"
+      },
+      "callId": "Call ID",
+      "copyId": "Copy call ID",
+      "supervisor": "Supervisor {{id}}",
+      "target": "Monitoring {{id}}",
+      "endedByAgent": "Ended by agent {{id}}",
+      "endedByCustomer": "Ended by the customer",
+      "endedBySystem": "Ended by the system",
+      "forbidden": "You are not allowed to view this call.",
+      "loadFailed": "Could not load this call's journey.",
+      "ivr": "Menu {{name}}",
+      "selection": "Pressed {{key}}"
+    },
+    "emptyFiltered": "Clear the filters or try a different search.",
+    "emptyRange": "Try a wider date range.",
+    "loadFailed": "Failed to load call history",
+    "noMatches": "No calls match \"{{query}}\"",
+    "recordingVadTitle": "{{file}} — click to view voice activity",
+    "search": "Search calls",
+    "searchScopeNote": "Searching all history — the date range does not apply to search results.",
+    "seek": "Seek",
+    "type": {},
+    "typeShort": {
+      "IN": "IN",
+      "INT": "INT",
+      "OUT": "OUT"
+    },
+    "vad": {
+      "overlap": "Overlap",
+      "silence": "Silence",
+      "speaker1": "Speaker 1 ({{count}} segments)",
+      "speaker1Short": "Speaker 1",
+      "speaker2": "Speaker 2 ({{count}} segments)",
+      "speaker2Short": "Speaker 2",
+      "title": "Voice activity"
+    },
+    "recordingForbidden": "You are not allowed to play this recording",
+    "exportCsv": "Download CSV",
+    "exportCsvHint": "Download these calls as a CSV file (up to 50,000 rows)",
+    "exportFailed": "Could not download the CSV file."
+  },
+  "recordings": {
+    "loading": "Loading recordings…",
+    "loadFailed": "Could not load the recordings.",
+    "search": "Search recordings",
+    "searchPlaceholder": "Number or Call ID…",
+    "empty": "No recordings in this period.",
+    "size": "Size",
+    "showing": "{{start}}–{{end}} of {{total}}",
+    "delete": "Delete recording",
+    "deleteTitle": "Delete this recording?",
+    "deleteMessage": "The recording of the call from {{from}} to {{to}} on {{when}} is deleted from the server. The call stays in Call History. This cannot be undone.",
+    "deleted": "Recording deleted."
   },
   "softphone": {
     "title": "Softphone",
     "openDialer": "Open dialer",
     "closeDialer": "Close dialer",
-    "enterNumber": "Enter the Number",
+    "enterNumber": "Enter the number",
     "browser": "Browser",
-    "incomingCall": "Incoming call",
     "hold": "Hold",
-    "resume": "Resume",
     "mute": "Mute",
     "unmute": "Unmute",
-    "transfer": "Transfer",
     "transferToExtension": "Transfer to extension",
     "transferPlaceholder": "e.g. 201",
-    "cancel": "Cancel",
     "decline": "Decline",
     "answer": "Answer",
     "log": "Log",
     "noEntries": "No entries",
-    "refresh": "Refresh",
-    "endCall": "End call",
     "backspace": "Backspace",
     "status": {
       "connecting": "Connecting...",
@@ -282,12 +416,40 @@
     "quality_mos": "MOS",
     "quality_jitter": "Jitter",
     "quality_loss": "Loss",
-    "quality_rtt": "Latency",
-    "reconnect": "Reconnect"
+    "reconnect": "Reconnect",
+    "adminServerHint": {
+      "after": "in Settings.",
+      "before": "Admin: set"
+    },
+    "blindTransfer": "Blind transfer",
+    "blindTransferHint": "Sends the caller straight there. You leave the call now.",
+    "callStatus": {
+      "callError": "Call error",
+      "calling": "Calling {{number}}...",
+      "inCallWith": "In call with {{number}}",
+      "incoming": "Incoming call...",
+      "ringing": "Ringing..."
+    },
+    "clearLog": "Clear log",
+    "credentialsHint": {
+      "and": "and",
+      "byAdmin": "(configured by an administrator).",
+      "extension": "extension",
+      "secret": "extension secret",
+      "setYour": "Set your"
+    },
+    "firefoxHint": {
+      "lead": "Firefox?",
+      "open": "Open",
+      "rest": "in a new tab, accept the certificate, then try again."
+    },
+    "levelMic": "Microphone (your voice)",
+    "levelSpeaker": "Speaker (incoming volume)",
+    "lastCall": "Last call"
   },
   "users": {
     "title": "All users",
-    "createEdit": "Create / Edit user",
+    "createEdit": "Create / edit user",
     "addNewUser": "Add new user",
     "editUser": "Edit user",
     "updateUser": "Update user",
@@ -295,23 +457,27 @@
     "noUsers": "No users yet. Add one above.",
     "loading": "Loading users...",
     "adminOnly": "Only administrators can manage users.",
-    "username": "Username *",
-    "password": "Password *",
     "newPassword": "New password (leave blank to keep)",
     "keepBlank": "Leave blank to keep",
     "displayName": "Display name",
-    "fullName": "Full name",
     "extension": "Extension (optional)",
     "noExtensions": "No extensions in system",
+<<<<<<< HEAD
+=======
+    "webrtcLabel": "WebRTC softphone",
+    "webrtcHint": "Let this extension register from the browser and the mobile app.",
+    "webrtcSaveFailed": "User saved, but updating WebRTC failed.",
+    "multiDeviceLabel": "Browser and phone at the same time",
+    "multiDeviceHint": "Let this extension stay signed in on the web softphone and the mobile app at once (max contacts 2 instead of 1). Both ring, and answering on one stops the other. With this off, signing in on one signs the other out.",
+    "multiDeviceSaveFailed": "User saved, but updating the device limit failed.",
+>>>>>>> upstream/main
     "role": "Role",
     "monitorModes": "Monitor modes (select one or more)",
     "groupsLabel": "Groups (user gets access to agents and queues from selected groups)",
     "createNewGroup": "Create new group",
     "newGroupNamePlaceholder": "New group name (optional)",
-    "account": "Account",
     "profile": "Profile",
     "access": "Access (via groups)",
-    "cancel": "Cancel",
     "selectModes": "Select modes...",
     "selectAtLeastOne": "Select at least one",
     "selectGroups": "Select groups...",
@@ -339,11 +505,25 @@
       "listen": "Listen",
       "whisper": "Whisper",
       "barge": "Barge"
+<<<<<<< HEAD
     }
+=======
+    },
+    "searchLabel": "Search users",
+    "searchPlaceholder": "Username, name, extension, group…",
+    "noMatches": "No users match \"{{query}}\"",
+    "deleteTitle": "Delete user?",
+    "searchExtension": "Search extension…",
+    "loginPasswordHint": "For signing in to OpDesk only. It does not change the SIP password.",
+    "sipPassword": "New SIP password",
+    "sipPasswordHint": "What phones and softphones register with. Leave blank to keep the current one. Changing it signs out every phone on the extension.",
+    "sipPasswordRule": "The SIP password needs 8 to 64 characters, with letters and digits, and no spaces or quotes.",
+    "sipSaveFailed": "User saved, but changing the SIP password failed."
+>>>>>>> upstream/main
   },
   "groups": {
     "title": "All groups",
-    "createEdit": "Create / Edit group",
+    "createEdit": "Create / edit group",
     "addNewGroup": "Add new group",
     "editGroup": "Edit group",
     "updateGroup": "Update group",
@@ -351,23 +531,15 @@
     "noGroups": "No groups yet. Create one above.",
     "loading": "Loading groups...",
     "adminOnly": "Only administrators can manage groups.",
-    "groupName": "Group name *",
+    "groupName": "Group name",
     "namePlaceholder": "e.g. Sales, Support",
     "agents": "Agents (extensions this group can access)",
     "queues": "Queues (queues this group can access)",
     "usersInGroup": "Users in this group (they get access to the agents and queues above)",
-    "cancel": "Cancel",
     "groupSection": "Group",
-    "agentsQueues": "Agents & Queues",
-    "usersSection": "Users",
+    "agentsQueues": "Agents & queues",
     "description": "Create access groups: name, agents (extensions), queues, and assign users. User access is derived from their groups.",
-    "none": "None",
     "agentsLabel": "Agents",
-    "queuesLabel": "Queues",
-    "usersLabel": "Users",
-    "agentsCount": "{{count}} agents",
-    "queuesCount": "{{count}} queues",
-    "usersCount": "{{count}} users",
     "selectAgents": "Select agents...",
     "selectQueues": "Select queues...",
     "selectUsers": "Select users...",
@@ -380,47 +552,60 @@
     "groupUpdated": "Group updated",
     "groupCreated": "Group created",
     "groupDeleted": "Group deleted",
+<<<<<<< HEAD
     "groupNameRequired": "Group name is required"
+=======
+    "groupNameRequired": "Group name is required",
+    "searchLabel": "Search groups",
+    "searchPlaceholder": "Group, agent, queue, user…",
+    "noMatches": "No groups match \"{{query}}\"",
+    "agentsCount_one": "{{count}} agent",
+    "agentsCount_other": "{{count}} agents",
+    "queuesCount_one": "{{count}} queue",
+    "queuesCount_other": "{{count}} queues",
+    "usersCount_one": "{{count}} user",
+    "usersCount_other": "{{count}} users",
+    "deleteTitle": "Delete group?"
+>>>>>>> upstream/main
   },
   "supervisor": {
     "listen": {
-      "title": "Listen to Call",
+      "title": "Listen to call",
       "description": "Listen silently to the call. Neither party will hear you.",
-      "buttonText": "Start Listening"
+      "buttonText": "Start listening"
     },
     "whisper": {
-      "title": "Whisper to Agent",
+      "title": "Whisper to agent",
       "description": "Speak privately to the agent. The caller will not hear you.",
-      "buttonText": "Start Whispering"
+      "buttonText": "Start whispering"
     },
     "barge": {
-      "title": "Barge into Call",
+      "title": "Barge into call",
       "description": "Join the call as a third party. Both parties will hear you.",
-      "buttonText": "Barge In"
+      "buttonText": "Barge in"
     },
-    "targetExtension": "Target Extension",
-    "yourExtension": "Your Extension (Supervisor)",
+    "targetExtension": "Target extension",
+    "yourExtension": "Your extension (supervisor)",
     "extensionPlaceholder": "Enter your extension (e.g., 200)",
     "cancel": "Cancel"
   },
   "settings": {
     "title": "Settings",
     "integrations": "Integrations",
-    "qualityOfService": "Quality of Service",
+    "qualityOfService": "Quality of service",
     "webrtc": "WebRTC",
     "save": "Save configuration",
-    "saving": "Saving...",
     "cancel": "Cancel",
     "loading": "Loading configuration...",
     "crm": {
-      "title": "CRM Integration",
+      "title": "CRM integration",
       "description": "Send call data to your CRM after each call. Configure server URL and authentication.",
       "enable": "Enable CRM integration",
       "enableDesc": "When enabled, call data will be sent to your CRM system after each call ends.",
-      "serverUrl": "CRM Server URL *",
+      "serverUrl": "CRM server URL *",
       "authType": "Authentication type",
-      "apiKey": "API Key *",
-      "apiKeyHeader": "API Key header (optional)",
+      "apiKey": "API key *",
+      "apiKeyHeader": "API key header (optional)",
       "defaultApiKeyHeader": "Default: X-API-Key",
       "username": "Username *",
       "password": "Password *",
@@ -435,10 +620,172 @@
       "verifySSL": "Verify SSL certificates",
       "savedSuccess": "CRM configuration saved successfully",
       "loadError": "Failed to load CRM configuration",
+<<<<<<< HEAD
       "saveError": "Failed to save CRM configuration"
+=======
+      "loadFailed": "The CRM settings could not be loaded. Saving is off so the stored settings are not overwritten.",
+      "loadFailedSave": "The saved settings could not be loaded, so saving is off.",
+      "notActive": "CRM is enabled but not active: {{reason}}. Calls are logged as failed deliveries until this is fixed.",
+      "notActiveUnknown": "the connection could not be built",
+      "saveError": "Failed to save CRM configuration",
+      "durationFormat": "Duration format",
+      "durationHint": "How duration and talk time are sent. In seconds mode the keys become durationInSeconds / talkTimeInSeconds, so the receiver cannot misread the unit.",
+      "keyNames": "Outbound key names",
+      "optional": "optional",
+      "keyNamesHint": "Rename any field to the key your CRM expects. Leave blank to use the default.",
+      "collisionWarn": "Two fields would be sent under the same key ({{keys}}). The duplicate rename is dropped and the field keeps its default key.",
+      "outcomeMap": "Outcome values",
+      "outcomeMapHint": "Remap an outcome to what your CRM expects (e.g. BUSY → UNANSWERED). Applies to both status and disposition. Leave blank to send unchanged.",
+      "stateLive": "Live",
+      "stateOff": "Off",
+      "offTitle": "CRM integration is off",
+      "pushTarget": "Push target",
+      "sync": "Call-data sync",
+      "syncPaused": "Paused",
+      "fields": {
+        "agent": "Agent",
+        "agent_name": "Agent (name)",
+        "answered_extension": "Answered ext",
+        "call_id": "Call ID",
+        "call_status": "Call status",
+        "call_type": "Direction",
+        "callback_at": "Callback time",
+        "caller": "Caller",
+        "caller_name": "Caller name",
+        "datetime": "Date / time",
+        "destination": "Destination",
+        "disposition": "Disposition",
+        "duration": "Duration",
+        "hangup_cause": "Hangup cause",
+        "lead_uuid": "Lead UUID",
+        "notes": "Notes",
+        "qos": "QoS (JSON)",
+        "queue": "Queue",
+        "queue_wait_time": "Queue wait (s)",
+        "talk_time": "Talk time",
+        "uniqueid": "Unique ID"
+      },
+      "connection": "Connection",
+      "connectionSub": "Where OpDesk reaches your CRM and how it authenticates.",
+      "stored": "stored",
+      "verifySSLDesc": "Turn off only for a CRM using a self-signed certificate.",
+      "blockPrivate": "Block private / LAN addresses (strict SSRF)",
+      "blockPrivateDesc": "Loopback and cloud-metadata are always blocked. Enable only if your CRM is public — it rejects on-prem/LAN URLs.",
+      "delivery": "Delivery",
+      "deliverySub": "When a call ends, where the record goes and which calls qualify.",
+      "syncOffNote": "Call-data sync is paused — no call records are pushed. The connection above stays configured.",
+      "syncEndpoint": "Sync endpoint path",
+      "syncEndpointHint": "Appended to the server URL. Leave blank to use the connection endpoint path.",
+      "trigger": "When to push",
+      "triggerHint": "After wrap-up waits until the agent who took the call finishes wrap-up, so the record matches the final call log. Unanswered calls go at once.",
+      "triggerHangup": "At hangup",
+      "triggerWrapup": "After wrap-up",
+      "wrapupTimeout": "Longest wait (seconds)",
+      "wrapupTimeoutHint": "Push anyway if wrap-up has not ended by then.",
+      "retries": "Retries",
+      "retryToggle": "Retry failed pushes automatically",
+      "retryDesc": "A push that times out, gets a server error or is rate-limited is sent again with the same idempotency key. A push the CRM rejects (4xx) is not retried; resend it from Logs.",
+      "retryMaxAttempts": "Attempts per call",
+      "retryMaxAttemptsHint": "The first attempt included (1–20).",
+      "retryDelays": "Wait between attempts (seconds)",
+      "retryDelaysHint": "Comma-separated; the last value repeats. A longer Retry-After from the CRM wins.",
+      "retryLogHint": "Every push and each retry is listed under Logs → CRM Deliveries.",
+      "httpMethod": "HTTP method",
+      "directions": "Push these call directions",
+      "noDirections": "No direction selected — nothing will be pushed.",
+      "payload": "Payload fields",
+      "payloadSub": "Choose the values to send and, if needed, the key each one lands under.",
+      "selected": "selected",
+      "noCatalog": "The field catalog could not be loaded. Reload the page and try again.",
+      "clear": "Clear",
+      "colField": "Field",
+      "colSentAs": "Sent as",
+      "colRename": "Rename to",
+      "previewTitle": "Payload preview",
+      "copyJson": "Copy JSON",
+      "slashWarn": "The endpoint path has no leading slash — it is joined to the server URL exactly as shown above.",
+      "previewPaused": "Call-data sync is paused — nothing is pushed.",
+      "previewEmpty": "No fields selected — the CRM would receive an empty body.",
+      "previewHintAll": "Example values — pushed after every call.",
+      "previewHintNone": "Example values. No direction is selected, so nothing is pushed.",
+      "previewHintSome": "Example values — pushed after every {{dirs}} call.",
+      "unsaved": "Unsaved changes",
+      "allSaved": "All changes saved",
+      "testing": "Testing…",
+      "test": "Test connection",
+      "lookupTitle": "Contact lookup",
+      "lookupSub": "Resolve caller numbers to CRM contact names, shown on the softphone and dashboards. Results are cached server-side.",
+      "lookupOffNote": "Contact lookup is off — calls show bare numbers. The connection above stays configured.",
+      "lookupUrl": "Lookup URL",
+      "lookupUrlHint": "Appended to the server URL. [Number] is replaced with the caller’s number; without it, ?phone=[Number] is added automatically.",
+      "lookupNameTemplate": "Name template",
+      "lookupNameTemplateHint": "Each [path] is a dot/index path into the JSON response (data.0.name reads response.data[0].name). Multiple paths are joined, e.g. first + last name.",
+      "lookupNumberFormat": "Number sent to the CRM",
+      "lookupFmtDigits": "Digits only (201005551234)",
+      "lookupFmtAsIs": "As received (+20 100 555 1234)",
+      "lookupFmtPlus": "International + (+201005551234)",
+      "lookupFmtZeros": "International 00 (00201005551234)",
+      "lookupMatchDigits": "Match last N digits",
+      "lookupMatchDigitsHint": "Caching and verification compare only the last N digits, so +20…, 0020… and 0… match the same contact. 0 = full number.",
+      "lookupVerifyPath": "Verify phone path",
+      "lookupVerifyPathHint": "Path to the phone field of the returned record. A result only counts when it matches the searched number — protects against fuzzy-search false positives.",
+      "lookupTtl": "Unknown-number memory (hours)",
+      "lookupTtlHint": "How long a \"no match\" answer is remembered before the CRM is asked about that number again. Matched contacts are saved to the phonebook permanently.",
+      "lookupTestPhone": "Phone number, e.g. +20 100 555 1234",
+      "lookupTestRun": "Test lookup",
+      "lookupTestFound": "Contact found: {{name}}",
+      "lookupTestNoMatch": "The CRM answered, but no name was extracted. Check the name template against the response below.",
+      "lookupTestVerifyFail": "Verification failed — {{detail}}",
+      "lookupTestError": "Lookup test failed",
+      "lookupTestRaw": "CRM response (truncated)",
+      "apiKeyPh": "Your API key",
+      "authLabels": {
+        "api_key": "API key",
+        "basic_auth": "Basic Auth",
+        "bearer_token": "Bearer Token",
+        "oauth2": "OAuth2"
+      },
+      "bearerTokenPh": "Your bearer token",
+      "clientIdPh": "OAuth2 Client ID",
+      "clientSecretPh": "OAuth2 Client Secret",
+      "deliveryOptions": "Delivery options",
+      "durationSeconds": "Seconds (323)",
+      "fieldDescs": {
+        "agent": "Answering extension, sent as a number",
+        "agent_name": "Display name of the answering agent",
+        "answered_extension": "Extension that answered the call",
+        "call_status": "Canonical outcome enum",
+        "call_type": "inbound · outbound · internal",
+        "caller": "Caller number or extension",
+        "caller_name": "CallerID name, when Asterisk provides one",
+        "datetime": "Call start, ISO 8601",
+        "destination": "Number that was dialed",
+        "disposition": "Same outcome enum as call status",
+        "duration": "Total call length",
+        "hangup_cause": "Raw Asterisk hangup cause code",
+        "queue": "Queue name (queue calls only)",
+        "queue_wait_time": "Seconds waiting in queue before answer",
+        "talk_time": "Answer → hangup",
+        "uniqueid": "Channel uniqueid (per-leg de-dup key)"
+      },
+      "fieldNames": "Field names",
+      "fieldsToSend": "Fields to send",
+      "jsonKeyFor": "JSON key for {{field}}",
+      "outcome": "Outcome",
+      "pickAtLeastOne": "Pick ≥ 1",
+      "pushDirections": "Push these call directions",
+      "saveNeedsRestart": "Saved, but a restart is required to apply.",
+      "secretSavedHint": "Blank = keep the saved value",
+      "sections": "CRM integration sections",
+      "selectedCount": "{{count}} selected",
+      "sendOutcomeAs": "Send {{outcome}} as",
+      "syncToggle": "Push call records to the CRM",
+      "testFailed": "Connection test failed",
+      "testOk": "Connection successful"
+>>>>>>> upstream/main
     },
     "qos": {
-      "title": "Quality of Service (QoS)",
+      "title": "Quality of service (QoS)",
       "description": "Capture call quality metrics and store them in CDR records for reporting and troubleshooting.",
       "enable": "Enable QoS",
       "disable": "Disable QoS",
@@ -446,7 +793,8 @@
       "enableError": "Failed to enable QoS",
       "disableError": "Failed to disable QoS",
       "enableConfigError": "Failed to enable QoS configuration",
-      "disableConfigError": "Failed to disable QoS configuration"
+      "disableConfigError": "Failed to disable QoS configuration",
+      "statusError": "Could not read QoS status."
     },
     "webrtcSettings": {
       "title": "WebRTC / PBX WebSocket",
@@ -462,7 +810,7 @@
     },
     "sipTls": {
       "tab": "SIP TLS",
-      "title": "SIP TLS (Port 5061)",
+      "title": "SIP TLS (port 5061)",
       "description": "Enable encrypted SIP signaling for traditional softphones using your Let's Encrypt certificate.",
       "enable": "Enable SIP TLS",
       "disable": "Disable SIP TLS",
@@ -472,27 +820,228 @@
       "port": "Port",
       "status": "Status",
       "statusEnabled": "Enabled",
-      "statusDisabled": "Disabled"
+      "statusDisabled": "Disabled",
+      "udpTcpLabel": "Offer UDP/TCP 5060 to apps",
+      "udpTcpDesc": "Turn on only if port 5060 is open to the internet. When on, the app extension config also lists UDP and TCP next to WSS and TLS.",
+      "udpTcpError": "Could not save the UDP/TCP setting.",
+      "appsSection": "Apps",
+      "statusError": "Could not read SIP TLS status."
+    },
+    "codecs": {
+      "intro": "Every extension uses this list, and Asterisk offers the codecs in this order: the first one is preferred. Keep Opus first for the web and mobile softphones, because browsers can hear hiss on G.711. Saving reloads the PBX; calls in progress are not dropped.",
+      "listLabel": "Codecs",
+      "hint": "Use the arrows to change the order. Untick a codec to stop using it; at least one stays on.",
+      "save": "Save codecs",
+      "saved": "Codecs saved and the PBX reloaded.",
+      "loading": "Loading codecs…",
+      "loadFailed": "Could not load the codec list.",
+      "saveFailed": "Could not save the codecs."
     },
     "tabs": {
-      "apiKeys": "API Keys",
-      "mobileWake": "Mobile Wake"
+      "apiKeys": "API keys",
+      "mobileWake": "Mobile wake"
     },
-    "adminOnly": "Administrator access required."
+    "adminOnly": "Administrator access required.",
+    "apiKeys": {
+      "add": "Add key",
+      "addTitle": "Add API key",
+      "copyKey": "Copy key",
+      "copyNow": "Copy this key now — it will not be shown again.",
+      "createdTitle": "API key created",
+      "disable": "Disable",
+      "editTitle": "Edit API key",
+      "emptyHintIntegrate": "Add one to integrate with OpDesk.",
+      "emptyTitle": "No API keys yet",
+      "enable": "Enable",
+      "expires": "Expires",
+      "expiresHint": "Leave blank to never expire.",
+      "groups": {
+        "admin": "Admin",
+        "analytics": "Analytics",
+        "calls": "Calls & CDR",
+        "config": "Configuration",
+        "contacts": "Contacts",
+        "dialer": "Dialer",
+        "other": "Other"
+      },
+      "key": "Key",
+      "lastUsed": "Last used",
+      "loadFailed": "Failed to load API keys.",
+      "name": "Name",
+      "namePlaceholder": "e.g. Reporting integration",
+      "nameRequired": "Name is required",
+      "never": "Never",
+      "readOnly": "Read-only",
+      "revoke": "Revoke",
+      "revokeConfirmNow": "Revoke API key \"{{name}}\"? Any integration using it will stop working immediately.",
+      "revokeFailed": "Failed to revoke API key",
+      "revokeTitle": "Revoke API key?",
+      "revoked": "API key revoked",
+      "saved": "API key saved",
+      "scopeRequired": "Select at least one scope",
+      "scopes": "Scopes",
+      "scopesHint": "The key can only call endpoints covered by the scopes you grant.",
+      "scopesNever": "Settings, user management and the logs are never reachable with a key.",
+      "scopeLabels": {
+        "calls_read": "Read live calls, extensions, queues & status",
+        "calls_originate": "Originate calls (click-to-call)",
+        "cdr_read": "Read call history & recordings",
+        "analytics_read": "Read analytics & exports",
+        "contacts_read": "Read the phonebook",
+        "contacts_write": "Push contacts into the phonebook"
+      },
+      "selectedCount": "{{count}} selected",
+      "updateFailed": "Failed to update API key",
+      "yourKey": "Your key"
+    },
+    "home": {
+      "allSettings": "All settings",
+      "cat": {
+        "contactCenter": "Contact center",
+        "telephony": "Telephony & network",
+        "recording": "Recording & compliance",
+        "access": "Integrations & access"
+      },
+      "desc": {
+        "analytics": "SLA target, FCR window and short-abandon threshold.",
+        "crm": "Push call data to your CRM after each call, and look callers up by number.",
+        "integrationApiKeys": "Machine-to-machine credentials for the integration API.",
+        "mobileWake": "Push a wake-up before dialing so mobile apps can re-register.",
+        "qos": "Capture call quality metrics into CDR records.",
+        "sipTls": "Encrypted SIP on port 5061 for traditional softphones.",
+        "codecs": "The codecs every extension offers, in order of preference.",
+        "recordingPolicy": "Record calls by direction and extension; where the files live and how long they are kept.",
+        "notReadyCodes": "Not-Ready reasons, the wrap-up ceiling and the daily shift reset."
+      },
+      "noMatches": "No settings match your search.",
+      "searchPlaceholder": "Search settings…",
+      "status": {
+        "activeCodes": "Active codes: {{n}}",
+        "crmPush": "Call-data push",
+        "keys": "Active keys: {{n}}",
+        "noActiveCodes": "No active codes",
+        "noKeys": "No active keys",
+        "sla": "SLA target {{n}}s",
+        "wakeHold": "{{n}}s hold"
+      },
+      "title": {
+        "apiKeys": "API keys",
+        "mobileWake": "Mobile wake",
+        "codecs": "Audio Codecs",
+        "recording": "Call recording"
+      }
+    },
+    "mobileWake": {
+      "off": "Wake off",
+      "on": "Wake on",
+      "rfcPhones": "RFC 8599 phones: {{count}}",
+      "sections": "Mobile wake sections",
+      "statusLabel": "Mobile wake status",
+      "tabDevices": "Devices",
+      "tabKeys": "Push keys",
+      "tabWake": "Wake"
+    },
+    "pushKeys": {
+      "devices": {
+        "emptyTitle": "No devices yet"
+      }
+    },
+    "recording": {
+      "applyFormat": "Apply format",
+      "format": "Format",
+      "formatHint": "Applies to the mixed file and both single legs. wav is highest quality; wav49/gsm save disk space.",
+      "formatLabel": "Recording format",
+      "formatWav": "wav (uncompressed)",
+      "formatWav49": "wav49 (GSM in WAV)",
+      "loadError": "Could not load the recording policy.",
+      "master": "Record calls",
+      "masterDescMixMonitor": "Record every real call (internal, inbound and outbound trunk) with MixMonitor. The mixed file is saved to the default monitor folder and linked to the CDR.",
+      "inbound": "Inbound",
+      "outbound": "Outbound",
+      "internal": "Internal",
+      "retentionLoadFailed": "Could not read the retention settings.",
+      "enabledMsg": "Call recording enabled.",
+      "disabledMsg": "Call recording disabled.",
+      "directionUpdateFailed": "Could not update {{direction}} recording.",
+      "extUpdateFailed": "Could not update recording for {{ext}}.",
+      "bulkEnabledCount": "Recording on for {{count}} extensions.",
+      "bulkDisabledCount": "Recording off for {{count}} extensions.",
+      "bulkEnabledAll": "Recording on for every extension.",
+      "bulkDisabledAll": "Recording off for every extension.",
+      "bulkFailed": "Bulk update failed.",
+      "retentionSaved": "Retention settings saved.",
+      "retentionSaveFailed": "Could not save the retention settings.",
+      "cleanupDone": "Cleanup done: {{n}} file(s) deleted.",
+      "cleanupFailed": "Cleanup failed.",
+      "cleanup": "Clean up now",
+      "saving": "Saving…",
+      "saveChanges": "Save changes",
+      "loading": "Loading the recording policy…",
+      "sections": "Call recording sections",
+      "tabPolicy": "Policy",
+      "tabLocal": "Local storage",
+      "byDirection": "Record by direction",
+      "perExtension": "Per extension: {{on}} of {{total}} recording",
+      "searchExtensions": "Search extensions",
+      "searchExtensionsPlaceholder": "Extension or name…",
+      "applyToMatches": "Apply to matches ({{n}}):",
+      "applyToAll": "Apply to all:",
+      "recordAll": "Record all",
+      "recordNone": "Record none",
+      "perExtensionCaption": "Per-extension recording",
+      "noExtensions": "No extensions",
+      "noExtensionMatches": "No matching extensions",
+      "colExtension": "Extension",
+      "colRecording": "Recording",
+      "on": "On",
+      "off": "Off",
+      "pageInfo": "{{from}}–{{to}} of {{total}}",
+      "perExtensionNote": "Per extension applies to calls that extension makes (outbound and internal). Inbound external calls follow the Inbound switch above.",
+      "storageUsed": "Storage used",
+      "ofGb": "of {{n}} GB",
+      "diskFree": "Disk free",
+      "ofSize": "of {{size}}",
+      "totalRecordings": "Recorded calls",
+      "location": "Location",
+      "directory": "Recordings directory",
+      "directoryFixedHint": "Where the PBX records calls. Playback, the statistics above and retention all use this folder; the recorder fixes it, so it cannot be changed here.",
+      "retention": "Retention",
+      "localDays": "Delete recordings after (days)",
+      "keepForever": "Blank = keep forever",
+      "example": "e.g. {{value}}",
+      "localMax": "Maximum storage (GB)",
+      "localMaxHint": "The oldest recordings are deleted first once usage passes this. Blank = no cap.",
+      "vadFiles": "Voice activity files",
+      "vadDelete": "Delete per-speaker files after analysis",
+      "vadDeleteDesc": "The -sp1/-sp2 legs are only needed briefly to compute voice activity; on by default.",
+      "hookConflict": "Recording is switched on, but OpDesk is not the one recording: {{files}} already defines the PBX predial hooks (another call recorder is installed). The direction and extension switches below have no effect until that recorder is turned off."
+    },
+    "webhooks": {
+      "metaDirections": "{{method}} · {{active}}/{{total}} directions"
+    },
+    "contactCenter": {
+      "title": "Wrap-up and shift reset",
+      "description": "After-call work and the daily logout that closes each shift.",
+      "wrapUpLabel": "Wrap-up ceiling (seconds)",
+      "wrapUpHelp": "How long an agent stays paused after a queue call before returning to Ready. They can finish sooner from their status menu, so this is a ceiling, not a fixed delay. 0 turns the auto-release off. Applies from the next completed call.",
+      "shiftResetLabel": "Daily shift reset",
+      "shiftResetHelp": "At this time each day every signed-in agent is logged out of their queues, so a shift left open does not run into the next one and Agent Adherence reports one shift per day. An agent on a call is logged out when the call ends; an agent on Do Not Disturb is left alone. Clear the field to turn the reset off.",
+      "wrapUpLoadFailed": "Could not read the wrap-up setting.",
+      "shiftResetLoadFailed": "Could not read the shift reset time.",
+      "wrapUpOffSaved": "Wrap-up auto-release turned off: agents stay in wrap-up until they finish it.",
+      "wrapUpSaved": "Wrap-up ceiling set to {{n}} s. Applies from the next completed call.",
+      "wrapUpSaveFailed": "Could not save the wrap-up setting.",
+      "shiftResetSaved": "Agents are logged out of their queues at {{time}} each day.",
+      "shiftResetOffSaved": "Daily shift reset turned off: agents stay logged in until they log out.",
+      "shiftResetSaveFailed": "Could not save the shift reset time.",
+      "saving": "Saving…",
+      "save": "Save changes"
+    }
   },
   "time": {
     "justNow": "Just now",
     "minutesAgo": "{{count}}m ago",
-    "hoursAgo": "{{count}}h ago",
-    "yesterday": "Yesterday"
-  },
-  "reason": {
-    "busy": "Busy",
-    "noanswer": "No answer",
-    "failed": "Failed",
-    "switched_off": "Unavailable",
-    "invalid_number": "Invalid number",
-    "completed": "Completed"
+    "hoursAgo": "{{count}}h ago"
   },
   "common": {
     "incomingCall": "Incoming call",
@@ -500,16 +1049,63 @@
     "retry": "Retry",
     "prev": "Previous",
     "next": "Next",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "actions": "Actions",
+    "advanced": "Advanced",
+    "clear": "Clear",
+    "clearFilters": "Clear filters",
+    "close": "Close",
+    "delete": "Delete",
+    "deleteFailed": "Delete failed",
+    "disabled": "Disabled",
+    "dismiss": "Dismiss",
+    "done": "Done",
+    "edit": "Edit",
+    "enabled": "Enabled",
+    "moveDown": "Move {{name}} down",
+    "moveUp": "Move {{name}} up",
+    "movedToPosition": "{{name}} moved to position {{position}} of {{total}}",
+    "nextPage": "Next page",
+    "pagination": "Pagination",
+    "previous": "Previous",
+    "previousPage": "Previous page",
+    "refresh": "Refresh",
+    "remove": "Remove",
+    "requestFailed": "Request failed",
+    "saveChanges": "Save changes",
+    "status": "Status",
+    "save": "Save",
+    "saving": "Saving…",
+    "copy": "Copy",
+    "copied": "Copied",
+    "selectAll": "Select all",
+    "sync": "Sync",
+    "syncAll": "Sync all data",
+    "pause": "Pause",
+    "resume": "Resume",
+    "transfer": "Transfer",
+    "endCall": "End call",
+    "exporting": "Exporting…",
+    "exportFailed": "Export failed. Please try again.",
+    "logIn": "Log in",
+    "changePassword": "Change password",
+    "none": "None",
+    "live": "Live",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "allStatuses": "All statuses",
+    "inCall": "In call",
+    "latency": "Latency",
+    "account": "Account"
   },
   "analytics": {
-    "title": "Analytics",
     "subtitle": "Call center performance metrics",
     "loading": "Loading analytics...",
     "error": "Failed to load analytics data",
     "empty": "No data for this period",
     "nav": {
       "overview": "Overview",
+<<<<<<< HEAD
       "queues": "Queue Performance",
       "agents": "Agent Performance",
       "drilldown": "Drilldown"
@@ -521,144 +1117,342 @@
       "last30": "Last 30 Days",
       "thisMonth": "This Month",
       "custom": "Custom"
+=======
+      "queues": "Queue performance",
+      "agents": "Agent performance",
+      "adherence": "Adherence",
+      "drilldown": "Drilldown"
+    },
+    "period": {
+      "last7": "Last 7 days",
+      "last30": "Last 30 days",
+      "thisMonth": "This month",
+      "custom": "Custom",
+      "label": "Date range"
+>>>>>>> upstream/main
     },
     "kpi": {
-      "sla": "SLA",
       "slaDesc": "Calls answered within threshold",
-      "fcr": "FCR",
-      "fcrDesc": "First Contact Resolution",
-      "abandonment": "Abandonment",
+      "fcrDesc": "First contact resolution",
+      "fcrCallers": "{{repeat}} of {{callers}} callers came back",
+      "provisional": "provisional",
       "abandonmentDesc": "Abandoned calls rate",
-      "aht": "AHT",
-      "ahtDesc": "Average Handle Time",
-      "volume": "Total Calls",
-      "answeredCalls": "Answered",
-      "abandonedCalls": "Abandoned",
-      "answerRate": "Answer Rate",
-      "avgWait": "Avg Wait",
+      "ahtDesc": "Average handle time",
       "na": "N/A",
       "outboundCalls": "Outbound",
-      "outboundVolume": "Outbound Calls",
-      "outboundAnswerRate": "Outbound Answer Rate",
-      "outboundAht": "Outbound AHT",
+      "outboundVolume": "Outbound calls",
       "outboundTrend": "Outbound",
-      "inboundAnswerRate": "Inbound Answer Rate",
       "inboundAnswerRateDesc": "Inbound calls answered",
-      "avgWaitKpi": "Avg Wait Time",
       "avgWaitDesc": "Average queue wait time",
-      "shortAbandon": "Short Abandon",
+      "shortAbandon": "Short abandon",
       "shortAbandonDesc": "Abandoned before wait threshold",
-      "market": "Market Talk Time",
-      "marketDesc": "Total outbound talk time"
+      "recovered": "Recovered callers",
+      "recoveredOf": "{{recovered}} of {{abandoned}} callers who gave up",
+      "netAbandon": "Net abandon rate",
+      "marketDesc": "Total outbound talk time",
+      "unansweredCalls": "Unanswered"
     },
     "delta": {
       "vsPrevPeriod": "vs prior period"
     },
     "queues": {
-      "title": "Queue Performance",
+      "title": "Queue performance",
       "queue": "Queue",
       "total": "Total",
-      "answered": "Answered",
-      "abandoned": "Abandoned",
-      "sla": "SLA %",
-      "aht": "AHT",
-      "avgWait": "Avg Wait",
-      "peakHour": "Peak Hour",
-      "heatmapTitle": "Call Volume by Hour & Day",
+      "peakHour": "Peak hour",
+      "heatmapTitle": "Call volume by hour & day",
       "heatmapLow": "Low",
       "heatmapHigh": "High",
-      "queues": "queues"
+      "queues": "queues",
+      "belowTarget": "Below SLA target",
+      "compareBy": "Compare by",
+      "compareTitle": "Compare queues",
+      "heatmapCell": "{{day}} {{hour}}: {{count}} calls ({{abandoned}} abandoned)",
+      "offered": "Offered",
+      "detailTitle": "Queue detail",
+      "allQueues": "All queues",
+      "waitTitle": "How long callers waited"
     },
     "agents": {
-      "title": "Agent Performance",
       "rank": "#",
-      "agent": "Agent",
-      "answered": "Answered",
-      "aht": "AHT",
       "slaContrib": "SLA %",
-      "trend7d": "7d Trend",
-      "agents": "agents"
+      "trend7d": "7d trend",
+      "agents": "agents",
+      "compareTitle": "Compare agents",
+      "compareBy": "Compare by"
     },
     "drilldown": {
-      "title": "Drilldown Explorer",
+      "title": "Drilldown explorer",
       "filterQueue": "Queue...",
       "filterAgent": "Agent...",
-      "allDirections": "All Directions",
-      "allDispositions": "All Dispositions",
+      "allQueues": "All queues",
+      "allAgents": "All agents",
       "records": "records",
       "date": "Date",
-      "direction": "Direction",
       "src": "Caller",
       "dst": "Destination",
-      "queue": "Queue",
-      "agent": "Agent",
-      "duration": "Duration",
       "talk": "Talk",
       "waitTime": "Wait",
       "disposition": "Disposition",
-      "slaMet": "SLA Met",
-      "slaFailed": "SLA Miss",
+      "slaMet": "SLA met",
+      "slaFailed": "SLA miss",
       "page": "Page",
       "exportCsv": "Export CSV",
       "exportXlsx": "Export XLSX",
+<<<<<<< HEAD
       "exporting": "Exporting...",
       "clearFilters": "Clear"
+=======
+      "exportCapped": "An export holds the first {{cap}} of these {{total}} calls. Narrow the range or the filters to export the rest."
+>>>>>>> upstream/main
     },
     "settings": {
-      "title": "Analytics",
-      "slaSection": "SLA Thresholds",
+      "slaSection": "SLA thresholds",
       "slaPerQueue": "Seconds to answer — per queue override (uses global default if not set)",
       "slaDefault": "Default threshold",
-      "fcrSection": "FCR & Abandon Settings",
-      "fcrWindow": "FCR callback window",
+      "slaOverride": "Threshold",
+      "slaRemove": "Use the default",
+      "slaPickQueue": "Pick a queue",
+      "slaAdd": "Add override",
+      "fcrSection": "FCR & abandon Settings",
+      "fcrWindow": "FCR window",
+      "fcrWindowHint": "days · 0 turns FCR off",
+      "callbackWindow": "Callback window",
+      "callbackWindowHint": "hours · our call back counts as a repeat contact and as a recovered caller · 0 turns it off",
       "shortAbandon": "Short abandon threshold",
-      "save": "Save Analytics Settings",
-      "saved": "Saved!"
+      "save": "Save analytics Settings",
+      "saved": "Saved!",
+      "saveFailed": "Failed to save",
+      "unitDays": "days",
+      "unitSeconds": "seconds"
+    },
+    "directions": {},
+    "overview": {
+      "byDirection": "Calls by direction",
+      "inboundOutcomes": "Inbound outcomes",
+      "queueService": "Queue service",
+      "viaQueue": "Queue",
+      "direct": "Direct",
+      "byHour": "Calls by hour of day"
+    },
+    "tip": {
+      "agents": {
+        "trend": {
+          "text": "Calls answered per day, last 7 days."
+        },
+        "compare": {
+          "text": "Every agent on one figure at a time, highest first. Pick the figure from the menu."
+        },
+        "rank": {
+          "text": "Position by customer calls answered. Internal calls do not count."
+        },
+        "totalAll": {
+          "text": "Every customer call this agent handled, inbound and outbound. Internal calls are counted apart."
+        },
+        "answered": {
+          "text": "Customer calls this agent connected: the rank orders by this."
+        },
+        "inbound": {
+          "text": "Calls that came in to this agent."
+        },
+        "outbound": {
+          "text": "Calls this agent placed."
+        },
+        "internal": {
+          "text": "Calls between extensions. Shown for the time they take, but not customer work: they are not in the total and do not count towards the rank."
+        },
+        "slaContribution": {
+          "text": "How often this agent picked up queue calls in time. Blank if they take no queue calls.",
+          "formula": "answered in time ÷ queue calls answered"
+        }
+      },
+      "kpi": {
+        "shortAbandonShare": {
+          "formula": "quick hang-ups ÷ offered",
+          "text": "Inbound callers who hung up within the short-abandon threshold — usually misdials."
+        },
+        "recovered": {
+          "text": "Callers who gave up waiting in a queue and whom an agent rang back within {{hours}} hours. Counted in people: three abandons and one call back is one caller recovered.",
+          "formula": "callers rung back ÷ callers who abandoned"
+        },
+        "netAbandon": {
+          "text": "The abandon rate with the calls of the callers we rang back taken out. The abandon rate itself still counts them.",
+          "formula": "(abandoned − abandoned calls of recovered callers) ÷ offered"
+        }
+      },
+      "overview": {
+        "inboundOutcomes": {
+          "text": "Inbound calls per day: answered, and the ones nobody answered — queue abandons and missed direct calls together."
+        },
+        "queueService": {
+          "text": "How the queues treated the people who waited in them: how fast they were answered, how many gave up, and whether they had to call again."
+        },
+        "byDirection": {
+          "text": "Inbound, outbound and internal calls per day."
+        },
+        "byHour": {
+          "text": "Every call in the period by the hour it started — inbound, outbound and internal: the busiest hours of the day."
+        }
+      },
+      "queues": {
+        "avgWait": {
+          "formula": "total wait ÷ callers",
+          "text": "How long callers wait in this queue, including those who gave up."
+        },
+        "card": {
+          "text": "This queue over the period: calls offered to it, how many an agent answered and how many gave up, and how well it served them."
+        },
+        "compare": {
+          "text": "Every queue on one figure at a time, best first: highest for SLA and the rates, lowest for abandon rate and wait. Pick the figure from the menu."
+        },
+        "detail": {
+          "text": "One queue, or all of them together: answered and abandoned calls per day, how long callers waited, and when the calls arrive."
+        },
+        "wait": {
+          "text": "Calls by how long the caller waited in the queue: the answered ones, and the ones who gave up."
+        },
+        "heatmap": {
+          "text": "When your calls come in, by day and hour. Darker means busier."
+        },
+        "peakHour": {
+          "text": "The busiest hour of the day, across the whole date range."
+        },
+        "slaAnswered": {
+          "formula": "answered in time ÷ answered",
+          "text": "How often this queue’s answered calls were picked up within its SLA threshold. The goal is 80%."
+        }
+      },
+      "drilldown": {
+        "status": {
+          "text": "How the call ended, in the same words Call History uses."
+        }
+      }
+    },
+    "export": {
+      "csv": "Download CSV",
+      "failed": "The download failed. Please try again.",
+      "overviewTitle": "The period’s figures as a CSV file",
+      "trendCsv": "Daily CSV",
+      "trendTitle": "Calls per day as a CSV file",
+      "queuesTitle": "Every queue’s figures as a CSV file",
+      "heatmapTitle": "Calls by weekday and hour as a CSV file",
+      "agentsTitle": "Every agent’s figures as a CSV file"
+    },
+    "agentCalls": {
+      "open": "Show this agent’s calls",
+      "calls": "Calls",
+      "other": "Not connected",
+      "otherHint": "The other end never picked up, was busy or unreachable, or the line failed",
+      "missedHint": "Rang this agent and they did not take it, including calls a colleague answered",
+      "number": "Number",
+      "takenBy": "Taken by {{id}}",
+      "callCount_one": "{{count}} call",
+      "callCount_other": "{{count}} calls"
     }
   },
   "agent": {
     "adherence": {
-      "title": "Agent Adherence",
+      "title": "Agent adherence",
       "subtitle": "Login, ready, on-call and break time per agent for the selected period.",
-      "agent": "Agent",
       "login": "Login",
       "logout": "Logout",
-      "loggedIn": "Logged In",
-      "ready": "Ready",
-      "onCall": "On Call",
-      "wrapUp": "Wrap-up",
-      "notReady": "Not Ready",
+      "loggedIn": "Logged in",
       "occupancy": "Occupancy",
       "stillIn": "In",
       "empty": "No agent activity for this period",
       "exportCsv": "CSV",
       "exportXlsx": "Excel",
-      "exporting": "Exporting…",
-      "exportFailed": "Export failed. Please try again."
+      "sessions": "Sessions",
+      "break": "Break",
+      "dnd": "DND",
+      "tip": {
+        "source": {
+          "text": "Based on the status agents set themselves, not on their phones."
+        },
+        "login": {
+          "text": "When the agent first logged in during the period."
+        },
+        "logout": {
+          "text": "When the agent last logged out. \"In\" while still signed in."
+        },
+        "sessions": {
+          "text": "How many times the agent logged in. A logout, or the daily shift reset, ends a session."
+        },
+        "loggedInTotal": {
+          "text": "Total time the agent was signed in.",
+          "formula": "ready + on call + wrap-up + not ready + DND"
+        },
+        "ready": {
+          "text": "Available: signed in and waiting for a call."
+        },
+        "onCall": {
+          "text": "On a call."
+        },
+        "wrapUp": {
+          "text": "Finishing up after a call."
+        },
+        "break": {
+          "text": "The unpaid part of Not Ready: reasons not marked productive, such as lunch. Hover the number for the reasons."
+        },
+        "notReady": {
+          "text": "Paused with any reason, productive or not. Hover the number for the reasons."
+        },
+        "dnd": {
+          "text": "Signed in but on Do Not Disturb: no queue or direct calls reach the agent."
+        },
+        "occupancy": {
+          "text": "Of the time they were available, how much was spent working. Over 85% for long is a burnout sign.",
+          "formula": "(on call + wrap-up) ÷ (on call + wrap-up + ready)"
+        }
+      }
     },
-    "goReady": "Ready",
-    "notReady": "Not Ready",
     "noReasons": "No reason codes",
     "unpaid": "break",
-    "dnd": "Do Not Disturb",
-    "login": "Log in",
     "logout": "Log out",
     "state": {
       "ready": "Ready",
-      "onCall": "On Call",
-      "notReady": "Not Ready",
-      "dnd": "Do Not Disturb",
-      "available": "Available"
+      "onCall": "On call",
+      "notReady": "Not ready",
+      "dnd": "Do not disturb",
+      "available": "Available",
+      "loggedOut": "Offline",
+      "wrapUp": "Wrap-up",
+      "queueLabel": "Queue: {{queue}}",
+      "deviceAsleep": "Ready, but the phone is asleep; it wakes on the next call"
+    },
+    "codes": {
+      "deleteFailed": "Could not delete that reason code.",
+      "deleteTitle": "Delete reason code?",
+      "labelPlaceholder": "Break",
+      "listTitle": "Reason codes"
+    },
+    "finishWrap": "Finish wrap-up",
+    "pickReason": "Not ready, with a reason",
+    "timeline": {
+      "open": "Show every status change",
+      "period": "{{from}} to {{to}}",
+      "stateWithReason": "{{state}} · {{reason}}",
+      "forbidden": "You are not allowed to see this agent's activity.",
+      "empty": "No activity for this period",
+      "emptyHint": "This agent did not log in during the selected dates.",
+      "leftOnDnd": "left on DND",
+      "sessionLength": "Session",
+      "queue": "Queue {{queue}}",
+      "ongoing": "ongoing · {{duration}}",
+      "source": {
+        "ami": "phone",
+        "supervisor": "supervisor"
+      }
     }
   },
   "logs": {
-    "title": "Logs",
     "tabs": {
       "system": "System",
-      "deliveries": "CRM Deliveries"
+      "deliveries": "CRM deliveries",
+      "audit": "Audit log"
     },
     "system": {
-      "title": "AMI Event Stream",
+      "title": "AMI event stream",
       "eventType": "Event type",
       "allEvents": "All events",
       "search": "Search",
@@ -670,11 +1464,7 @@
       "amiHint": "Enable or disable AMI event recording",
       "sipHint": "Interleave raw SIP messages into the stream",
       "sipFail": "Failed to toggle SIP trace",
-      "pause": "Pause",
-      "resume": "Resume",
       "export": "Export",
-      "clear": "Clear",
-      "live": "Live",
       "paused": "Paused",
       "waiting": "Waiting for AMI activity…",
       "pausedHint": "Stream paused — resume to receive AMI events.",
@@ -684,14 +1474,11 @@
     },
     "deliveries": {
       "allStatuses": "All results",
-      "allDirections": "All directions",
       "searchPlaceholder": "caller, destination, call ID…",
       "time": "Time",
-      "direction": "Direction",
       "call": "Call",
       "endpoint": "Endpoint",
       "result": "Result",
-      "latency": "Latency",
       "attempt": "Attempt",
       "request": "Request",
       "response": "Response",
@@ -703,64 +1490,82 @@
       "resendFail": "Resend failed.",
       "resentFrom": "Resent from #{{id}}",
       "truncatedHint": "Request body was truncated when logged — cannot be replayed.",
-      "copy": "Copy",
-      "copied": "Copied",
       "showingCount": "Showing {{count}}",
       "status": {
         "success": "Delivered",
-        "failed": "Failed"
-      }
-    }
+        "failed": "Failed",
+        "pending": "Retrying",
+        "delivered": "Delivered",
+        "abandoned": "Gave up",
+        "unresolved": "Not delivered"
+      },
+      "detailFail": "Could not load this delivery.",
+      "detailTitle": "Delivery #{{id}}",
+      "details": "Request and response",
+      "detailsFor": "Details for delivery {{id}}",
+      "resendTitle": "Resend delivery #{{id}}?",
+      "retry": "Retry now",
+      "retryHint": "Send this delivery again now, with the same idempotency key.",
+      "retryOk": "Delivered on retry.",
+      "retryStillFailing": "Retried — the CRM still did not accept it.",
+      "retryFail": "Retry failed.",
+      "nextAttempt": "Next try {{when}}",
+      "tries": "{{count}}/{{max}} tries",
+      "totals": "Deliveries by status",
+      "trigger": "Sent",
+      "triggers": {
+        "hangup": "At hangup",
+        "wrapup": "After wrap-up",
+        "resend": "By hand (resend)"
+      },
+      "idempotencyKey": "Idempotency key",
+      "search": "Search deliveries"
+    },
+    "amiToggle": "Record AMI events",
+    "amiToggleError": "Could not toggle the AMI event stream.",
+    "offTitle": "Recording is off",
+    "pausedTitle": "Stream paused",
+    "sipToggle": "Show SIP trace",
+    "waitingDesc": "Events appear here as Asterisk reports them.",
+    "waitingTitle": "Waiting for AMI activity"
   },
   "notReady": {
-    "title": "Not-Ready Codes",
-    "description": "Pause reasons agents select when going Not-Ready.",
+    "title": "Not-ready codes",
+    "description": "Pause reasons agents select when going not ready.",
     "subtitle": "Reason codes agents pick when going Not-Ready. Productive codes count toward paid work; breaks do not.",
     "add": "Add code",
     "code": "Code",
     "label": "Label",
     "productive": "Productive",
     "active": "Active",
-    "actions": "Actions",
     "system": "System",
     "yes": "Yes",
     "break": "Break",
-    "enabled": "Enabled",
-    "disabled": "Disabled",
-    "edit": "Edit",
-    "delete": "Delete",
     "none": "No codes yet",
     "addTitle": "New reason code",
     "editTitle": "Edit reason code",
-    "cancel": "Cancel",
-    "save": "Save",
-    "saving": "Saving…",
     "saveFailed": "Save failed",
     "confirmDelete": "Delete this reason code?",
     "basic": "Basic",
     "color": "Color",
     "order": "Sort order",
-    "status": "Status",
     "productiveHint": "Counts as paid work (e.g. Meeting, Training) rather than a break in adherence.",
-    "activeHint": "Inactive codes are hidden from the agent picker."
+    "activeHint": "Inactive codes are hidden from the agent picker.",
+    "systemHint": "Used by OpDesk itself; it cannot be edited or deleted.",
+    "reservedCode": "Codes starting with __ are reserved for the system."
   },
   "contacts": {
-    "title": "Contacts",
     "loading": "Loading contacts…",
     "loadError": "Failed to load contacts",
-    "addContact": "Add Contact",
-    "editContact": "Edit Contact",
-    "updateContact": "Update Contact",
+    "addContact": "Add contact",
+    "editContact": "Edit contact",
+    "updateContact": "Update contact",
     "formDesc": "Contacts are shown wherever a caller's number appears: dashboards, extensions and the softphone.",
-    "name": "Name",
-    "namePlaceholder": "Full name",
-    "phone": "Phone Number",
     "phonePlaceholder": "e.g. +20 100 000 0000",
     "company": "Company",
     "companyPlaceholder": "Company (optional)",
     "notes": "Notes",
     "notesPlaceholder": "Notes (optional)",
-    "cancel": "Cancel",
     "nameRequired": "Name is required",
     "phoneRequired": "Phone number must contain digits",
     "saveError": "Failed to save contact",
@@ -773,9 +1578,16 @@
     "searchLabel": "Search contacts",
     "noContacts": "No contacts yet. Contacts added here or resolved from the CRM appear on all call screens.",
     "noMatches": "No contacts match your search",
+    "showingCount": "Showing {{count}}",
     "sourceManual": "Manual",
     "sourceCrm": "CRM",
-    "call": "Call {{name}}"
+    "sourceApi": "API",
+    "call": "Call {{name}}",
+    "deleteTitle": "Delete contact?",
+    "details": "Details",
+    "emptyTitle": "No contacts yet",
+    "noMatchesTitle": "No matching contacts",
+    "source": "Source"
   },
   "mobileSetup": {
     "titleFor": "Mobile app setup — {{name}}",
@@ -786,12 +1598,10 @@
     "passwordOn": "One scan signs in. Treat the code like the password itself.",
     "passwordOff": "Safe to print or share: the app asks for the password.",
     "json": "Account JSON",
-    "copied": "Copied",
-    "copy": "Copy",
     "download": "PNG",
     "formatLink": "Account format reference",
     "button": "Mobile app QR",
-    "introAuto": "Scan this code in Medut Softphone (sign-in screen → Scan QR) to add extension {{ext}}. The app finds the best connection by itself."
+    "intro": "Scan this code in Medut Softphone (sign-in screen → Scan QR) to add extension {{ext}}. It carries the connection the PBX expects for this extension: transport, encryption and ICE."
   },
   "mobileWake": {
     "saved": "Saved. Asterisk dialplan reloaded.",
@@ -814,12 +1624,10 @@
     "replace": "Replace",
     "upload": "Upload",
     "keepExisting": "Keep existing",
-    "remove": "Remove",
-    "title": "Mobile Wake",
+    "title": "Mobile wake",
     "description": "Wake a closed mobile softphone for incoming calls (RFC 8599). The phone puts its push token in its SIP REGISTER; OpDesk pushes it, holds the call until it re-registers, then lets it ring.",
     "recommended": "Recommended app: Medut Softphone",
-    "general": "Mobile Wake",
-    "enabled": "Enabled",
+    "general": "Mobile wake",
     "enabledHint": "Before an extension with a push binding is dialed, push it and hold the call while the app wakes up.",
     "hold": "Hold time (seconds)",
     "holdHint": "Longest the caller waits for the phone to wake and re-register. 8 to 30.",
@@ -849,19 +1657,15 @@
     "devices": {
       "title": "Registered devices (RFC 8599)",
       "none": "None yet. A device appears here after it registers with pn-provider, pn-prid and pn-param in its Contact.",
-      "extension": "Extension",
       "provider": "Provider",
       "token": "Token",
       "app": "App",
       "lastSeen": "Last seen",
       "forget": "Forget this device"
-    },
-    "saving": "Saving…",
-    "save": "Save"
+    }
   },
   "account": {
     "sipPassword": "Change SIP password",
-    "loginPassword": "Change password",
     "showNewQr": "Show the new mobile QR",
     "sipNote": "Every phone and softphone on your extension signs out and has to sign in again with the new password (scan the new QR).",
     "current": "Current OpDesk password",
@@ -874,21 +1678,215 @@
     "show": "Show",
     "generate": "Generate",
     "confirm": "Confirm new password",
-    "mismatch": "The passwords do not match.",
-    "saving": "Saving…",
-    "save": "Change password",
-    "section": "Account"
+    "mismatch": "The passwords do not match."
   },
   "profile": {
-    "title": "My Profile",
-    "account": "Account",
+    "title": "My profile",
     "accountDesc": "Your sign-in details.",
-    "name": "Name",
-    "username": "Username",
-    "role": "Role",
     "languageDesc": "The language OpDesk is shown in on this browser.",
     "passwordDesc": "The password you sign in to OpDesk with.",
     "sipDesc": "The password your phones and softphones register with.",
     "qrDesc": "Scan with Medut Softphone to add your extension."
+  },
+  "callStatus": {
+    "ANSWERED": "Answered",
+    "BUSY": "Busy",
+    "FAILURE": "Failure",
+    "ABANDONED": "Abandoned",
+    "DROPPED": "Dropped",
+    "UNANSWERED": "Unanswered",
+    "MISSED": "Missed",
+    "VOICEMAIL": "Voicemail",
+    "UNREACHABLE": "Unreachable",
+    "NETWORK_ERROR": "Network error"
+  },
+  "contactLookup": {
+    "secMatching": "Number matching",
+    "secRequest": "What to ask, and how to read the answer"
+  },
+  "dashboard": {
+    "direction": {},
+    "alert": {
+      "understaffed": "{{queue}}: {{waiting}} waiting and no agent ready to answer.",
+      "pastTarget": "{{queue}}: a caller has waited {{wait}}, past the {{target}} target."
+    },
+    "kpi": {
+      "available": "Available",
+      "longestWait": "Longest wait",
+      "ringing": "Ringing",
+      "waiting": "Calls waiting",
+      "peopleReached": "{{reached}} of {{people}} numbers reached",
+      "totalSplitInternal": "{{in}} in · {{out}} out · {{internal}} internal"
+    },
+    "now": "Now",
+    "queues": {
+      "agents": "Agents",
+      "available": "Avail",
+      "busy": "Busy",
+      "longestWait": "Longest",
+      "none": "No queues in your scope",
+      "paused": "Paused",
+      "title": "Queues — live",
+      "waiting": "Waiting"
+    },
+    "tip": {
+      "activeCalls": {
+        "text": "Calls happening right now."
+      },
+      "queueAgents": {
+        "text": "Agents on this queue and what they're doing."
+      },
+      "queueLongest": {
+        "text": "The longest anyone has been holding in this queue."
+      },
+      "queueWaiting": {
+        "text": "Callers holding in this queue right now."
+      },
+      "ringing": {
+        "text": "Phones ringing right now."
+      },
+      "waiting": {
+        "text": "Callers on hold waiting for someone to pick up."
+      },
+      "longestWaitLive": {
+        "text": "How long the person who has been waiting longest has been holding. Turns red past one minute."
+      }
+    },
+    "todaySoFar": "Today so far",
+    "todayUnavailable": "Today's summary is not available for your role.",
+    "trend": {
+      "title": "7-day volume"
+    },
+    "waitingForData": "Waiting for live data…",
+    "workforce": {
+      "offline": "Offline",
+      "title": "Agent availability",
+      "total": "{{count}} agents"
+    }
+  },
+  "metrics": {
+    "totalCalls": "Total calls",
+    "answered": "Answered",
+    "answerRate": "Answer rate",
+    "contactRate": "Contact rate",
+    "contactRateOf": "Contact rate {{rate}}",
+    "abandoned": "Abandoned",
+    "abandonRate": "Abandon rate",
+    "abandonRateOf": "Abandon rate {{rate}}",
+    "aht": "AHT",
+    "sla": "SLA",
+    "fcr": "FCR",
+    "avgWait": "Avg wait",
+    "tip": {
+      "answerRate": {
+        "text": "Share of the distinct outside numbers involved that were actually spoken to — however many calls each of them took. It counts people, so ten tries to one person who finally picks up is one person reached. Internal calls between extensions are left out.",
+        "formula": "numbers that answered ÷ distinct numbers"
+      },
+      "contactRate": {
+        "text": "Share of the calls that connected — every call counted, so a number tried five times counts five times. Answer rate counts the people behind the calls instead.",
+        "formula": "answered ÷ calls"
+      },
+      "aht": {
+        "text": "Average handle time: the average talk time of an answered call.",
+        "formula": "talk time ÷ answered"
+      },
+      "totalCalls": {
+        "text": "Every call in this period — in, out and internal."
+      },
+      "answered": {
+        "text": "Calls that actually connected and had talk time."
+      },
+      "abandoned": {
+        "text": "Callers who hung up in a queue before an agent answered. A direct call to an extension that rang out is not an abandon.",
+        "formula": "queue calls not answered"
+      },
+      "abandonRate": {
+        "formula": "not answered ÷ offered",
+        "text": "How many queue callers hung up before an agent answered."
+      },
+      "missed": {
+        "text": "Your calls today that did not connect.",
+        "formula": "calls − answered"
+      },
+      "sla": {
+        "formula": "answered in time ÷ answered",
+        "text": "How often answered queue calls were picked up within the queue’s SLA threshold."
+      },
+      "fcr": {
+        "formula": "callers with no repeat contact ÷ answered callers",
+        "text": "Callers whose first answered queue call settled it: no repeat contact within the FCR window — no further queue call from them, answered or not, and no call back from us within the callback window. Numbers compare on their last nine digits; anonymous and internal callers are not counted."
+      },
+      "avgWait": {
+        "formula": "total wait ÷ callers",
+        "text": "How long queue callers wait before someone picks up."
+      },
+      "talkTime": {
+        "formula": "sum of talk time",
+        "text": "Total time outbound calls spent with a customer on the line, wrap-up excluded."
+      }
+    },
+    "missed": "Missed",
+    "talkTime": "Talk time"
+  },
+  "fields": {
+    "agent": "Agent",
+    "extension": "Extension",
+    "queue": "Queue",
+    "duration": "Duration",
+    "direction": "Direction",
+    "name": "Name",
+    "username": "Username",
+    "password": "Password",
+    "fullName": "Full name",
+    "role": "Role",
+    "phoneNumber": "Phone number"
+  },
+  "direction": {
+    "inbound": "Inbound",
+    "outbound": "Outbound",
+    "internal": "Internal",
+    "all": "All directions"
+  },
+  "callStatusTip": {
+    "ANSWERED": "Someone picked up and the two sides talked.",
+    "UNANSWERED": "It rang until it timed out, or our side gave up while it rang.",
+    "BUSY": "The callee was busy or declined the call.",
+    "MISSED": "The caller hung up while it was still ringing.",
+    "VOICEMAIL": "Voicemail took the call.",
+    "UNREACHABLE": "The phone was switched off, unregistered or out of service.",
+    "FAILURE": "The call could not be placed, for example a wrong number.",
+    "NETWORK_ERROR": "The route or the carrier failed: congestion or no circuit.",
+    "ABANDONED": "The caller hung up while waiting in a queue.",
+    "DROPPED": "The call was answered, then cut off abnormally."
+  },
+  "audit": {
+    "loadError": "Could not load the audit log.",
+    "time": "Time",
+    "actor": "Who",
+    "action": "Action",
+    "entity": "What",
+    "summary": "Details",
+    "showDetail": "What changed",
+    "ip": "IP",
+    "refresh": "Refresh",
+    "actorSearch": "Search by user",
+    "actorPlaceholder": "User name or extension…",
+    "allActions": "All actions",
+    "entityType": "Entity type",
+    "allEntities": "Everything",
+    "loading": "Loading the audit log…",
+    "caption": "Audit log",
+    "emptyTitle": "No audit entries",
+    "emptyDesc": "Nothing matches the current filters.",
+    "emptyRange": "Nothing was changed in this period.",
+    "loadMore": "Load more",
+    "actions": {
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "apply": "Apply",
+      "login": "Sign in",
+      "logout": "Sign out"
+    }
   }
 }

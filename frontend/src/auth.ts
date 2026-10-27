@@ -72,9 +72,12 @@ export function getMonitorModesLabel(modes: string[] | undefined): string {
   return labels.length ? labels.join(', ') : 'Listen';
 }
 
-/** Which supervisor action buttons to show based on monitor_modes from DB. */
+/** Which supervisor action buttons to show based on monitor_modes from DB. Agents never
+ *  supervise (the server refuses it), so they get none. */
 export function getAllowedMonitorModes(): ('listen' | 'whisper' | 'barge')[] {
-  const modes = getUser()?.monitor_modes;
+  const user = getUser();
+  if (!user || user.role === 'agent') return [];
+  const modes = user.monitor_modes;
   if (Array.isArray(modes) && modes.length > 0) return modes as ('listen' | 'whisper' | 'barge')[];
   return ['listen'];
 }
@@ -104,4 +107,34 @@ export async function fetchWithAuth(input: RequestInfo | URL, init?: RequestInit
     dispatchUnauthorized();
   }
   return res;
+}
+
+/** Thrown by fetchRecordingBlob; `status` is the HTTP status, 0 for a network failure. */
+export class RecordingFetchError extends Error {
+  readonly status: number;
+  constructor(status: number) {
+    super(`Recording request failed (${status || 'network'})`);
+    this.name = 'RecordingFetchError';
+    this.status = status;
+  }
+}
+
+/**
+ * Fetch a recording with the Bearer header and return an object URL for it.
+ *
+ * `/api/recordings/...` does not take a token in the query string (a token in a URL
+ * ends up in access logs, browser history and copied links), so `<audio src>` and
+ * download links point at a blob instead. The caller owns the URL and must
+ * `URL.revokeObjectURL` it.
+ */
+export async function fetchRecordingBlob(path: string, signal?: AbortSignal): Promise<string> {
+  let res: Response;
+  try {
+    res = await fetchWithAuth(`/api/recordings/${encodeURIComponent(path)}`, { signal });
+  } catch (e) {
+    if (signal?.aborted) throw e;
+    throw new RecordingFetchError(0);
+  }
+  if (!res.ok) throw new RecordingFetchError(res.status);
+  return URL.createObjectURL(await res.blob());
 }
