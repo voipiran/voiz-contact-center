@@ -626,13 +626,13 @@ PIP_INSTALL_OPTIONS=(
 # Only use --break-system-packages on Debian/Ubuntu systems
 if [ "$OS" == "debian" ] || [ "$OS" == "ubuntu" ]; then
     echo -e "${YELLOW}Installing Python dependencies (Debian/Ubuntu)...${NC}"
-    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" --break-system-packages -r vad/requirements.txt; then
+    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" --break-system-packages -r requirements.txt; then
         echo -e "${RED}Python dependency installation failed.${NC}"
         exit 1
     fi
 else
     echo -e "${YELLOW}Installing Python dependencies (non-Debian system)...${NC}"
-    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" -r vad/requirements.txt; then
+    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" -r requirements.txt; then
         echo -e "${RED}Python dependency installation failed.${NC}"
         exit 1
     fi
