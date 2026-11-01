@@ -3,6 +3,7 @@
 # OpDesk production start script.
 # VOIPIRAN: Frontend must be built before deployment.
 # VOIPIRAN: Production server must never build the frontend.
+# VOIPIRAN: Backend is NestJS (Node.js/TypeScript) - uses node dist/main.js
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -63,47 +64,27 @@ cd "$PROJECT_ROOT/backend" || {
     exit 1
 }
 
-python_supports_opdesk() {
-  "$1" -c 'from contextlib import asynccontextmanager' >/dev/null 2>&1
-}
-
-if [ -n "${PYTHON_BIN:-}" ] &&
-   command -v "$PYTHON_BIN" >/dev/null 2>&1 &&
-   python_supports_opdesk "$PYTHON_BIN"; then
-  :
-else
-  PYTHON_BIN=""
-  for candidate in \
-    /usr/bin/python3.13 \
-    /usr/bin/python3.12 \
-    /usr/bin/python3.11 \
-    /usr/local/bin/python3.13 \
-    /usr/local/bin/python3.12 \
-    /usr/local/bin/python3.11 \
-    python3.13 \
-    python3.12 \
-    python3.11 \
-    python3 \
-    python; do
-    if command -v "$candidate" >/dev/null 2>&1 &&
-       python_supports_opdesk "$candidate"; then
-      PYTHON_BIN="$candidate"
-      break
-    fi
-  done
+# Build TypeScript if dist doesn't exist (production-safe: only if missing)
+if [ ! -f "dist/main.js" ]; then
+    echo -e "${YELLOW}[OpDesk]${NC} Building backend TypeScript..."
+    npm run build || {
+        echo -e "${RED}Error: Backend build failed${NC}"
+        exit 1
+    }
 fi
 
-if [ -z "${PYTHON_BIN:-}" ]; then
-  echo -e "${RED}Error: Python 3.11+ was not found${NC}"
-  exit 1
+if [[ ! -f "dist/main.js" ]]; then
+    echo -e "${RED}Error: Backend dist/main.js not found after build${NC}"
+    exit 1
 fi
 
-"$PYTHON_BIN" server.py &
+echo -e "${GREEN}[OpDesk]${NC} Starting backend on port 8765..."
+node dist/main.js &
 BACKEND_PID=$!
 
 if [[ "$MODE" == "production" ]]; then
 
-    echo -e "${GREEN}[OpDesk]${NC} Backend serving from frontend/dist."
+    echo -e "${GREEN}[OpDesk]${NC} Backend serving from dist/main.js."
     echo -e "${YELLOW}Press Ctrl+C to stop${NC}"
 
     trap "kill $BACKEND_PID 2>/dev/null; exit" SIGINT SIGTERM
