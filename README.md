@@ -6,7 +6,7 @@
 
 [![نسخه](https://img.shields.io/badge/نسخه-Voiz%20Contact%20Center-0f766e?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
 [![زبان](https://img.shields.io/badge/رابط%20کاربری-فارسی%20و%20RTL-2563eb?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
-[![Backend](https://img.shields.io/badge/Backend-Python%20%7C%20FastAPI-3776ab?style=for-the-badge&logo=python&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Backend](https://img.shields.io/badge/Backend-Node.js%20%7C%20NestJS-3776ab?style=for-the-badge&logo=node.js&logoColor=white)](https://nestjs.com/)
 [![Frontend](https://img.shields.io/badge/Frontend-React%20%7C%20TypeScript-149eca?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![PBX](https://img.shields.io/badge/PBX-Asterisk%20%7C%20Issabel%20%7C%20FreePBX-f59e0b?style=for-the-badge)](https://www.asterisk.org/)
 [![License](https://img.shields.io/badge/مجوز-GPL--3.0-22c55e?style=for-the-badge)](LICENSE)
@@ -179,7 +179,7 @@ sudo bash contactcenter.sh
 مرورگر (React + WebRTC)
         │ HTTPS / WSS
         ▼
-Nginx ───────► FastAPI / Uvicorn ───────► Asterisk
+Nginx ───────► NestJS / Node.js ───────► Asterisk
                   │   │                     │
                   │   ├── MySQL / MariaDB  ├── AMI
                   │   ├── CRM Webhook      └── SIP / RTP
@@ -189,7 +189,7 @@ Nginx ───────► FastAPI / Uvicorn ───────► Asteri
 
 | لایه | فناوری‌ها |
 |---|---|
-| Backend | Python 3.11+، FastAPI، Uvicorn، asyncio، WebSocket |
+| Backend | Node.js 20+، NestJS، Express، TypeScript، WebSocket |
 | Frontend | React 18، TypeScript، Vite، React Router |
 | تلفن تحت وب | SIP.js، WebRTC و Asterisk HTTP/WebSocket |
 | پایگاه داده | MySQL / MariaDB، دیتابیس Asterisk و CDR |
