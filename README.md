@@ -8,12 +8,12 @@
 
 ### پنل حرفه‌ای مدیریت، پایش و تحلیل مرکز تماس مبتنی بر Asterisk
 
-[![نسخه](https://img.shields.io/badge/نسخه-Voiz%20Contact%20Center-0f766e?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
-[![زبان](https://img.shields.io/badge/رابط%20کاربری-فارسی%20و%20RTL-2563eb?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
+[![Version](https://img.shields.io/badge/Version-Voiz%20Contact%20Center-0f766e?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
+[![Language](https://img.shields.io/badge/Language-Persian%20%7C%20RTL-2563eb?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
 [![Backend](https://img.shields.io/badge/Backend-Node.js%20%7C%20NestJS-3776ab?style=for-the-badge&logo=node.js&logoColor=white)](https://nestjs.com/)
 [![Frontend](https://img.shields.io/badge/Frontend-React%20%7C%20TypeScript-149eca?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![PBX](https://img.shields.io/badge/PBX-Asterisk%20%7C%20Issabel%20%7C%20FreePBX-f59e0b?style=for-the-badge)](https://www.asterisk.org/)
-[![License](https://img.shields.io/badge/مجوز-GPL--3.0-22c55e?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-GPL--3.0-22c55e?style=for-the-badge)](LICENSE)
 
 **Voiz Contact Center** یک راهکار بومی و یکپارچه برای مدیریت مرکز تماس است که روی Asterisk اجرا می‌شود و اطلاعات تماس، داخلی‌ها، صف‌ها و عملکرد کارشناسان را در یک پنل وب مدرن در اختیار مدیران و کاربران قرار می‌دهد.
 
