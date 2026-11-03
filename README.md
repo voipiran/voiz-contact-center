@@ -2,6 +2,10 @@
 
 # Voiz Contact Center
 
+<a href="./screenshots/cc-fa-stats1.png">
+  <img src="./screenshots/cc-fa-stats1.png" alt="داشبورد آمار مرکز تماس Voiz" width="100%">
+</a>
+
 ### پنل حرفه‌ای مدیریت، پایش و تحلیل مرکز تماس مبتنی بر Asterisk
 
 [![نسخه](https://img.shields.io/badge/نسخه-Voiz%20Contact%20Center-0f766e?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
@@ -22,9 +26,10 @@
 ## فهرست مطالب
 
 - [معرفی کوتاه](#معرفی-کوتاه)
+- [نصب سریع](#نصب-سریع)
+- [تصاویر محیط برنامه](#تصاویر-محیط-برنامه)
 - [قابلیت‌ها](#قابلیت‌ها)
 - [پیش‌نیازها](#پیشنیازها)
-- [نصب سریع](#نصب-سریع)
 - [راه‌اندازی اتصال مرکز تماس](#راهاندازی-اتصال-مرکز-تماس)
 - [معماری و فناوری‌ها](#معماری-و-فناوریها)
 - [ساختار پروژه](#ساختار-پروژه)
@@ -36,6 +41,71 @@
 Voiz Contact Center برای تیم‌هایی طراحی شده است که می‌خواهند بدون جایگزین‌کردن Asterisk، یک لایه مدیریتی و عملیاتی کامل روی سیستم تلفنی خود داشته باشند. سامانه رویدادهای Asterisk را از طریق AMI دریافت می‌کند، وضعیت زنده را از طریق WebSocket به مرورگر می‌رساند و داده‌های تماس و گزارش‌ها را از طریق API در اختیار رابط کاربری قرار می‌دهد.
 
 این راهکار برای استفاده در مرکز تماس، واحد فروش، پشتیبانی، نظرسنجی و تیم‌های خدمات مشتری مناسب است و می‌تواند در کنار تنظیمات فعلی Issabel یا FreePBX نصب شود.
+
+## نصب سریع
+
+### روش پیشنهادی: دریافت نسخه اصلی با tarball
+
+دستور زیر را روی سرور PBX اجرا کنید:
+
+```bash
+cd /opt && \
+rm -rf voiz-contact-center voiz-contact-center.tar.gz && \
+curl -fL https://github.com/voipiran/voiz-contact-center/archive/refs/heads/main.tar.gz \
+  -o voiz-contact-center.tar.gz && \
+tar -xzf voiz-contact-center.tar.gz && \
+mv voiz-contact-center-main voiz-contact-center && \
+cd voiz-contact-center && \
+sudo bash install.sh
+```
+
+### روش جایگزین: دریافت با Git
+
+```bash
+sudo rm -rf /opt/voiz-contact-center
+sudo git clone --depth 1 https://github.com/voipiran/voiz-contact-center.git \
+  /opt/voiz-contact-center
+cd /opt/voiz-contact-center
+sudo bash install.sh
+```
+
+اسکریپت `install.sh` محیط لازم را آماده می‌کند، نسخه bundled برنامه را در مسیر عملیاتی `/opt/OpDesk` قرار می‌دهد، Node.js و Python مورد نیاز را بررسی / نصب می‌کند و سرویس‌های لازم را برای اجرا آماده می‌سازد. نصب‌کننده به‌صورت عمدی کد را از پروژه والد Clone نمی‌کند؛ نسخه هماهنگ‌شده Voiz از همین مخزن استفاده می‌شود.
+
+در ابتدای نصب، اگر `curl` و `openssl` از قبل روی سیستم موجود باشند، هیچ بسته‌ای برای ابزارهای پایه نصب نمی‌شود. نصب Python، Nginx و وابستگی‌های runtime در مراحل بعدی و فقط در صورت نیاز انجام می‌شود؛ در آن مراحل مدیر بسته سیستم‌عامل ممکن است متادیتای Repositoryهای فعال را بررسی کند.
+
+### اجرای مستقیم نسخه موجود در مخزن
+
+اگر پروژه از قبل روی سرور قرار دارد:
+
+```bash
+cd /opt/voiz-contact-center
+sudo bash install.sh
+```
+
+> اجرای نصب با `sudo` توصیه می‌شود، چون اسکریپت با مسیرهای سیستمی، تنظیمات Asterisk و سرویس‌های سیستم‌عامل کار می‌کند.
+
+## تصاویر محیط برنامه
+
+برای مشاهده‌ی بزرگ هر تصویر، روی آن کلیک کنید.
+
+<table>
+  <tr>
+    <td><a href="./screenshots/cc-fa-dashboard1.png"><img src="./screenshots/cc-fa-dashboard1.png" alt="داشبورد فارسی" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-queue1.png"><img src="./screenshots/cc-fa-queue1.png" alt="پایش صف" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-stats1.png"><img src="./screenshots/cc-fa-stats1.png" alt="آمار مرکز تماس" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-webphone1.png"><img src="./screenshots/cc-fa-webphone1.png" alt="وب‌فون" width="180"></a></td>
+    <td><a href="./screenshots/extensions.png"><img src="./screenshots/extensions.png" alt="داخلی‌ها" width="180"></a></td>
+    <td><a href="./screenshots/call_log.png"><img src="./screenshots/call_log.png" alt="تاریخچه تماس" width="180"></a></td>
+  </tr>
+  <tr>
+    <td><a href="./screenshots/dashboard_dark.png"><img src="./screenshots/dashboard_dark.png" alt="داشبورد تاریک" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-queue1-dark.png"><img src="./screenshots/cc-fa-queue1-dark.png" alt="صف در حالت تاریک" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-stats1-dark.png"><img src="./screenshots/cc-fa-stats1-dark.png" alt="آمار در حالت تاریک" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-webphone1-white.png"><img src="./screenshots/cc-fa-webphone1-white.png" alt="وب‌فون روشن" width="180"></a></td>
+    <td><a href="./screenshots/softphone.png"><img src="./screenshots/softphone.png" alt="سافت‌فون" width="180"></a></td>
+    <td><a href="./screenshots/mobile_qr.png"><img src="./screenshots/mobile_qr.png" alt="ورود موبایل با QR" width="180"></a></td>
+  </tr>
+</table>
 
 ## قابلیت‌ها
 
@@ -94,48 +164,6 @@ Voiz Contact Center برای تیم‌هایی طراحی شده است که م�
 | نصب عمومی | برای HTTPS عمومی، دامنه‌ای که به سرور اشاره کند و دسترسی پورت ۸۰ برای Let's Encrypt |
 
 > **نکته پورت‌ها:** در Issabel و FreePBX معمولاً Apache پورت‌های ۸۰ و ۴۴۳ را در اختیار دارد. اسکریپت نصب در صورت نیاز پورت جایگزین HTTPS (پیش‌فرض `8443`) را پیشنهاد می‌کند. پیش از نصب، وضعیت سرویس‌های فعال و فایروال را بررسی کنید.
-
-## نصب سریع
-
-### روش پیشنهادی: دریافت نسخه اصلی با tarball
-
-دستور زیر را روی سرور PBX اجرا کنید:
-
-```bash
-cd /opt && \
-rm -rf voiz-contact-center voiz-contact-center.tar.gz && \
-curl -fL https://github.com/voipiran/voiz-contact-center/archive/refs/heads/main.tar.gz \
-  -o voiz-contact-center.tar.gz && \
-tar -xzf voiz-contact-center.tar.gz && \
-mv voiz-contact-center-main voiz-contact-center && \
-cd voiz-contact-center && \
-sudo bash install.sh
-```
-
-### روش جایگزین: دریافت با Git
-
-```bash
-sudo rm -rf /opt/voiz-contact-center
-sudo git clone --depth 1 https://github.com/voipiran/voiz-contact-center.git \
-  /opt/voiz-contact-center
-cd /opt/voiz-contact-center
-sudo bash install.sh
-```
-
-اسکریپت `install.sh` محیط لازم را آماده می‌کند، نسخه bundled برنامه را در مسیر عملیاتی `/opt/OpDesk` قرار می‌دهد، Node.js و Python مورد نیاز را بررسی / نصب می‌کند و سرویس‌های لازم را برای اجرا آماده می‌سازد. نصب‌کننده به‌صورت عمدی کد را از پروژه والد Clone نمی‌کند؛ نسخه هماهنگ‌شده Voiz از همین مخزن استفاده می‌شود.
-
-در ابتدای نصب، اگر `curl` و `openssl` از قبل روی سیستم موجود باشند، هیچ بسته‌ای برای ابزارهای پایه نصب نمی‌شود. نصب Python، Nginx و وابستگی‌های runtime در مراحل بعدی و فقط در صورت نیاز انجام می‌شود؛ در آن مراحل مدیر بسته سیستم‌عامل ممکن است متادیتای Repositoryهای فعال را بررسی کند.
-
-### اجرای مستقیم نسخه موجود در مخزن
-
-اگر پروژه از قبل روی سرور قرار دارد:
-
-```bash
-cd /opt/voiz-contact-center
-sudo bash install.sh
-```
-
-> اجرای نصب با `sudo` توصیه می‌شود، چون اسکریپت با مسیرهای سیستمی، تنظیمات Asterisk و سرویس‌های سیستم‌عامل کار می‌کند.
 
 ## راه‌اندازی اتصال مرکز تماس
 
