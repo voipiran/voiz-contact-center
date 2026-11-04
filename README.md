@@ -1,6 +1,6 @@
 <div dir="rtl">
 
-# Voiz Contact Center
+# Voiz Console
 
 <a href="./screenshots/cc-fa-stats1.png">
   <img src="./screenshots/cc-fa-stats1.png" alt="داشبورد آمار مرکز تماس Voiz" width="100%">
