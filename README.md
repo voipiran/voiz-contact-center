@@ -78,7 +78,7 @@ sudo bash install.sh
 اگر پروژه از قبل روی سرور قرار دارد:
 
 ```bash
-cd /opt/voiz-contact-center
+cd /opt/voiz-console
 sudo bash install.sh
 ```
 
