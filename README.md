@@ -50,22 +50,22 @@ Voiz Contact Center برای تیم‌هایی طراحی شده است که م�
 
 ```bash
 cd /opt && \
-rm -rf voiz-contact-center voiz-contact-center.tar.gz && \
-curl -fL https://github.com/voipiran/voiz-contact-center/archive/refs/heads/main.tar.gz \
-  -o voiz-contact-center.tar.gz && \
-tar -xzf voiz-contact-center.tar.gz && \
-mv voiz-contact-center-main voiz-contact-center && \
-cd voiz-contact-center && \
+rm -rf voiz-console voiz-console.tar.gz && \
+curl -fL https://github.com/voipiran/voiz-console/archive/refs/heads/main.tar.gz \
+  -o voiz-console.tar.gz && \
+tar -xzf voiz-console.tar.gz && \
+mv voiz-console-main voiz-console && \
+cd voiz-console && \
 sudo bash install.sh
 ```
 
 ### روش جایگزین: دریافت با Git
 
 ```bash
-sudo rm -rf /opt/voiz-contact-center
-sudo git clone --depth 1 https://github.com/voipiran/voiz-contact-center.git \
-  /opt/voiz-contact-center
-cd /opt/voiz-contact-center
+sudo rm -rf /opt/voiz-console
+sudo git clone --depth 1 https://github.com/voipiran/voiz-console.git \
+  /opt/voiz-console
+cd /opt/voiz-console
 sudo bash install.sh
 ```
 
