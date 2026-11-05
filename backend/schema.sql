@@ -1,20 +1,34 @@
--- OpDesk Database Schema
--- This file contains the database schema for the Asterisk Operator Panel
+-- OpDesk database schema (the application database, DB_OpDesk, default "OpDesk").
 --
--- MariaDB 5.5 / MySQL 5.5 compatibility notes (Sangoma 7 / CentOS 7):
+-- One source of truth for the tables: the backend's startup migration
+-- (src/db/migrate.ts) runs every CREATE TABLE IF NOT EXISTS below, in file order, on
+-- each start, then adds missing columns through information_schema-guarded ALTERs and
+-- writes the seeds (admin account, default Not-Ready codes, the __WRAPUP system code,
+-- default settings). An upgraded database and a fresh one therefore end up with the
+-- same tables. The file can also be applied by hand or by the installer
+-- (mysql < schema.sql); it holds DDL only, so re-running it never brings back rows an
+-- admin deleted.
+--
+-- Table order matters: a table appears after every table its foreign keys reference.
+--
+-- MariaDB 5.5 / MySQL 5.5 compatibility (Sangoma 7 / CentOS 7):
 --   1. VARCHAR(255) PRIMARY KEY with utf8mb4 exceeds the 767-byte InnoDB key limit
---      (255 chars × 4 bytes = 1020 bytes). Fixed by reducing to VARCHAR(191).
---   2. DATETIME DEFAULT CURRENT_TIMESTAMP is not supported before MySQL 5.6 /
---      MariaDB 10.0. Fixed by using TIMESTAMP for auto-populated columns.
---   3. SET GLOBAL event_scheduler requires SUPER privilege. Wrapped in a comment
---      with instructions to set it in my.cnf instead.
+--      (255 chars x 4 bytes = 1020 bytes), hence VARCHAR(191) keys.
+--   2. DATETIME DEFAULT CURRENT_TIMESTAMP needs MySQL 5.6 / MariaDB 10.0, hence
+--      TIMESTAMP for auto-populated columns.
+--   3. No JSON columns, no ADD COLUMN IF NOT EXISTS: JSON is kept in TEXT, and column
+--      additions are guarded by the migration instead.
+--
+-- Housekeeping is done by the backend's daily job, not by MySQL EVENTs: the event
+-- scheduler needs SUPER to enable and is off on these boxes. (Older installs carry an
+-- evt_cleanup_read_call_notifications event; it is harmless and can be dropped.)
 
--- Create OpDesk database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS OpDesk CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- Use OpDesk database
 USE OpDesk;
 
+-- =============================================================================
+-- Settings
+-- =============================================================================
 -- Settings table for storing application configuration
 -- FIX: VARCHAR(191) instead of VARCHAR(255) to stay within 767-byte InnoDB key
 --      limit when using utf8mb4 (191 × 4 = 764 bytes < 767 bytes).
@@ -25,7 +39,7 @@ CREATE TABLE IF NOT EXISTS OpDesk_settings (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- =============================================================================
--- Authentication & Authorization
+-- Accounts, groups, agents and queues
 -- =============================================================================
 
 -- User table (login by username or extension)
@@ -47,6 +61,76 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX idx_extension (extension),
     INDEX idx_active (is_active)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- User monitor modes: multiple modes per user (listen, whisper, barge).
+-- (Legacy: if your users table still has monitor_mode column, you can drop it: ALTER TABLE users DROP COLUMN monitor_mode;)
+CREATE TABLE IF NOT EXISTS user_monitor_modes (
+    user_id INT NOT NULL,
+    mode VARCHAR(20) NOT NULL,
+    PRIMARY KEY (user_id, mode),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_user (user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Agents table
+CREATE TABLE IF NOT EXISTS agents (
+    extension VARCHAR(20) PRIMARY KEY,
+    name VARCHAR(100),
+    INDEX idx_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Queues table
+CREATE TABLE IF NOT EXISTS queues (
+    extension VARCHAR(20) PRIMARY KEY,
+    queue_name VARCHAR(100) UNIQUE NOT NULL,
+    INDEX idx_queue_name (queue_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Groups table
+-- FIX: created_at changed from DATETIME to TIMESTAMP for MariaDB 5.5 compatibility.
+CREATE TABLE IF NOT EXISTS groups (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_name (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Junction: users <-> groups (optionally override monitor_mode per group)
+CREATE TABLE IF NOT EXISTS user_groups (
+    user_id INT,
+    group_id INT,
+    -- NULL = use user's default monitor_mode; otherwise overrides for this group. Values must match user_monitor_modes: listen, whisper, barge.
+    monitor_mode ENUM('listen', 'whisper', 'barge') NULL DEFAULT NULL,
+    PRIMARY KEY (user_id, group_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+    INDEX idx_group (group_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Junction: groups <-> agents
+CREATE TABLE IF NOT EXISTS group_agents (
+    group_id INT,
+    agent_ext VARCHAR(20),
+    PRIMARY KEY (group_id, agent_ext),
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+    FOREIGN KEY (agent_ext) REFERENCES agents(extension) ON DELETE CASCADE,
+    INDEX idx_agent (agent_ext)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Junction: groups <-> queues (uses queues.extension like group_agents uses agents.extension)
+CREATE TABLE IF NOT EXISTS group_queues (
+    group_id INT,
+    queue_extension VARCHAR(20),
+    PRIMARY KEY (group_id, queue_extension),
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+    FOREIGN KEY (queue_extension) REFERENCES queues(extension) ON DELETE CASCADE,
+    INDEX idx_queue (queue_extension)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================================================
+-- Calls
+-- =============================================================================
 
 -- Call notifications: one row per call hangup for an extension (created in AMI _ev_Hangup).
 -- UI can mark as read or archived.
@@ -85,6 +169,28 @@ CREATE TABLE IF NOT EXISTS call_vad (
     INDEX idx_uniqueid (uniqueid),
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Supervision events: one row per ChanSpy leg (listen/whisper/barge), keyed by the
+-- spy channel's linkedid (== the deterministic ChannelId set when originating the spy).
+-- Lets the call log flag/hide the standalone ChanSpy CDR row and attach it to the
+-- monitored call it supervised.
+CREATE TABLE IF NOT EXISTS call_supervision (
+    id                    INT PRIMARY KEY AUTO_INCREMENT,
+    spy_linkedid          VARCHAR(64) NOT NULL UNIQUE,   -- linkedid of the ChanSpy leg (its own CDR call); == the ChannelId we set
+    spy_uniqueid          VARCHAR(64) NULL,              -- uniqueid of the ChanSpy leg (usually == spy_linkedid)
+    target_linkedid       VARCHAR(64) NULL,              -- the monitored call this supervision belongs to
+    target_extension      VARCHAR(20) NULL,              -- the spied-on agent's extension
+    supervisor_extension  VARCHAR(20) NULL,              -- the supervisor doing listen/whisper/barge
+    mode                  ENUM('listen','whisper','barge') NOT NULL DEFAULT 'listen',
+    created_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_spy_linkedid (spy_linkedid),
+    INDEX idx_target_linkedid (target_linkedid),
+    INDEX idx_created_at (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================================================
+-- Push (mobile and browser softphones)
+-- =============================================================================
 
 -- Device push tokens: one row per (device, token_type). A mobile softphone registers its
 -- FCM/APNs token here so the backend can wake it for incoming calls (VoIP push) and send
@@ -132,96 +238,55 @@ CREATE TABLE IF NOT EXISTS sip_push_bindings (
     INDEX idx_prid (prid_hash)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Delete read call_notifications older than 7 days (runs daily via MySQL event scheduler).
--- FIX: SET GLOBAL event_scheduler requires SUPER privilege which the OpDesk DB
---      user does not have. Enable it system-wide instead by adding the following
---      line to /etc/my.cnf under [mysqld]:
---          event_scheduler = ON
---      Then restart MariaDB: systemctl restart mariadb
--- SET GLOBAL event_scheduler = ON;
+-- =============================================================================
+-- Contact center: Not-Ready codes and agent presence
+-- =============================================================================
 
-DROP EVENT IF EXISTS evt_cleanup_read_call_notifications;
-CREATE EVENT IF NOT EXISTS evt_cleanup_read_call_notifications
-ON SCHEDULE EVERY 1 DAY
-STARTS CURRENT_TIMESTAMP
-DO
-  DELETE FROM call_notifications
-  WHERE status_flag = 'read'
-    AND event_time < DATE_SUB(NOW(), INTERVAL 7 DAY);
-
--- Default admin user (password is bcrypt hash; use INSERT IGNORE so existing DB is not broken)
--- Monitor modes are stored in user_monitor_modes (admin gets all by backfill).
-INSERT IGNORE INTO users (username, password_hash, name, role) VALUES
-('admin', '$2b$12$BGZ/sGBqq7XxiC5MxVOlE.lsyU4Pkg1nVhs0VjEgzekDMUBiYx4PS', 'Admin', 'admin');
-
--- Agents table
-CREATE TABLE IF NOT EXISTS agents (
-    extension VARCHAR(20) PRIMARY KEY,
-    name VARCHAR(100),
-    INDEX idx_name (name)
+-- Not-Ready Codes (pause reasons): agents pick one when going Not-Ready (QueuePause
+-- reason). `productive` splits paid work (meeting, training) from breaks for adherence.
+-- is_system rows (code prefix "__", e.g. __WRAPUP = after-call work) are used by the
+-- backend itself: hidden from the agent picker, never edited or deleted via the API.
+-- The migration seeds the 4 default codes into an EMPTY table only (deleted codes stay
+-- deleted) and the system codes on every start.
+CREATE TABLE IF NOT EXISTS pause_reasons (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    code        VARCHAR(64) NOT NULL UNIQUE,
+    label       VARCHAR(191) NOT NULL,
+    productive  TINYINT(1) NOT NULL DEFAULT 0,
+    color       VARCHAR(16) DEFAULT NULL,
+    sort_order  INT NOT NULL DEFAULT 100,
+    is_active   TINYINT(1) NOT NULL DEFAULT 1,
+    is_system   TINYINT(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Queues table
-CREATE TABLE IF NOT EXISTS queues (
-    extension VARCHAR(20) PRIMARY KEY,
-    queue_name VARCHAR(100) UNIQUE NOT NULL,
-    INDEX idx_queue_name (queue_name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Groups table
--- FIX: created_at changed from DATETIME to TIMESTAMP for MariaDB 5.5 compatibility.
-CREATE TABLE IF NOT EXISTS groups (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    INDEX idx_name (name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Junction: groups <-> agents
-CREATE TABLE IF NOT EXISTS group_agents (
-    group_id INT,
-    agent_ext VARCHAR(20),
-    PRIMARY KEY (group_id, agent_ext),
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
-    FOREIGN KEY (agent_ext) REFERENCES agents(extension) ON DELETE CASCADE,
-    INDEX idx_agent (agent_ext)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Junction: groups <-> queues (uses queues.extension like group_agents uses agents.extension)
-CREATE TABLE IF NOT EXISTS group_queues (
-    group_id INT,
-    queue_extension VARCHAR(20),
-    PRIMARY KEY (group_id, queue_extension),
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
-    FOREIGN KEY (queue_extension) REFERENCES queues(extension) ON DELETE CASCADE,
-    INDEX idx_queue (queue_extension)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- User monitor modes: multiple modes per user (listen, whisper, barge).
--- (Legacy: if your users table still has monitor_mode column, you can drop it: ALTER TABLE users DROP COLUMN monitor_mode;)
-CREATE TABLE IF NOT EXISTS user_monitor_modes (
-    user_id INT NOT NULL,
-    mode VARCHAR(20) NOT NULL,
-    PRIMARY KEY (user_id, mode),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    INDEX idx_user (user_id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Junction: users <-> groups (optionally override monitor_mode per group)
-CREATE TABLE IF NOT EXISTS user_groups (
-    user_id INT,
-    group_id INT,
-    -- NULL = use user's default monitor_mode; otherwise overrides for this group. Values must match user_monitor_modes: listen, whisper, barge.
-    monitor_mode ENUM('listen', 'whisper', 'barge') NULL DEFAULT NULL,
-    PRIMARY KEY (user_id, group_id),
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
-    INDEX idx_group (group_id)
+-- Agent presence segments — the Agent Adherence report's data source. One append-only
+-- row per presence period; ended_at IS NULL marks the currently-open segment. Written
+-- by the agent state service from the agent login/logout/status actions and reconciled
+-- from AMI (AgentConnect -> on_call, AgentComplete -> wrap_up, pause/unpause). Sessions,
+-- break and DND time are derived from these rows by the adherence report.
+--   ready       = logged into queue(s), not paused, not on an ACD call
+--   on_call     = connected to an ACD call (AgentConnect -> AgentComplete)
+--   not_ready   = logged in, paused with a pause_reasons.code
+--   wrap_up     = paused with the system reason __WRAPUP (after-call work)
+--   dnd         = logged in, Do Not Disturb
+CREATE TABLE IF NOT EXISTS agent_activity (
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    agent_ext     VARCHAR(20) NOT NULL,
+    state         VARCHAR(20) NOT NULL,               -- ready / on_call / not_ready / wrap_up / dnd
+    reason_code   VARCHAR(64) NULL,                   -- pause_reasons.code when state=not_ready/wrap_up
+    queue         VARCHAR(40) NULL,                   -- ACD queue for on_call, if known
+    linkedid      VARCHAR(64) NULL,                   -- the call, for on_call
+    started_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ended_at      TIMESTAMP NULL DEFAULT NULL,
+    duration_secs INT NULL,                           -- filled when the segment closes
+    source        VARCHAR(20) NOT NULL DEFAULT 'ui',  -- ui / ami / system
+    INDEX idx_agent_started (agent_ext, started_at),
+    INDEX idx_started (started_at),
+    INDEX idx_open (agent_ext, ended_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- =============================================================================
--- Analytics Module
+-- Analytics
 -- =============================================================================
 
 -- Per-queue SLA threshold configuration.
@@ -235,18 +300,24 @@ CREATE TABLE IF NOT EXISTS analytics_sla_settings (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Global FCR and short-abandon configuration (singleton row, id=1).
--- INSERT IGNORE ensures only one row is ever created.
+-- The migration seeds the id=1 row (INSERT IGNORE).
 -- FIX: DATETIME → TIMESTAMP for MariaDB 5.5 compatibility.
+--
+-- callback_window_hours: how long after a call one of OUR outbound calls to the same
+-- customer still counts as us calling them back. FCR reads such a callback as proof the
+-- first contact did not resolve anything, and the abandoned-caller recovery figure reads it
+-- as reaching someone who gave up waiting. One setting for both, so the same call cannot be
+-- a recovery but not an FCR repeat. 0 turns callbacks off. Older databases gain the column
+-- through the migration's column guards (src/db/migrate.ts).
 CREATE TABLE IF NOT EXISTS analytics_fcr_settings (
-    id                  TINYINT PRIMARY KEY DEFAULT 1,
-    window_days         TINYINT UNSIGNED NOT NULL DEFAULT 7,
-    short_abandon_secs  SMALLINT UNSIGNED NOT NULL DEFAULT 5,
-    updated_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id                    TINYINT PRIMARY KEY DEFAULT 1,
+    window_days           TINYINT UNSIGNED NOT NULL DEFAULT 7,
+    short_abandon_secs    SMALLINT UNSIGNED NOT NULL DEFAULT 5,
+    callback_window_hours SMALLINT UNSIGNED NOT NULL DEFAULT 24,
+    updated_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-INSERT IGNORE INTO analytics_fcr_settings (id, window_days, short_abandon_secs)
-VALUES (1, 7, 5);
 
--- Pre-aggregated hourly metrics per queue (populated by Python background task every 15 min).
+-- Pre-aggregated hourly metrics per queue (populated by the analytics background task every 15 min).
 -- UNIQUE KEY on (hour_bucket, queue_extension) allows INSERT ... ON DUPLICATE KEY UPDATE.
 -- FIX: hour_bucket is DATETIME (not TIMESTAMP) because timestamps beyond 2038 are valid here.
 CREATE TABLE IF NOT EXISTS analytics_hourly (
@@ -303,76 +374,11 @@ CREATE TABLE IF NOT EXISTS analytics_agent_daily (
     INDEX idx_agent (agent_extension)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Default analytics settings
-INSERT IGNORE INTO OpDesk_settings (setting_key, setting_value) VALUES
-('SLA_DEFAULT_SECS', '20'),
-('ANALYTICS_ENABLED', 'true');
+-- =============================================================================
+-- Integrations: API keys, CRM delivery log, contacts
+-- =============================================================================
 
--- Not-Ready Codes (pause reasons) — agents pick one when going Not-Ready
--- (queue_pause reason_code). Also created/seeded at startup by init_pause_reasons_table().
-CREATE TABLE IF NOT EXISTS pause_reasons (
-    id          INT AUTO_INCREMENT PRIMARY KEY,
-    code        VARCHAR(64) NOT NULL UNIQUE,
-    label       VARCHAR(191) NOT NULL,
-    productive  TINYINT(1) NOT NULL DEFAULT 0,
-    color       VARCHAR(16) DEFAULT NULL,
-    sort_order  INT NOT NULL DEFAULT 100,
-    is_active   TINYINT(1) NOT NULL DEFAULT 1,
-    is_system   TINYINT(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT IGNORE INTO pause_reasons (code, label, productive, color, sort_order, is_active, is_system) VALUES
-('break',    'Break',    0, '#d29922', 10, 1, 0),
-('lunch',    'Lunch',    0, '#f85149', 20, 1, 0),
-('meeting',  'Meeting',  1, '#58a6ff', 30, 1, 0),
-('training', 'Training', 1, '#3fb950', 40, 1, 0);
-
--- Agent presence segments — the Agent Adherence report's data source. One append-only
--- row per presence period; ended_at IS NULL marks the currently-open segment. Written
--- by the presence recorder (backend/agent_presence.py) from the agent login/logout/
--- status endpoints and reconciled from AMI (AgentConnect -> on_call, pause/unpause).
--- Also created at startup by init_agent_activity_table().
---   ready       = logged into queue(s), not paused, not on an ACD call
---   on_call     = connected to an ACD call (AgentConnect -> AgentComplete)
---   not_ready   = logged in, paused with a pause_reasons.code
---   wrap_up     = paused with the system reason __WRAPUP (after-call work), if used
-CREATE TABLE IF NOT EXISTS agent_activity (
-    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
-    agent_ext     VARCHAR(20) NOT NULL,
-    state         VARCHAR(20) NOT NULL,               -- ready / on_call / not_ready / wrap_up
-    reason_code   VARCHAR(64) NULL,                   -- pause_reasons.code when state=not_ready/wrap_up
-    queue         VARCHAR(40) NULL,                   -- ACD queue for on_call, if known
-    linkedid      VARCHAR(64) NULL,                   -- the call, for on_call
-    started_at    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    ended_at      TIMESTAMP NULL DEFAULT NULL,
-    duration_secs INT NULL,                           -- filled when the segment closes
-    source        VARCHAR(20) NOT NULL DEFAULT 'ui',  -- ui / ami / system
-    INDEX idx_agent_started (agent_ext, started_at),
-    INDEX idx_started (started_at),
-    INDEX idx_open (agent_ext, ended_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Supervision events: one row per ChanSpy leg (listen/whisper/barge), keyed by the
--- spy channel's linkedid (== the deterministic ChannelId set when originating the spy).
--- Lets the call log flag/hide the standalone ChanSpy CDR row and attach it to the
--- monitored call it supervised.
-CREATE TABLE IF NOT EXISTS call_supervision (
-    id                    INT PRIMARY KEY AUTO_INCREMENT,
-    spy_linkedid          VARCHAR(64) NOT NULL UNIQUE,   -- linkedid of the ChanSpy leg (its own CDR call); == the ChannelId we set
-    spy_uniqueid          VARCHAR(64) NULL,              -- uniqueid of the ChanSpy leg (usually == spy_linkedid)
-    target_linkedid       VARCHAR(64) NULL,              -- the monitored call this supervision belongs to
-    target_extension      VARCHAR(20) NULL,              -- the spied-on agent's extension
-    supervisor_extension  VARCHAR(20) NULL,              -- the supervisor doing listen/whisper/barge
-    mode                  ENUM('listen','whisper','barge') NOT NULL DEFAULT 'listen',
-    created_at            TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_spy_linkedid (spy_linkedid),
-    INDEX idx_target_linkedid (target_linkedid),
-    INDEX idx_created_at (created_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- ---------------------------------------------------------------------------
 -- Machine-to-machine API keys
--- ---------------------------------------------------------------------------
 -- Long-lived system credentials scoped to an explicit permission list. The
 -- plaintext key (prefix "opd_") is shown once at creation; only its SHA-256 hash
 -- is stored. `scopes` is a JSON array of permission tokens, kept as TEXT rather
@@ -392,12 +398,22 @@ CREATE TABLE IF NOT EXISTS api_keys (
     INDEX idx_api_key_prefix (key_prefix)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------------------------
--- CRM webhook delivery log
--- ---------------------------------------------------------------------------
--- One row per CRM push attempt (Logs -> Deliveries in the UI). The push is
--- fire-and-forget with no automatic retry, so this is the only record an operator
--- has of a failed delivery, and the source a manual Resend replays from.
+-- CRM webhook delivery log + retry queue
+-- One row per CRM push (Logs -> Deliveries in the UI): recorded BEFORE the first
+-- attempt, so a CRM that is down or 500-ing costs a retry rather than the call. The
+-- retry worker re-sends a row while it is 'pending' and due; a manual Resend makes a
+-- new row (attempt + 1, parent_id = the original) from the stored request_body.
+--
+-- status: pending   -> queued; next_attempt_at is when the worker may try again
+--         delivered -> the CRM answered 2xx
+--         failed    -> permanent rejection (a 4xx the CRM will reject again)
+--         abandoned -> retryable, but max_attempts is spent
+-- `attempts` counts the sends of THIS row (bumped when the worker claims it, and the
+-- claim leases the row by pushing next_attempt_at forward, so a process that dies
+-- mid-send leaves nothing stuck); `attempt` is the resend lineage (1 = original).
+-- `delivery_uuid` goes out as the Idempotency-Key / X-OpDesk-Delivery-Id header, so a
+-- receiver can discard a retry of a push whose first attempt landed but whose
+-- response never came back.
 --
 -- PRIVACY: rows contain call metadata (phone numbers, caller/agent names,
 -- extensions) and the full request body, so this table inherits the database's
@@ -425,21 +441,35 @@ CREATE TABLE IF NOT EXISTS webhook_deliveries (
     parent_id     BIGINT        NULL,      -- the delivery a resend derives from
     resent_by     INT           NULL,      -- users.id who clicked Resend
     truncated     TINYINT(1)    NOT NULL DEFAULT 0,      -- request_body was clipped => not resendable
+    delivery_uuid CHAR(36)      NULL,      -- idempotency key sent with every attempt
+    status        VARCHAR(12)   NOT NULL DEFAULT 'pending',  -- pending | delivered | failed | abandoned
+    attempts      SMALLINT UNSIGNED NOT NULL DEFAULT 1,  -- sends of this row so far
+    max_attempts  SMALLINT UNSIGNED NOT NULL DEFAULT 1,  -- the retry budget stamped at push time
+    next_attempt_at DATETIME    NULL,      -- when the worker may send again; NULL once terminal
+    endpoint_path VARCHAR(255)  NULL,      -- path as resolved at push time (retries reuse it)
+    trigger_kind  VARCHAR(16)   NOT NULL DEFAULT 'hangup',   -- hangup | wrapup | resend
+    delivered_at  DATETIME      NULL,
     INDEX idx_created (created_at),
     INDEX idx_call (call_id),
     INDEX idx_success_created (success, created_at),
-    INDEX idx_parent (parent_id)
+    INDEX idx_parent (parent_id),
+    UNIQUE KEY uq_delivery_uuid (delivery_uuid),
+    -- The worker's hot query: due pending rows, oldest deadline first.
+    INDEX idx_due (status, next_attempt_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ---------------------------------------------------------------------------
 -- Contacts (system phonebook). One row per phone number; the single source of
--- truth for caller names on dashboards and the softphone. source says where
--- the row came from: 'manual' = created/edited by an admin in the Contacts
--- page, 'crm' = auto-inserted by the CRM lookup the first time a number
--- resolved. A CRM lookup never overwrites an existing row, so manual data
--- always wins; editing a crm row flips it to manual (it is curated now).
--- phone_key is the normalized match key (digits only, reduced to the last N
--- per CRM_LOOKUP_MATCH_DIGITS for crm rows).
+-- truth for caller names on dashboards and the softphone. source is the
+-- precedence ladder, highest first: 'manual' (created/edited by an admin in the
+-- Contacts page) > 'api' (pushed by an external system over an API key with
+-- contacts:write) > 'crm' (auto-inserted by the CRM lookup the first time a
+-- number resolved). A lower source never overwrites a higher one, so curated
+-- data always wins; editing a row in the UI flips it to manual.
+-- phone_key is the normalized match key: digits only, reduced to the last N per
+-- CRM_LOOKUP_MATCH_DIGITS, for every source, so the UNIQUE below means what the
+-- resolver's in-memory map means.
+-- external_id + source_system are the pushing system's own identity, so a contact
+-- whose number changed upstream updates its row instead of stranding it.
 -- PRIVACY: contains customer phone numbers and names.
 CREATE TABLE IF NOT EXISTS contacts (
     id         INT AUTO_INCREMENT PRIMARY KEY,
@@ -448,8 +478,38 @@ CREATE TABLE IF NOT EXISTS contacts (
     phone_key  VARCHAR(32)  NOT NULL,     -- normalized digits (match key)
     company    VARCHAR(255) NULL,
     notes      TEXT NULL,
-    source     ENUM('manual','crm') NOT NULL DEFAULT 'manual',
+    source     ENUM('manual','api','crm') NOT NULL DEFAULT 'manual',
+    external_id   VARCHAR(128) NULL,      -- id in the pushing system
+    source_system VARCHAR(48)  NULL,      -- which system pushed it
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE KEY uniq_phone_key (phone_key)
+    UNIQUE KEY uniq_phone_key (phone_key),
+    -- (48 + 128) * 4 bytes stays under MariaDB 5.5's 767-byte index limit.
+    UNIQUE KEY uniq_contact_external (source_system, external_id),
+    -- Keyset paging walks (name, id); a prefix keeps the key under the same limit.
+    INDEX idx_contact_name (name(150), id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =============================================================================
+-- Audit trail
+-- =============================================================================
+
+-- One row per mutating API request (2xx POST/PUT/PATCH/DELETE under /api), written by
+-- the audit middleware. `detail` is JSON a route attached to say what the mutation
+-- carried or removed (allowlisted fields only, never a request body); NULL otherwise,
+-- capped at 64K characters by the writer.
+CREATE TABLE IF NOT EXISTS audit_log (
+    id            BIGINT PRIMARY KEY AUTO_INCREMENT,
+    actor_ext     VARCHAR(191) NULL,
+    actor_user_id INT NULL,
+    action        VARCHAR(16) NOT NULL,
+    entity_type   VARCHAR(64) NOT NULL,
+    entity_id     VARCHAR(64) NULL,
+    summary       TEXT NULL,
+    ip            VARCHAR(64) NULL,
+    detail        MEDIUMTEXT NULL,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_audit_entity (entity_type, entity_id),
+    INDEX idx_audit_created (created_at),
+    INDEX idx_audit_actor (actor_ext)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

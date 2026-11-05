@@ -14,7 +14,9 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m' 
 
-clear
+if [[ -t 1 && -n "${TERM:-}" ]] && command -v clear >/dev/null 2>&1; then
+    clear || true
+fi
 
 # Function to check if command exists
 command_exists() {
@@ -172,24 +174,43 @@ echo -e "${GREEN}Offline OpDesk project prepared successfully.${NC}"
 
 
 
-# --- Step 4: NVM & Node 24 ---
-echo -e "\n${YELLOW}Step 4: Installing NVM & Node.js 24...${NC}"
-export NVM_DIR="$HOME/.nvm"
-if [ ! -d "$NVM_DIR" ]; then
+# --- Step 4: Node.js runtime and NestJS backend build ---
+echo -e "\n${YELLOW}Step 4: Installing/checking Node.js runtime...${NC}"
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+if [ ! -s "$NVM_DIR/nvm.sh" ]; then
     echo -e "${YELLOW}Installing NVM...${NC}"
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-else
-    echo -e "${GREEN}NVM already installed — skipping.${NC}"
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 fi
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-CURRENT_NODE=$(node --version 2>/dev/null | grep -oE '^v24\.' || true)
-if [ -n "$CURRENT_NODE" ]; then
-    echo -e "${GREEN}Node.js 24 already active ($(node --version)) — skipping install.${NC}"
-    nvm use 24 2>/dev/null || true
-else
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    . "$NVM_DIR/nvm.sh"
+fi
+NODE_MAJOR=""
+if command_exists node; then
+    NODE_MAJOR=$(node --version | sed -n 's/^v\([0-9][0-9]*\).*/\1/p')
+fi
+if [ -z "$NODE_MAJOR" ] || [ "$NODE_MAJOR" -lt 20 ]; then
     echo -e "${YELLOW}Installing Node.js 24...${NC}"
-    nvm install 24 && nvm use 24 && nvm alias default 24
+    command_exists nvm || { echo -e "${RED}NVM is not available.${NC}"; exit 1; }
+    nvm install 24
+    nvm use 24
+    nvm alias default 24
 fi
+echo -e "${GREEN}Using Node.js $(node --version) and npm $(npm --version)${NC}"
+
+cd "$PROJECT_ROOT/backend"
+if [ ! -f package.json ] || [ ! -f package-lock.json ]; then
+    echo -e "${RED}NestJS backend package manifests are missing.${NC}"
+    exit 1
+fi
+echo -e "${YELLOW}Installing NestJS backend dependencies...${NC}"
+npm ci
+echo -e "${YELLOW}Building NestJS backend...${NC}"
+npm run build
+if [ ! -f "$PROJECT_ROOT/backend/dist/main.js" ]; then
+    echo -e "${RED}NestJS backend build did not produce dist/main.js.${NC}"
+    exit 1
+fi
+echo -e "${GREEN}NestJS backend built successfully.${NC}"
 
 # --- Step 5: ORIGINAL PYTHON LOGIC ---
 echo -e "\n${YELLOW}Step 5: Installing Python ...${NC}"
@@ -619,9 +640,9 @@ fi
 echo -e "\n${YELLOW}Step 8: Configuring Application, HTTPS & Installing Dependencies...${NC}"
 cd "$PROJECT_ROOT/backend"
 
-# PyPI downloads can be slow on PBX hosts and may use files.pythonhosted.org
-# for wheel files. Use a longer timeout and retries so a transient network
-# stall does not abort an otherwise valid installation.
+# VAD is the only remaining Python component. The application backend is
+# NestJS, so the legacy root-level requirements.txt must not be installed.
+# PyPI downloads can be slow on PBX hosts; use retries for transient stalls.
 PIP_INSTALL_OPTIONS=(
     --retries 10
     --timeout 120
@@ -629,16 +650,22 @@ PIP_INSTALL_OPTIONS=(
     --disable-pip-version-check
 )
 
-# Only use --break-system-packages on Debian/Ubuntu systems
+VAD_REQUIREMENTS="$PROJECT_ROOT/backend/vad/requirements.txt"
+if [ ! -f "$VAD_REQUIREMENTS" ]; then
+    echo -e "${RED}VAD requirements file is missing: $VAD_REQUIREMENTS${NC}"
+    exit 1
+fi
+
+# Only use --break-system-packages on Debian/Ubuntu systems.
 if [ "$OS" == "debian" ] || [ "$OS" == "ubuntu" ]; then
-    echo -e "${YELLOW}Installing Python dependencies (Debian/Ubuntu)...${NC}"
-    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" --break-system-packages -r requirements.txt; then
+    echo -e "${YELLOW}Installing VAD Python dependencies (Debian/Ubuntu)...${NC}"
+    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" --break-system-packages -r "$VAD_REQUIREMENTS"; then
         echo -e "${RED}Python dependency installation failed.${NC}"
         exit 1
     fi
 else
-    echo -e "${YELLOW}Installing Python dependencies (non-Debian system)...${NC}"
-    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" -r requirements.txt; then
+    echo -e "${YELLOW}Installing VAD Python dependencies (non-Debian system)...${NC}"
+    if ! "$FINAL_PYTHON_PATH" -m pip install "${PIP_INSTALL_OPTIONS[@]}" -r "$VAD_REQUIREMENTS"; then
         echo -e "${RED}Python dependency installation failed.${NC}"
         exit 1
     fi
@@ -1448,6 +1475,7 @@ sudo mkdir -p /etc/systemd/system/opdesk.service.d
 sudo tee /etc/systemd/system/opdesk.service.d/voiz-python.conf > /dev/null <<EOF
 [Service]
 Environment=PYTHON_BIN=$FINAL_PYTHON_PATH
+Environment=NVM_DIR=$NVM_DIR
 EOF
 sudo systemctl daemon-reload
 

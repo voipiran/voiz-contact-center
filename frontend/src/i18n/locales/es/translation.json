@@ -16,14 +16,26 @@
     "activeCalls": "Llamadas activas",
     "queues": "Colas",
     "callHistory": "Historial de llamadas",
+    "calls": "Llamadas",
     "softphone": "Softphone",
     "groups": "Grupos",
     "users": "Usuarios",
     "analytics": "Analíticas",
+    "recordings": "Grabaciones",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
     "logs": "Registros",
-    "contacts": "Contactos"
+    "contacts": "Contactos",
+    "admin": "Administración",
+    "collapseSidebar": "Contraer barra lateral",
+    "dashboard": "Panel",
+    "expandSidebar": "Expandir barra lateral",
+    "group": {
+      "reports": "Informes",
+      "work": "Trabajo"
+    },
+    "main": "Navegación principal",
+    "teams": "Equipos"
   },
   "header": {
     "softphoneRegistered": "Softphone (registrado)",
@@ -37,11 +49,9 @@
     "callNotifications": "Notificaciones de llamadas",
     "newNotifications": "{{count}} notificaciones nuevas",
     "notifications": "Notificaciones",
-    "missedBusyCalls": "Llamadas perdidas y ocupadas",
     "noNewNotifications": "No hay notificaciones nuevas",
     "ext": "Ext",
     "from": "De",
-    "queue": "Cola",
     "read": "Leer",
     "markRead": "Marcar como leído",
     "markAllRead": "Marcar todo como leído",
@@ -60,26 +70,20 @@
     "waiting": "En espera"
   },
   "login": {
-    "title": "OpDesk",
     "subtitle": "Panel de operador de Asterisk",
     "extensionLabel": "Extensión o nombre de usuario",
     "extensionPlaceholder": "p. ej. 1001 o admin",
-    "passwordLabel": "Contraseña",
-    "passwordPlaceholder": "Contraseña",
     "signIn": "Iniciar sesión",
     "signingIn": "Iniciando sesión…",
-    "errorEmpty": "Ingrese extensión/nombre de usuario y contraseña",
+    "errorEmpty": "Ingresa extensión/nombre de usuario y contraseña",
     "errorInvalid": "Extensión/nombre de usuario o contraseña no válidos",
     "errorInvalidResponse": "Respuesta no válida del servidor",
-    "errorNetwork": "Error de red. Inténtelo de nuevo."
+    "errorNetwork": "Error de red. Inténtalo de nuevo."
   },
   "extensions": {
-    "title": "Extensiones",
     "noExtensions": "No hay extensiones monitoreadas",
-    "sync": "Sincronizar",
-    "syncAll": "Sincronizar todos los datos",
-    "webrtcEnabled": "WebRTC habilitado (haga clic para desactivar)",
-    "webrtcDisabled": "WebRTC deshabilitado (haga clic para activar)",
+    "webrtcEnabled": "WebRTC habilitado (haz clic para desactivar)",
+    "webrtcDisabled": "WebRTC deshabilitado (haz clic para activar)",
     "webrtcOn": "WebRTC activado",
     "webrtcOff": "WebRTC desactivado",
     "compact": "Compacto",
@@ -93,47 +97,58 @@
       "in_call": "En llamada",
       "dialing": "Marcando",
       "unavailable": "No disponible",
-      "on_hold": "En espera"
-    }
+      "on_hold": "En espera",
+      "dnd": "No molestar",
+      "notReady": "No disponible",
+      "ready": "Disponible"
+    },
+    "dndOff": "No molestar: desactivado",
+    "dndOn": "No molestar: activado",
+    "filter": {
+      "allTypes": "Todos los tipos",
+      "deskPhone": "Teléfono de escritorio",
+      "matches": "{{shown}} de {{total}}",
+      "type": "Tipo"
+    },
+    "noMatches": "Ninguna extensión coincide con estos filtros.",
+    "noMatchesTitle": "No hay extensiones coincidentes",
+    "search": "Buscar extensiones",
+    "searchPlaceholder": "Buscar por número o nombre"
   },
   "activeCalls": {
-    "title": "Llamadas activas",
     "noActiveCalls": "No hay llamadas activas",
-    "sync": "Sincronizar",
-    "syncAll": "Sincronizar todos los datos",
     "table": {
-      "extension": "Extensión",
       "state": "Estado",
       "talkingTo": "Hablando con",
-      "duration": "Duración",
       "talkTime": "Tiempo de conversación",
-      "actions": "Acciones"
+      "direction": "Dirección"
+    },
+    "route": {
+      "inbound_queue": "Entrante · Cola",
+      "inbound_direct": "Entrante · Directa",
+      "internal": "Interna",
+      "outbound": "Saliente"
     },
     "actions": {
       "listen": "Escuchar (silencio)",
       "whisper": "Susurrar al agente",
       "barge": "Intervenir",
-      "transfer": "Transferir llamada",
-      "endCall": "Finalizar llamada"
+      "transfer": "Transferir llamada"
     },
     "transfer": {
       "source": "Origen",
       "option1": "Opción 1:",
       "transferTo": "Transferir a",
       "extOrNumber": "Ext. o número",
-      "transfer": "Transferir",
       "option2": "Opción 2:",
       "takeOver": "Tomar control",
-      "cancel": "Cancelar",
       "legExtension": "Extensión ({{ext}})",
-      "legTalkingTo": "Hablando con ({{ext}})"
+      "legTalkingTo": "Hablando con ({{ext}})",
+      "takeOverTitle": "Transferir al llamante ({{caller}}) a tu extensión ({{ext}})"
     }
   },
   "queues": {
-    "title": "Colas",
     "noQueues": "No hay colas configuradas",
-    "sync": "Sincronizar",
-    "syncAll": "Sincronizar todos los datos",
     "waiting": "{{count}} en espera",
     "callersWaiting": "Llamantes en espera",
     "members": "Miembros ({{count}})",
@@ -142,42 +157,63 @@
     "selectExtension": "Buscar extensión o nombre…",
     "noExtensions": "No hay extensiones disponibles",
     "loginStatus": "Estado de inicio de sesión",
-    "statusReady": "Disponible",
-    "statusNotReady": "No disponible",
-    "login": "Iniciar sesión",
     "namePlaceholder": "Nombre (opcional)",
     "add": "Agregar",
-    "cancel": "Cancelar",
     "noMembers": "No hay miembros en la cola",
-    "pause": "Pausar",
     "unpause": "Reanudar",
-    "removeStatic": "No se puede eliminar: el miembro está configurado de forma estática en queues.conf. Edite la configuración y recargue Asterisk para eliminarlo.",
+    "removeStatic": "No se puede eliminar: el miembro está configurado de forma estática en queues.conf. Edita la configuración y recarga Asterisk para eliminarlo.",
     "removeDynamic": "Eliminar de la cola (miembro dinámico)",
     "removeCheck": "Eliminar de la cola (se comprobará si se puede eliminar)",
-    "removeConfirm": "¿Eliminar a {{member}} de la cola {{queue}}?"
+    "removeConfirm": "¿Eliminar a {{member}} de la cola {{queue}}?",
+    "addMemberTo": "Agregar miembro a {{queue}}",
+    "filter": {
+      "agentSearch": "Buscar un agente",
+      "allAgents": "Todos los agentes",
+      "idle": "Inactivas",
+      "matches": "{{shown}} de {{total}}",
+      "noReady": "Sin agentes disponibles",
+      "waiting": "Con llamantes en espera"
+    },
+    "memberUnavailable": "No disponible",
+    "memberUnknown": "Desconocido",
+    "noMatches": "Ninguna cola coincide con estos filtros.",
+    "noMatchesTitle": "No hay colas coincidentes",
+    "removeMember": "Eliminar miembro",
+    "removeTitle": "¿Eliminar miembro?",
+    "search": "Buscar colas",
+    "searchPlaceholder": "Buscar por nombre o número de cola",
+    "pauseReason": "Motivo",
+    "pickReason": "Elija un motivo",
+    "pauseTitle": "Poner a {{member}} en No disponible",
+    "pauseHint": "No disponible siempre se registra con un motivo, para que la adherencia distinga el trabajo de los descansos."
+  },
+  "agentBoard": {
+    "tab": "Agentes",
+    "search": "Buscar agentes",
+    "searchPlaceholder": "Buscar por nombre o extensión",
+    "empty": "No hay agentes en tu ámbito",
+    "noMatches": "Ningún agente coincide con esta búsqueda",
+    "setReady": "Poner Disponible",
+    "setNotReady": "Poner No disponible",
+    "logoutTitle": "¿Cerrar la sesión de {{agent}}?",
+    "logoutConfirm": "{{agent}} sale de todas las colas y deja de recibir sus llamadas."
   },
   "callLog": {
-    "title": "Historial de llamadas",
     "viewManage": "Ver y gestionar registros de llamadas",
-    "searchPlaceholder": "Buscar por origen o destino...",
+    "searchPlaceholder": "Número, nombre o ID de llamada...",
     "sortOldest": "Ordenar: más antiguas primero",
     "sortNewest": "Ordenar: más recientes primero",
     "sortOldestBtn": "Más antiguas primero",
     "sortNewestBtn": "Más recientes primero",
     "dateFrom": "Fecha desde",
     "dateTo": "Fecha hasta",
-    "today": "Hoy",
-    "yesterday": "Ayer",
     "noRecording": "Sin grabación",
     "viewQoS": "Ver informe de QoS",
     "showJourney": "Mostrar recorrido de la llamada",
     "loading": "Cargando historial de llamadas...",
-    "retry": "Reintentar",
     "noCallsFound": "No se encontraron llamadas",
-    "allStatuses": "Todos los estados",
-    "allDirections": "Todas las direcciones",
     "allApps": "Todas las aplicaciones",
-    "supervisionHidden": "Supervisión oculta ({{count}})",
+    "supervisionOff": "Supervisión oculta",
     "supervisionShown": "Mostrando supervisión",
     "supervision": {
       "LISTEN": "ESCUCHA",
@@ -186,36 +222,20 @@
     },
     "totalCalls": "Total de llamadas",
     "showing": "Mostrando {{start}} a {{end}} de {{total}} llamadas",
+    "showingCapped": "Mostrando {{start}} a {{end}} de más de {{total}} llamadas",
     "previous": "Anterior",
     "next": "Siguiente",
     "play": "Reproducir",
-    "pause": "Pausar",
     "download": "Descargar",
     "na": "N/D",
     "table": {
       "src": "Origen",
       "dest": "Destino",
       "app": "Aplicación",
-      "direction": "Dirección",
-      "status": "Estado",
-      "agent": "Agente",
-      "duration": "Duración",
       "talk": "Conversación",
       "recording": "Grabación",
       "dateTime": "Fecha y hora",
-      "callJourney": "Recorrido de la llamada",
       "qos": "QoS"
-    },
-    "status": {
-      "ANSWERED": "Contestada",
-      "NO_ANSWER": "Sin respuesta",
-      "BUSY": "Ocupado",
-      "FAILURE": "Fallida",
-      "ABANDONED": "Abandonada",
-      "CANCELED": "Cancelada",
-      "DROPPED": "Cortada",
-      "OUT_OF_REACH": "Fuera de alcance",
-      "in_progress": "En curso"
     },
     "direction": {
       "incoming": "Entrante",
@@ -240,7 +260,7 @@
       "low": "Baja"
     },
     "qos": {
-      "title": "📊 Informe de calidad de servicio",
+      "title": "Informe de calidad de servicio",
       "overallScore": "Puntuación general:",
       "metric": "Métrica",
       "audioFromSystem": "Audio desde el sistema (TX)",
@@ -250,9 +270,7 @@
       "dataLoss": "Pérdida de datos",
       "audioScore": "Puntuación de audio (MES)",
       "rtt": "RTT (tiempo de ida y vuelta)",
-      "close": "Cerrar",
       "packets": "{{count}} paquetes",
-      "agent": "Agente",
       "customer": "Cliente"
     },
     "journey": {
@@ -272,33 +290,82 @@
         "QUEUE_ENTER": "Cola",
         "RING": "Sonando",
         "ANSWER": "Respondida",
-        "NO_ANSWER": "Sin respuesta",
         "TRANSFER": "Transferencia",
-        "HANGUP": "Finalizada"
-      }
-    }
+        "HANGUP": "Finalizada",
+        "BARGE": "Intervención",
+        "LISTEN": "Escucha",
+        "UNANSWERED": "No contestada",
+        "WHISPER": "Susurro",
+        "IVR": "Menú IVR"
+      },
+      "callId": "ID de llamada",
+      "copyId": "Copiar ID de llamada",
+      "supervisor": "Supervisor {{id}}",
+      "target": "Supervisando {{id}}",
+      "endedByAgent": "Finalizada por el agente {{id}}",
+      "endedByCustomer": "Finalizada por el cliente",
+      "endedBySystem": "Finalizada por el sistema",
+      "forbidden": "No tienes permiso para ver esta llamada.",
+      "loadFailed": "No se pudo cargar el recorrido de esta llamada.",
+      "ivr": "Menú {{name}}",
+      "selection": "Pulsó {{key}}"
+    },
+    "emptyFiltered": "Limpia los filtros o prueba con otra búsqueda.",
+    "emptyRange": "Prueba con un rango de fechas más amplio.",
+    "loadFailed": "Error al cargar el historial de llamadas",
+    "noMatches": "Ninguna llamada coincide con \"{{query}}\"",
+    "recordingVadTitle": "{{file}} — haz clic para ver la actividad de voz",
+    "search": "Buscar llamadas",
+    "searchScopeNote": "Se busca en todo el historial: el rango de fechas no se aplica a los resultados de búsqueda.",
+    "seek": "Posición",
+    "type": {},
+    "typeShort": {
+      "IN": "ENT",
+      "INT": "INT",
+      "OUT": "SAL"
+    },
+    "vad": {
+      "overlap": "Superposición",
+      "silence": "Silencio",
+      "speaker1": "Hablante 1 ({{count}} segmentos)",
+      "speaker1Short": "Hablante 1",
+      "speaker2": "Hablante 2 ({{count}} segmentos)",
+      "speaker2Short": "Hablante 2",
+      "title": "Actividad de voz"
+    },
+    "recordingForbidden": "No tienes permiso para reproducir esta grabación",
+    "exportCsv": "Descargar CSV",
+    "exportCsvHint": "Descargar estas llamadas como archivo CSV (hasta 50.000 filas)",
+    "exportFailed": "No se pudo descargar el archivo CSV."
+  },
+  "recordings": {
+    "loading": "Cargando grabaciones…",
+    "loadFailed": "No se pudieron cargar las grabaciones.",
+    "search": "Buscar grabaciones",
+    "searchPlaceholder": "Número o ID de llamada…",
+    "empty": "No hay grabaciones en este periodo.",
+    "size": "Tamaño",
+    "showing": "{{start}}–{{end}} de {{total}}",
+    "delete": "Eliminar grabación",
+    "deleteTitle": "¿Eliminar esta grabación?",
+    "deleteMessage": "La grabación de la llamada de {{from}} a {{to}} del {{when}} se elimina del servidor. La llamada permanece en el historial de llamadas. No se puede deshacer.",
+    "deleted": "Grabación eliminada."
   },
   "softphone": {
     "title": "Softphone",
     "openDialer": "Abrir teclado",
     "closeDialer": "Cerrar teclado",
-    "enterNumber": "Ingrese el número",
+    "enterNumber": "Ingresa el número",
     "browser": "Navegador",
-    "incomingCall": "Llamada entrante",
     "hold": "Retener",
-    "resume": "Reanudar",
     "mute": "Silenciar",
     "unmute": "Activar sonido",
-    "transfer": "Transferir",
     "transferToExtension": "Transferir a extensión",
     "transferPlaceholder": "p. ej. 201",
-    "cancel": "Cancelar",
     "decline": "Rechazar",
     "answer": "Contestar",
     "log": "Registro",
     "noEntries": "No hay entradas",
-    "refresh": "Actualizar",
-    "endCall": "Finalizar llamada",
     "backspace": "Retroceso",
     "status": {
       "connecting": "Conectando...",
@@ -314,8 +381,36 @@
     "quality_mos": "MOS",
     "quality_jitter": "Jitter",
     "quality_loss": "Pérdida",
-    "quality_rtt": "Latencia",
-    "reconnect": "Reconectar"
+    "reconnect": "Reconectar",
+    "adminServerHint": {
+      "after": "en Configuración.",
+      "before": "Administrador: configura"
+    },
+    "blindTransfer": "Transferencia ciega",
+    "blindTransferHint": "Envía al llamante directamente allí. Sales de la llamada ahora.",
+    "callStatus": {
+      "callError": "Error de llamada",
+      "calling": "Llamando a {{number}}...",
+      "inCallWith": "En llamada con {{number}}",
+      "incoming": "Llamada entrante...",
+      "ringing": "Sonando..."
+    },
+    "clearLog": "Borrar registro",
+    "credentialsHint": {
+      "and": "y",
+      "byAdmin": "(configurados por un administrador).",
+      "extension": "extensión",
+      "secret": "secreto de la extensión",
+      "setYour": "Configura tu"
+    },
+    "firefoxHint": {
+      "lead": "¿Firefox?",
+      "open": "Abre",
+      "rest": "en una pestaña nueva, acepta el certificado y vuelve a intentarlo."
+    },
+    "levelMic": "Micrófono (tu voz)",
+    "levelSpeaker": "Altavoz (volumen entrante)",
+    "lastCall": "Última llamada"
   },
   "users": {
     "title": "Todos los usuarios",
@@ -327,34 +422,32 @@
     "noUsers": "Todavía no hay usuarios. Agregue uno arriba.",
     "loading": "Cargando usuarios...",
     "adminOnly": "Solo los administradores pueden gestionar usuarios.",
-    "username": "Nombre de usuario *",
-    "password": "Contraseña *",
     "newPassword": "Nueva contraseña (dejar en blanco para mantener)",
     "keepBlank": "Dejar en blanco para mantener",
     "displayName": "Nombre para mostrar",
-    "fullName": "Nombre completo",
     "extension": "Extensión (opcional)",
     "noExtensions": "No hay extensiones en el sistema",
     "webrtcLabel": "Softphone WebRTC",
     "webrtcHint": "Permite que esta extensión se registre desde el navegador y la aplicación móvil.",
     "webrtcSaveFailed": "Usuario guardado, pero falló la actualización de WebRTC.",
+    "multiDeviceLabel": "Navegador y teléfono a la vez",
+    "multiDeviceHint": "Permite que esta extensión siga conectada en el softphone web y en la app móvil a la vez (máximo de contactos 2 en lugar de 1). Suenan los dos, y contestar en uno detiene el otro. Si está desactivado, iniciar sesión en uno cierra la sesión del otro.",
+    "multiDeviceSaveFailed": "Usuario guardado, pero no se pudo actualizar el límite de dispositivos.",
     "role": "Rol",
-    "monitorModes": "Modos de monitorización (seleccione uno o más)",
+    "monitorModes": "Modos de monitorización (selecciona uno o más)",
     "groupsLabel": "Grupos (el usuario obtiene acceso a agentes y colas de los grupos seleccionados)",
     "createNewGroup": "Crear nuevo grupo",
     "newGroupNamePlaceholder": "Nombre del nuevo grupo (opcional)",
-    "account": "Cuenta",
     "profile": "Perfil",
     "access": "Acceso (mediante grupos)",
-    "cancel": "Cancelar",
-    "selectModes": "Seleccione modos...",
-    "selectAtLeastOne": "Seleccione al menos uno",
-    "selectGroups": "Seleccione grupos...",
+    "selectModes": "Selecciona modos...",
+    "selectAtLeastOne": "Selecciona al menos uno",
+    "selectGroups": "Selecciona grupos...",
     "noGroupsMessage": "No hay grupos. Cree grupos primero en la pestaña Grupos.",
     "adminMonitorDesc": "El administrador tiene acceso completo de monitorización (Escuchar, Susurrar, Intervenir).",
     "agentDesc": "El agente solo ve su extensión, llamada activa e historial de llamadas.",
     "deleteConfirm": "¿Eliminar usuario \"{{username}}\"?",
-    "cannotDeleteSelf": "No puede eliminarse a sí mismo",
+    "cannotDeleteSelf": "No puedes eliminarte a ti mismo",
     "adminRequired": "Se requiere acceso de administrador para gestionar usuarios.",
     "loadError": "Error al cargar usuarios o grupos",
     "userUpdated": "Usuario actualizado",
@@ -377,7 +470,14 @@
     },
     "searchLabel": "Buscar usuarios",
     "searchPlaceholder": "Usuario, nombre, extensión, grupo…",
-    "noMatches": "Ningún usuario coincide con \"{{query}}\""
+    "noMatches": "Ningún usuario coincide con \"{{query}}\"",
+    "deleteTitle": "¿Eliminar usuario?",
+    "searchExtension": "Buscar extensión…",
+    "loginPasswordHint": "Solo para iniciar sesión en OpDesk. No cambia la contraseña SIP.",
+    "sipPassword": "Nueva contraseña SIP",
+    "sipPasswordHint": "Con la que se registran los teléfonos y softphones. Déjela en blanco para conservar la actual. Cambiarla cierra la sesión de todos los teléfonos de la extensión.",
+    "sipPasswordRule": "La contraseña SIP necesita de 8 a 64 caracteres, con letras y dígitos, sin espacios ni comillas.",
+    "sipSaveFailed": "Usuario guardado, pero no se pudo cambiar la contraseña SIP."
   },
   "groups": {
     "title": "Todos los grupos",
@@ -389,26 +489,18 @@
     "noGroups": "Todavía no hay grupos. Cree uno arriba.",
     "loading": "Cargando grupos...",
     "adminOnly": "Solo los administradores pueden gestionar grupos.",
-    "groupName": "Nombre del grupo *",
+    "groupName": "Nombre del grupo",
     "namePlaceholder": "p. ej. Ventas, Soporte",
     "agents": "Agentes (extensiones a las que este grupo puede acceder)",
     "queues": "Colas (colas a las que este grupo puede acceder)",
     "usersInGroup": "Usuarios de este grupo (obtienen acceso a los agentes y colas anteriores)",
-    "cancel": "Cancelar",
     "groupSection": "Grupo",
     "agentsQueues": "Agentes y colas",
-    "usersSection": "Usuarios",
-    "description": "Cree grupos de acceso: nombre, agentes (extensiones), colas y asigne usuarios. El acceso del usuario se deriva de sus grupos.",
-    "none": "Ninguno",
+    "description": "Crea grupos de acceso: nombre, agentes (extensiones), colas y asigna usuarios. El acceso del usuario se deriva de sus grupos.",
     "agentsLabel": "Agentes",
-    "queuesLabel": "Colas",
-    "usersLabel": "Usuarios",
-    "agentsCount": "{{count}} agentes",
-    "queuesCount": "{{count}} colas",
-    "usersCount": "{{count}} usuarios",
-    "selectAgents": "Seleccione agentes...",
-    "selectQueues": "Seleccione colas...",
-    "selectUsers": "Seleccione usuarios...",
+    "selectAgents": "Selecciona agentes...",
+    "selectQueues": "Selecciona colas...",
+    "selectUsers": "Selecciona usuarios...",
     "noAgents": "No hay agentes en el sistema",
     "noQueues": "No hay colas en el sistema",
     "noUsers": "No hay usuarios",
@@ -421,7 +513,14 @@
     "groupNameRequired": "El nombre del grupo es obligatorio",
     "searchLabel": "Buscar grupos",
     "searchPlaceholder": "Grupo, agente, cola, usuario…",
-    "noMatches": "Ningún grupo coincide con \"{{query}}\""
+    "noMatches": "Ningún grupo coincide con \"{{query}}\"",
+    "agentsCount_one": "{{count}} agente",
+    "agentsCount_other": "{{count}} agentes",
+    "queuesCount_one": "{{count}} cola",
+    "queuesCount_other": "{{count}} colas",
+    "usersCount_one": "{{count}} usuario",
+    "usersCount_other": "{{count}} usuarios",
+    "deleteTitle": "¿Eliminar grupo?"
   },
   "supervisor": {
     "listen": {
@@ -440,8 +539,8 @@
       "buttonText": "Intervenir"
     },
     "targetExtension": "Extensión de destino",
-    "yourExtension": "Su extensión (supervisor)",
-    "extensionPlaceholder": "Ingrese su extensión (p. ej., 200)",
+    "yourExtension": "Tu extensión (supervisor)",
+    "extensionPlaceholder": "Ingresa tu extensión (p. ej., 200)",
     "cancel": "Cancelar"
   },
   "settings": {
@@ -450,14 +549,13 @@
     "qualityOfService": "Calidad de servicio",
     "webrtc": "WebRTC",
     "save": "Guardar configuración",
-    "saving": "Guardando...",
     "cancel": "Cancelar",
     "loading": "Cargando configuración...",
     "crm": {
       "title": "Integración CRM",
-      "description": "Envíe datos de llamadas a su CRM después de cada llamada. Configure la URL del servidor y la autenticación.",
+      "description": "Envía datos de llamadas a tu CRM después de cada llamada. Configura la URL del servidor y la autenticación.",
       "enable": "Habilitar integración CRM",
-      "enableDesc": "Cuando esté habilitado, los datos de la llamada se enviarán a su sistema CRM después de que finalice cada llamada.",
+      "enableDesc": "Cuando esté habilitado, los datos de la llamada se enviarán a tu sistema CRM después de que finalice cada llamada.",
       "serverUrl": "URL del servidor CRM *",
       "authType": "Tipo de autenticación",
       "apiKey": "Clave API *",
@@ -476,6 +574,10 @@
       "verifySSL": "Verificar certificados SSL",
       "savedSuccess": "La configuración del CRM se guardó correctamente",
       "loadError": "Error al cargar la configuración del CRM",
+      "loadFailed": "No se pudo cargar la configuración del CRM. El guardado está desactivado para no sobrescribir la configuración guardada.",
+      "loadFailedSave": "No se pudo cargar la configuración guardada, así que el guardado está desactivado.",
+      "notActive": "El CRM está habilitado pero no activo: {{reason}}. Las llamadas se registran como entregas fallidas hasta que se corrija.",
+      "notActiveUnknown": "no se pudo crear la conexión",
       "saveError": "Error al guardar la configuración del CRM",
       "durationFormat": "Formato de duración",
       "durationHint": "Cómo se envían la duración y el tiempo de conversación. En modo segundos las claves pasan a ser durationInSeconds / talkTimeInSeconds, para que el receptor no confunda la unidad.",
@@ -484,16 +586,36 @@
       "keyNamesHint": "Renombra cualquier campo a la clave que espera tu CRM. Déjalo en blanco para usar la predeterminada.",
       "collisionWarn": "Dos campos se enviarían con la misma clave ({{keys}}). Se descarta el renombrado duplicado y el campo conserva su clave predeterminada.",
       "outcomeMap": "Valores de resultado",
-      "outcomeMapHint": "Reasigna un resultado a lo que espera tu CRM (p. ej. BUSY → NO_ANSWER). Se aplica a status y disposition. Déjalo en blanco para enviarlo sin cambios.",
+      "outcomeMapHint": "Reasigna un resultado a lo que espera tu CRM (p. ej. BUSY → UNANSWERED). Se aplica a status y disposition. Déjalo en blanco para enviarlo sin cambios.",
       "stateLive": "Activo",
       "stateOff": "Inactivo",
-      "enabled": "Habilitado",
-      "disabled": "Deshabilitado",
       "offTitle": "La integración con el CRM está desactivada",
       "pushTarget": "Destino del envío",
       "sync": "Sincronización de llamadas",
       "syncPaused": "En pausa",
-      "fields": "Campos",
+      "fields": {
+        "agent": "Agente",
+        "agent_name": "Agente (nombre)",
+        "answered_extension": "Ext. que contestó",
+        "call_id": "ID de llamada",
+        "call_status": "Estado de la llamada",
+        "call_type": "Dirección",
+        "callback_at": "Hora de rellamada",
+        "caller": "Llamante",
+        "caller_name": "Nombre del llamante",
+        "datetime": "Fecha / hora",
+        "destination": "Destino",
+        "disposition": "Disposición",
+        "duration": "Duración",
+        "hangup_cause": "Causa de colgado",
+        "lead_uuid": "UUID del lead",
+        "notes": "Notas",
+        "qos": "QoS (JSON)",
+        "queue": "Cola",
+        "queue_wait_time": "Espera en cola (s)",
+        "talk_time": "Tiempo de conversación",
+        "uniqueid": "ID único"
+      },
       "connection": "Conexión",
       "connectionSub": "Dónde se conecta OpDesk con tu CRM y cómo se autentica.",
       "stored": "guardado",
@@ -505,17 +627,27 @@
       "syncOffNote": "La sincronización está en pausa: no se envía ningún registro. La conexión de arriba sigue configurada.",
       "syncEndpoint": "Ruta del endpoint de sincronización",
       "syncEndpointHint": "Se añade a la URL del servidor. Déjalo vacío para usar la ruta de la conexión.",
+      "trigger": "Cuándo enviar",
+      "triggerHint": "«Tras el cierre» espera a que el agente que atendió la llamada termine el trabajo posterior, para que el registro coincida con el historial final. Las llamadas no contestadas se envían de inmediato.",
+      "triggerHangup": "Al colgar",
+      "triggerWrapup": "Tras el cierre",
+      "wrapupTimeout": "Espera máxima (segundos)",
+      "wrapupTimeoutHint": "Enviar de todos modos si el cierre no ha terminado para entonces.",
+      "retries": "Reintentos",
+      "retryToggle": "Reintentar automáticamente los envíos fallidos",
+      "retryDesc": "Un envío que agota el tiempo, recibe un error del servidor o queda limitado por tasa se envía de nuevo con la misma clave de idempotencia. Un envío que el CRM rechaza (4xx) no se reintenta; reenvíelo desde Registros.",
+      "retryMaxAttempts": "Intentos por llamada",
+      "retryMaxAttemptsHint": "Incluido el primer intento (1–20).",
+      "retryDelays": "Espera entre intentos (segundos)",
+      "retryDelaysHint": "Separados por comas; el último valor se repite. Si el CRM pide un Retry-After más largo, prevalece.",
+      "retryLogHint": "Cada envío y cada reintento aparece en Registros → Entregas al CRM.",
       "httpMethod": "Método HTTP",
       "directions": "Enviar estas direcciones de llamada",
-      "dirInbound": "Entrante",
-      "dirOutbound": "Saliente",
-      "dirInternal": "Interna",
       "noDirections": "Ninguna dirección seleccionada: no se enviará nada.",
       "payload": "Campos del payload",
       "payloadSub": "Elige los valores a enviar y, si hace falta, la clave con la que se envían.",
       "selected": "seleccionados",
       "noCatalog": "No se pudo cargar el catálogo de campos. Recarga la página e inténtalo de nuevo.",
-      "selectAll": "Seleccionar todo",
       "clear": "Limpiar",
       "colField": "Campo",
       "colSentAs": "Se envía como",
@@ -550,14 +682,57 @@
       "lookupVerifyPathHint": "Ruta al campo de teléfono del registro devuelto. Un resultado solo cuenta si coincide con el número buscado — protege contra falsos positivos de búsquedas difusas.",
       "lookupTtl": "Memoria de números desconocidos (horas)",
       "lookupTtlHint": "Cuánto tiempo se recuerda una respuesta \"sin coincidencia\" antes de volver a preguntar al CRM por ese número. Los contactos coincidentes se guardan permanentemente en la agenda.",
-      "lookupTestTitle": "Probar búsqueda",
       "lookupTestPhone": "Número de teléfono, p. ej. +20 100 555 1234",
       "lookupTestRun": "Probar búsqueda",
       "lookupTestFound": "Contacto encontrado: {{name}}",
       "lookupTestNoMatch": "El CRM respondió, pero no se extrajo ningún nombre. Revisa la plantilla de nombre con la respuesta de abajo.",
       "lookupTestVerifyFail": "Verificación fallida — {{detail}}",
       "lookupTestError": "La prueba de búsqueda falló",
-      "lookupTestRaw": "Respuesta del CRM (truncada)"
+      "lookupTestRaw": "Respuesta del CRM (truncada)",
+      "apiKeyPh": "Tu clave API",
+      "authLabels": {
+        "api_key": "Clave API",
+        "basic_auth": "Autenticación básica",
+        "bearer_token": "Token bearer",
+        "oauth2": "OAuth2"
+      },
+      "bearerTokenPh": "Tu token bearer",
+      "clientIdPh": "ID de cliente OAuth2",
+      "clientSecretPh": "Secreto de cliente OAuth2",
+      "deliveryOptions": "Opciones de envío",
+      "durationSeconds": "Segundos (323)",
+      "fieldDescs": {
+        "agent": "Extensión que contestó, enviada como número",
+        "agent_name": "Nombre para mostrar del agente que contestó",
+        "answered_extension": "Extensión que contestó la llamada",
+        "call_status": "Enum canónico de resultado",
+        "call_type": "inbound · outbound · internal",
+        "caller": "Número o extensión del llamante",
+        "caller_name": "Nombre de CallerID, cuando Asterisk lo proporciona",
+        "datetime": "Inicio de la llamada, ISO 8601",
+        "destination": "Número marcado",
+        "disposition": "Mismo enum de resultado que el estado de la llamada",
+        "duration": "Duración total de la llamada",
+        "hangup_cause": "Código de causa de colgado de Asterisk sin procesar",
+        "queue": "Nombre de la cola (solo llamadas de cola)",
+        "queue_wait_time": "Segundos de espera en cola antes de contestar",
+        "talk_time": "Respuesta → colgado",
+        "uniqueid": "uniqueid del canal (clave de deduplicación por tramo)"
+      },
+      "fieldNames": "Nombres de campo",
+      "fieldsToSend": "Campos a enviar",
+      "jsonKeyFor": "Clave JSON para {{field}}",
+      "outcome": "Resultado",
+      "pickAtLeastOne": "Elige ≥ 1",
+      "pushDirections": "Enviar estas direcciones de llamada",
+      "saveNeedsRestart": "Guardado, pero se requiere un reinicio para aplicarlo.",
+      "secretSavedHint": "Vacío = conservar el valor guardado",
+      "sections": "Secciones de la integración CRM",
+      "selectedCount": "{{count}} seleccionados",
+      "sendOutcomeAs": "Enviar {{outcome}} como",
+      "syncToggle": "Enviar registros de llamadas al CRM",
+      "testFailed": "La prueba de conexión falló",
+      "testOk": "Conexión correcta"
     },
     "qos": {
       "title": "Calidad de servicio (QoS)",
@@ -568,7 +743,8 @@
       "enableError": "Error al habilitar QoS",
       "disableError": "Error al deshabilitar QoS",
       "enableConfigError": "Error al habilitar la configuración de QoS",
-      "disableConfigError": "Error al deshabilitar la configuración de QoS"
+      "disableConfigError": "Error al deshabilitar la configuración de QoS",
+      "statusError": "No se pudo leer el estado de QoS."
     },
     "webrtcSettings": {
       "title": "WebRTC / WebSocket del PBX",
@@ -585,7 +761,7 @@
     "sipTls": {
       "tab": "SIP TLS",
       "title": "SIP TLS (Puerto 5061)",
-      "description": "Habilitar señalización SIP cifrada para softphones tradicionales usando su certificado Let's Encrypt.",
+      "description": "Habilitar señalización SIP cifrada para softphones tradicionales usando tu certificado Let's Encrypt.",
       "enable": "Habilitar SIP TLS",
       "disable": "Deshabilitar SIP TLS",
       "enableError": "Error al habilitar SIP TLS",
@@ -594,27 +770,228 @@
       "port": "Puerto",
       "status": "Estado",
       "statusEnabled": "Habilitado",
-      "statusDisabled": "Deshabilitado"
+      "statusDisabled": "Deshabilitado",
+      "udpTcpLabel": "Ofrecer UDP/TCP 5060 a las apps",
+      "udpTcpDesc": "Actívelo solo si el puerto 5060 está abierto a internet. Al activarlo, la configuración de extensión de las apps también incluye UDP y TCP junto a WSS y TLS.",
+      "udpTcpError": "No se pudo guardar el ajuste de UDP/TCP.",
+      "appsSection": "Apps",
+      "statusError": "No se pudo leer el estado de SIP TLS."
+    },
+    "codecs": {
+      "intro": "Todas las extensiones usan esta lista, y Asterisk ofrece los códecs en este orden: el primero es el preferido. Mantenga Opus primero para los softphones web y móvil, porque los navegadores pueden oír siseo con G.711. Guardar recarga la centralita; las llamadas en curso no se cortan.",
+      "listLabel": "Códecs",
+      "hint": "Use las flechas para cambiar el orden. Desmarque un códec para dejar de usarlo; al menos uno queda activo.",
+      "save": "Guardar códecs",
+      "saved": "Códecs guardados y centralita recargada.",
+      "loading": "Cargando códecs…",
+      "loadFailed": "No se pudo cargar la lista de códecs.",
+      "saveFailed": "No se pudieron guardar los códecs."
     },
     "tabs": {
       "apiKeys": "Claves API",
       "mobileWake": "Activación móvil"
     },
-    "adminOnly": "Se requiere acceso de administrador."
+    "adminOnly": "Se requiere acceso de administrador.",
+    "apiKeys": {
+      "add": "Añadir clave",
+      "addTitle": "Añadir clave API",
+      "copyKey": "Copiar clave",
+      "copyNow": "Copia esta clave ahora: no se volverá a mostrar.",
+      "createdTitle": "Clave API creada",
+      "disable": "Deshabilitar",
+      "editTitle": "Editar clave API",
+      "emptyHintIntegrate": "Añade una para integrarte con OpDesk.",
+      "emptyTitle": "Aún no hay claves API",
+      "enable": "Habilitar",
+      "expires": "Caduca",
+      "expiresHint": "Déjalo en blanco para que no caduque nunca.",
+      "groups": {
+        "admin": "Administración",
+        "analytics": "Analíticas",
+        "calls": "Llamadas y CDR",
+        "config": "Configuración",
+        "contacts": "Contactos",
+        "dialer": "Marcador",
+        "other": "Otros"
+      },
+      "key": "Clave",
+      "lastUsed": "Último uso",
+      "loadFailed": "Error al cargar las claves API.",
+      "name": "Nombre",
+      "namePlaceholder": "p. ej. Integración de informes",
+      "nameRequired": "El nombre es obligatorio",
+      "never": "Nunca",
+      "readOnly": "Solo lectura",
+      "revoke": "Revocar",
+      "revokeConfirmNow": "¿Revocar la clave API \"{{name}}\"? Cualquier integración que la use dejará de funcionar de inmediato.",
+      "revokeFailed": "Error al revocar la clave API",
+      "revokeTitle": "¿Revocar la clave API?",
+      "revoked": "Clave API revocada",
+      "saved": "Clave API guardada",
+      "scopeRequired": "Selecciona al menos un alcance",
+      "scopes": "Alcances",
+      "scopesHint": "La clave solo puede llamar a los endpoints cubiertos por los alcances que concedas.",
+      "scopesNever": "La configuración, la gestión de usuarios y los registros nunca son accesibles con una clave.",
+      "scopeLabels": {
+        "calls_read": "Leer llamadas en curso, extensiones, colas y estado",
+        "calls_originate": "Iniciar llamadas (clic para llamar)",
+        "cdr_read": "Leer el historial de llamadas y las grabaciones",
+        "analytics_read": "Leer analíticas y exportaciones",
+        "contacts_read": "Leer la agenda de contactos",
+        "contacts_write": "Enviar contactos a la agenda"
+      },
+      "selectedCount": "{{count}} seleccionados",
+      "updateFailed": "Error al actualizar la clave API",
+      "yourKey": "Tu clave"
+    },
+    "home": {
+      "allSettings": "Toda la configuración",
+      "cat": {
+        "contactCenter": "Centro de contacto",
+        "telephony": "Telefonía y red",
+        "recording": "Grabación y cumplimiento",
+        "access": "Integraciones y acceso"
+      },
+      "desc": {
+        "analytics": "Objetivo de SLA, ventana de FCR y umbral de abandono corto.",
+        "crm": "Envía datos de llamadas a tu CRM después de cada llamada y busca a los llamantes por número.",
+        "integrationApiKeys": "Credenciales de máquina a máquina para la API de integración.",
+        "mobileWake": "Envía un push de activación antes de marcar para que las apps móviles se vuelvan a registrar.",
+        "qos": "Captura métricas de calidad de llamada en los registros CDR.",
+        "sipTls": "SIP cifrado en el puerto 5061 para softphones tradicionales.",
+        "codecs": "Los códecs que ofrece cada extensión, por orden de preferencia.",
+        "recordingPolicy": "Graba llamadas por dirección y extensión; dónde se guardan los archivos y cuánto tiempo se conservan.",
+        "notReadyCodes": "Motivos de No disponible, el tope de post-llamada y el reinicio diario del turno."
+      },
+      "noMatches": "Ningún ajuste coincide con tu búsqueda.",
+      "searchPlaceholder": "Buscar en la configuración…",
+      "status": {
+        "activeCodes": "Códigos activos: {{n}}",
+        "crmPush": "Envío de datos de llamadas",
+        "keys": "Claves activas: {{n}}",
+        "noActiveCodes": "No hay códigos activos",
+        "noKeys": "No hay claves activas",
+        "sla": "Objetivo de SLA {{n}}s",
+        "wakeHold": "Retención de {{n}}s"
+      },
+      "title": {
+        "apiKeys": "Claves API",
+        "mobileWake": "Activación móvil",
+        "codecs": "Códecs de audio",
+        "recording": "Grabación de llamadas"
+      }
+    },
+    "mobileWake": {
+      "off": "Activación desactivada",
+      "on": "Activación activada",
+      "rfcPhones": "Teléfonos RFC 8599: {{count}}",
+      "sections": "Secciones de activación móvil",
+      "statusLabel": "Estado de la activación móvil",
+      "tabDevices": "Dispositivos",
+      "tabKeys": "Claves push",
+      "tabWake": "Activación"
+    },
+    "pushKeys": {
+      "devices": {
+        "emptyTitle": "Aún no hay dispositivos"
+      }
+    },
+    "recording": {
+      "applyFormat": "Aplicar formato",
+      "format": "Formato",
+      "formatHint": "Se aplica al archivo mezclado y a ambos tramos individuales. wav ofrece la máxima calidad; wav49/gsm ahorran espacio en disco.",
+      "formatLabel": "Formato de grabación",
+      "formatWav": "wav (sin comprimir)",
+      "formatWav49": "wav49 (GSM en WAV)",
+      "loadError": "No se pudo cargar la política de grabación.",
+      "master": "Grabar llamadas",
+      "masterDescMixMonitor": "Graba todas las llamadas reales (internas, entrantes y salientes por troncal) con MixMonitor. El archivo mezclado se guarda en la carpeta de monitor predeterminada y se vincula al CDR.",
+      "inbound": "Entrantes",
+      "outbound": "Salientes",
+      "internal": "Internas",
+      "retentionLoadFailed": "No se pudo leer la configuración de retención.",
+      "enabledMsg": "Grabación de llamadas activada.",
+      "disabledMsg": "Grabación de llamadas desactivada.",
+      "directionUpdateFailed": "No se pudo actualizar la grabación de llamadas {{direction}}.",
+      "extUpdateFailed": "No se pudo actualizar la grabación de {{ext}}.",
+      "bulkEnabledCount": "Grabación activada para {{count}} extensiones.",
+      "bulkDisabledCount": "Grabación desactivada para {{count}} extensiones.",
+      "bulkEnabledAll": "Grabación activada para todas las extensiones.",
+      "bulkDisabledAll": "Grabación desactivada para todas las extensiones.",
+      "bulkFailed": "Falló la actualización masiva.",
+      "retentionSaved": "Configuración de retención guardada.",
+      "retentionSaveFailed": "No se pudo guardar la configuración de retención.",
+      "cleanupDone": "Limpieza terminada: {{n}} archivo(s) eliminado(s).",
+      "cleanupFailed": "Falló la limpieza.",
+      "cleanup": "Limpiar ahora",
+      "saving": "Guardando…",
+      "saveChanges": "Guardar cambios",
+      "loading": "Cargando la política de grabación…",
+      "sections": "Secciones de grabación de llamadas",
+      "tabPolicy": "Política",
+      "tabLocal": "Almacenamiento local",
+      "byDirection": "Grabar por dirección",
+      "perExtension": "Por extensión: {{on}} de {{total}} grabando",
+      "searchExtensions": "Buscar extensiones",
+      "searchExtensionsPlaceholder": "Extensión o nombre…",
+      "applyToMatches": "Aplicar a coincidencias ({{n}}):",
+      "applyToAll": "Aplicar a todas:",
+      "recordAll": "Grabar todas",
+      "recordNone": "No grabar ninguna",
+      "perExtensionCaption": "Grabación por extensión",
+      "noExtensions": "No hay extensiones",
+      "noExtensionMatches": "Ninguna extensión coincide",
+      "colExtension": "Extensión",
+      "colRecording": "Grabación",
+      "on": "Activada",
+      "off": "Desactivada",
+      "pageInfo": "{{from}}–{{to}} de {{total}}",
+      "perExtensionNote": "La opción por extensión se aplica a las llamadas que hace esa extensión (salientes e internas). Las llamadas externas entrantes siguen el interruptor «Entrantes» de arriba.",
+      "storageUsed": "Almacenamiento usado",
+      "ofGb": "de {{n}} GB",
+      "diskFree": "Disco libre",
+      "ofSize": "de {{size}}",
+      "totalRecordings": "Llamadas grabadas",
+      "location": "Ubicación",
+      "directory": "Carpeta de grabaciones",
+      "directoryFixedHint": "Carpeta donde la centralita graba las llamadas. La reproducción, las estadísticas de arriba y la retención la usan; la fija el grabador, así que no se puede cambiar aquí.",
+      "retention": "Retención",
+      "localDays": "Borrar grabaciones después de (días)",
+      "keepForever": "Vacío = conservar siempre",
+      "example": "p. ej. {{value}}",
+      "localMax": "Almacenamiento máximo (GB)",
+      "localMaxHint": "Se borran primero las grabaciones más antiguas cuando el uso supera este valor. Vacío = sin límite.",
+      "vadFiles": "Archivos de actividad de voz",
+      "vadDelete": "Borrar los archivos por interlocutor tras el análisis",
+      "vadDeleteDesc": "Los tramos -sp1/-sp2 solo se necesitan un momento para calcular la actividad de voz; activado por defecto.",
+      "hookConflict": "La grabación está activada, pero no es OpDesk quien graba: {{files}} ya define los hooks predial de la PBX (hay otro grabador de llamadas instalado). Los interruptores de dirección y extensión de abajo no tienen efecto hasta que se desactive ese grabador."
+    },
+    "webhooks": {
+      "metaDirections": "{{method}} · {{active}}/{{total}} direcciones"
+    },
+    "contactCenter": {
+      "title": "Post-llamada y reinicio de turno",
+      "description": "El trabajo posterior a la llamada y el cierre de sesión diario que termina cada turno.",
+      "wrapUpLabel": "Tope de post-llamada (segundos)",
+      "wrapUpHelp": "Cuánto tiempo queda pausado un agente tras una llamada de cola antes de volver a Disponible. Puede terminar antes desde su menú de estado, así que es un tope, no una espera fija. 0 desactiva la liberación automática. Se aplica desde la próxima llamada completada.",
+      "shiftResetLabel": "Reinicio diario del turno",
+      "shiftResetHelp": "A esta hora cada día se cierra la sesión de todos los agentes conectados en sus colas, para que un turno abierto no se junte con el siguiente y la Adherencia del agente muestre un turno por día. Un agente en llamada sale cuando termina la llamada; uno en No molestar no se toca. Vacíe el campo para desactivar el reinicio.",
+      "wrapUpLoadFailed": "No se pudo leer la configuración de post-llamada.",
+      "shiftResetLoadFailed": "No se pudo leer la hora de reinicio del turno.",
+      "wrapUpOffSaved": "Liberación automática desactivada: los agentes siguen en post-llamada hasta terminarla.",
+      "wrapUpSaved": "Tope fijado en {{n}} s. Se aplica desde la próxima llamada completada.",
+      "wrapUpSaveFailed": "No se pudo guardar la configuración de post-llamada.",
+      "shiftResetSaved": "Los agentes salen de sus colas cada día a las {{time}}.",
+      "shiftResetOffSaved": "Reinicio diario desactivado: los agentes siguen conectados hasta que cierren sesión.",
+      "shiftResetSaveFailed": "No se pudo guardar la hora de reinicio del turno.",
+      "saving": "Guardando…",
+      "save": "Guardar cambios"
+    }
   },
   "time": {
     "justNow": "Justo ahora",
     "minutesAgo": "Hace {{count}} min",
-    "hoursAgo": "Hace {{count}} h",
-    "yesterday": "Ayer"
-  },
-  "reason": {
-    "busy": "Ocupado",
-    "noanswer": "Sin respuesta",
-    "failed": "Fallida",
-    "switched_off": "No disponible",
-    "invalid_number": "Número no válido",
-    "completed": "Completada"
+    "hoursAgo": "Hace {{count}} h"
   },
   "common": {
     "incomingCall": "Llamada entrante",
@@ -622,10 +999,56 @@
     "retry": "Reintentar",
     "prev": "Anterior",
     "next": "Siguiente",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "actions": "Acciones",
+    "advanced": "Avanzado",
+    "clear": "Limpiar",
+    "clearFilters": "Limpiar filtros",
+    "close": "Cerrar",
+    "delete": "Eliminar",
+    "deleteFailed": "Error al eliminar",
+    "disabled": "Deshabilitado",
+    "dismiss": "Descartar",
+    "done": "Listo",
+    "edit": "Editar",
+    "enabled": "Habilitado",
+    "moveDown": "Bajar {{name}}",
+    "moveUp": "Subir {{name}}",
+    "movedToPosition": "{{name}} movido a la posición {{position}} de {{total}}",
+    "nextPage": "Página siguiente",
+    "pagination": "Paginación",
+    "previous": "Anterior",
+    "previousPage": "Página anterior",
+    "refresh": "Actualizar",
+    "remove": "Quitar",
+    "requestFailed": "La solicitud falló",
+    "saveChanges": "Guardar cambios",
+    "status": "Estado",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "selectAll": "Seleccionar todo",
+    "sync": "Sincronizar",
+    "syncAll": "Sincronizar todos los datos",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "transfer": "Transferir",
+    "endCall": "Finalizar llamada",
+    "exporting": "Exportando…",
+    "exportFailed": "Error al exportar. Inténtalo de nuevo.",
+    "logIn": "Iniciar sesión",
+    "changePassword": "Cambiar contraseña",
+    "none": "Ninguno",
+    "live": "En vivo",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "allStatuses": "Todos los estados",
+    "inCall": "En llamada",
+    "latency": "Latencia",
+    "account": "Cuenta"
   },
   "analytics": {
-    "title": "Analíticas",
     "subtitle": "Métricas de rendimiento del centro de llamadas",
     "loading": "Cargando analíticas...",
     "error": "Error al cargar los datos de analíticas",
@@ -638,8 +1061,6 @@
       "drilldown": "Explorador"
     },
     "period": {
-      "today": "Hoy",
-      "yesterday": "Ayer",
       "last7": "Últimos 7 días",
       "last30": "Últimos 30 días",
       "thisMonth": "Este mes",
@@ -647,33 +1068,25 @@
       "label": "Rango de fechas"
     },
     "kpi": {
-      "sla": "SLA",
       "slaDesc": "Llamadas respondidas dentro del umbral",
-      "fcr": "FCR",
       "fcrDesc": "Resolución en el primer contacto",
-      "abandonment": "Abandono",
+      "fcrCallers": "{{repeat}} de {{callers}} llamantes volvieron",
+      "provisional": "provisional",
       "abandonmentDesc": "Tasa de llamadas abandonadas",
-      "aht": "TMO",
       "ahtDesc": "Tiempo medio de operación",
-      "volume": "Total llamadas",
-      "answeredCalls": "Respondidas",
-      "abandonedCalls": "Abandonadas",
-      "answerRate": "Tasa de respuesta",
-      "avgWait": "Espera media",
       "na": "N/D",
       "outboundCalls": "Saliente",
       "outboundVolume": "Llamadas salientes",
-      "outboundAnswerRate": "Tasa de respuesta saliente",
-      "outboundAht": "TMO saliente",
       "outboundTrend": "Saliente",
-      "inboundAnswerRate": "Tasa de respuesta entrante",
       "inboundAnswerRateDesc": "Llamadas entrantes respondidas",
-      "avgWaitKpi": "Espera media",
       "avgWaitDesc": "Tiempo medio de espera en cola",
       "shortAbandon": "Abandono rápido",
       "shortAbandonDesc": "Abandonadas antes del umbral",
-      "market": "Tiempo de mercado",
-      "marketDesc": "Tiempo total de llamadas salientes"
+      "recovered": "Llamantes recuperados",
+      "recoveredOf": "{{recovered}} de {{abandoned}} llamantes que abandonaron",
+      "netAbandon": "Tasa de abandono neta",
+      "marketDesc": "Tiempo total de llamadas salientes",
+      "unansweredCalls": "No respondidas"
     },
     "delta": {
       "vsPrevPeriod": "vs período anterior"
@@ -682,39 +1095,37 @@
       "title": "Rendimiento de colas",
       "queue": "Cola",
       "total": "Total",
-      "answered": "Respondidas",
-      "abandoned": "Abandonadas",
-      "sla": "SLA %",
-      "aht": "TMO",
-      "avgWait": "Espera media",
       "peakHour": "Hora pico",
       "heatmapLow": "Bajo",
       "heatmapHigh": "Alto",
       "queues": "colas",
-      "heatmapTitle": "Volumen de llamadas por hora y día"
+      "heatmapTitle": "Volumen de llamadas por hora y día",
+      "belowTarget": "Por debajo del objetivo de SLA",
+      "compareBy": "Comparar por",
+      "compareTitle": "Comparar colas",
+      "heatmapCell": "{{day}} {{hour}}: {{count}} llamadas ({{abandoned}} abandonadas)",
+      "offered": "Ofrecidas",
+      "detailTitle": "Detalle de la cola",
+      "allQueues": "Todas las colas",
+      "waitTitle": "Cuánto esperaron los llamantes"
     },
     "agents": {
-      "title": "Rendimiento de agentes",
       "rank": "#",
-      "agent": "Agente",
-      "answered": "Respondidas",
-      "aht": "TMO",
       "slaContrib": "SLA %",
       "trend7d": "Tendencia 7d",
-      "agents": "agentes"
+      "agents": "agentes",
+      "compareTitle": "Comparar agentes",
+      "compareBy": "Comparar por"
     },
     "drilldown": {
       "title": "Explorador detallado",
       "filterQueue": "Cola...",
       "filterAgent": "Agente...",
-      "allDirections": "Todas las direcciones",
-      "allDispositions": "Todas las disposiciones",
+      "allQueues": "Todas las colas",
+      "allAgents": "Todos los agentes",
       "records": "registros",
       "date": "Fecha",
       "src": "Llamante",
-      "queue": "Cola",
-      "agent": "Agente",
-      "duration": "Duración",
       "talk": "Conversación",
       "waitTime": "Espera",
       "disposition": "Disposición",
@@ -723,62 +1134,253 @@
       "page": "Página",
       "exportCsv": "Exportar CSV",
       "exportXlsx": "Exportar XLSX",
-      "exporting": "Exportando...",
-      "exportFailed": "Error al exportar. Inténtelo de nuevo.",
-      "clearFilters": "Limpiar"
+      "exportCapped": "Una exportación incluye las primeras {{cap}} de estas {{total}} llamadas. Acota el rango o los filtros para exportar el resto.",
+      "dst": "Destino"
     },
     "settings": {
-      "title": "Analíticas",
       "slaSection": "Umbrales de SLA",
       "slaPerQueue": "Segundos para responder — anulación por cola (usa el predeterminado global si no se establece)",
       "slaDefault": "Umbral predeterminado",
+      "slaOverride": "Umbral",
+      "slaRemove": "Usar el predeterminado",
+      "slaPickQueue": "Elige una cola",
+      "slaAdd": "Añadir anulación",
       "fcrSection": "Configuración de FCR y abandono",
-      "fcrWindow": "Ventana de rellamada FCR",
+      "fcrWindow": "Ventana de FCR",
+      "fcrWindowHint": "días · 0 desactiva el FCR",
+      "callbackWindow": "Ventana de devolución de llamada",
+      "callbackWindowHint": "horas · nuestra devolución cuenta como contacto repetido y como llamante recuperado · 0 la desactiva",
       "shortAbandon": "Umbral de abandono corto",
       "save": "Guardar configuración de analíticas",
-      "saved": "¡Guardado!"
+      "saved": "¡Guardado!",
+      "saveFailed": "Error al guardar",
+      "unitDays": "días",
+      "unitSeconds": "segundos"
+    },
+    "directions": {},
+    "overview": {
+      "byDirection": "Llamadas por dirección",
+      "inboundOutcomes": "Resultados de entrantes",
+      "queueService": "Servicio de colas",
+      "viaQueue": "Cola",
+      "direct": "Directas",
+      "byHour": "Llamadas por hora del día"
+    },
+    "tip": {
+      "agents": {
+        "trend": {
+          "text": "Llamadas respondidas por día, últimos 7 días."
+        },
+        "compare": {
+          "text": "Todos los agentes en una cifra a la vez, el mayor primero. Elige la cifra en el menú."
+        },
+        "rank": {
+          "text": "Posición según las llamadas de clientes respondidas. Las llamadas internas no cuentan."
+        },
+        "totalAll": {
+          "text": "Todas las llamadas de clientes que atendió este agente, entrantes y salientes. Las internas se cuentan aparte."
+        },
+        "answered": {
+          "text": "Llamadas de clientes que este agente conectó: el ranking se ordena por esta cifra."
+        },
+        "inbound": {
+          "text": "Llamadas que entraron a este agente."
+        },
+        "outbound": {
+          "text": "Llamadas que realizó este agente."
+        },
+        "internal": {
+          "text": "Llamadas entre extensiones. Se muestran por el tiempo que ocupan, pero no son trabajo con clientes: no entran en el total ni cuentan para el ranking."
+        },
+        "slaContribution": {
+          "text": "Con qué frecuencia este agente respondió a tiempo las llamadas de cola. En blanco si no atiende llamadas de cola.",
+          "formula": "respondidas a tiempo ÷ llamadas de cola respondidas"
+        }
+      },
+      "kpi": {
+        "shortAbandonShare": {
+          "formula": "cuelgues rápidos ÷ ofrecidas",
+          "text": "Llamantes entrantes que colgaron dentro del umbral de abandono corto; suelen ser errores de marcación."
+        },
+        "recovered": {
+          "text": "Llamantes que abandonaron la espera en una cola y a quienes un agente devolvió la llamada en {{hours}} horas. Se cuentan personas: tres abandonos y una devolución son un llamante recuperado.",
+          "formula": "llamantes devueltos ÷ llamantes que abandonaron"
+        },
+        "netAbandon": {
+          "text": "La tasa de abandono sin las llamadas de los llamantes a quienes devolvimos la llamada. La tasa de abandono en sí sigue contándolas.",
+          "formula": "(abandonadas − llamadas abandonadas de llamantes recuperados) ÷ ofrecidas"
+        }
+      },
+      "overview": {
+        "inboundOutcomes": {
+          "text": "Llamadas entrantes por día: las respondidas y las que nadie contestó (abandonos de cola y llamadas directas perdidas, en conjunto)."
+        },
+        "queueService": {
+          "text": "Cómo atendieron las colas a las personas que esperaron en ellas: qué tan rápido se les contestó, cuántas abandonaron y si tuvieron que volver a llamar."
+        },
+        "byDirection": {
+          "text": "Llamadas entrantes, salientes e internas por día."
+        },
+        "byHour": {
+          "text": "Todas las llamadas del periodo según la hora en que empezaron — entrantes, salientes e internas: las horas de más actividad."
+        }
+      },
+      "queues": {
+        "avgWait": {
+          "formula": "espera total ÷ llamantes",
+          "text": "Cuánto esperan los llamantes en esta cola, incluidos los que abandonaron."
+        },
+        "card": {
+          "text": "Esta cola durante el período: llamadas ofrecidas, cuántas respondió un agente y cuántas se abandonaron, y qué tan bien las atendió."
+        },
+        "compare": {
+          "text": "Todas las colas según una cifra a la vez, de mejor a peor: la más alta para el SLA y las tasas, la más baja para la tasa de abandono y la espera. Elige la cifra en el menú."
+        },
+        "detail": {
+          "text": "Una cola, o todas juntas: llamadas respondidas y abandonadas por día, cuánto esperaron los llamantes y cuándo llegan las llamadas."
+        },
+        "wait": {
+          "text": "Llamadas según cuánto esperó el llamante en la cola: las respondidas y las de quienes abandonaron."
+        },
+        "heatmap": {
+          "text": "Cuándo entran tus llamadas, por día y hora. Más oscuro significa más actividad."
+        },
+        "peakHour": {
+          "text": "La hora de más actividad del día, en todo el rango de fechas."
+        },
+        "slaAnswered": {
+          "formula": "respondidas a tiempo ÷ respondidas",
+          "text": "Con qué frecuencia las llamadas respondidas de esta cola se contestaron dentro de su umbral de SLA. El objetivo es 80%."
+        }
+      },
+      "drilldown": {
+        "status": {
+          "text": "Cómo terminó la llamada, con las mismas palabras que usa el historial de llamadas."
+        }
+      }
+    },
+    "export": {
+      "csv": "Descargar CSV",
+      "failed": "La descarga falló. Inténtalo de nuevo.",
+      "overviewTitle": "Las cifras del período como archivo CSV",
+      "trendCsv": "CSV diario",
+      "trendTitle": "Llamadas por día como archivo CSV",
+      "queuesTitle": "Las cifras de cada cola como archivo CSV",
+      "heatmapTitle": "Llamadas por día de la semana y hora como archivo CSV",
+      "agentsTitle": "Las cifras de cada agente como archivo CSV"
+    },
+    "agentCalls": {
+      "open": "Ver las llamadas de este agente",
+      "calls": "Llamadas",
+      "other": "Sin conectar",
+      "otherHint": "El otro extremo no contestó, estaba ocupado o inaccesible, o la línea falló",
+      "missedHint": "Sonó para este agente y no la atendió, incluidas las que respondió un compañero",
+      "number": "Número",
+      "takenBy": "Atendida por {{id}}",
+      "callCount_one": "{{count}} llamada",
+      "callCount_other": "{{count}} llamadas"
     }
   },
   "agent": {
     "adherence": {
       "title": "Adherencia del agente",
       "subtitle": "Tiempo de conexión, disponible, en llamada y pausa por agente en el periodo seleccionado.",
-      "agent": "Agente",
       "login": "Entrada",
       "logout": "Salida",
       "loggedIn": "Conectado",
-      "ready": "Disponible",
-      "onCall": "En llamada",
-      "wrapUp": "Post-llamada",
-      "notReady": "No disponible",
       "occupancy": "Ocupación",
       "stillIn": "Activo",
       "empty": "Sin actividad de agentes en este periodo",
       "exportCsv": "CSV",
       "exportXlsx": "Excel",
-      "exporting": "Exportando…",
-      "exportFailed": "Error al exportar. Inténtalo de nuevo."
+      "sessions": "Sesiones",
+      "break": "Descanso",
+      "dnd": "No molestar",
+      "tip": {
+        "source": {
+          "text": "Basado en el estado que los agentes fijan ellos mismos, no en sus teléfonos."
+        },
+        "login": {
+          "text": "Cuándo inició sesión el agente por primera vez en el periodo."
+        },
+        "logout": {
+          "text": "Cuándo cerró sesión el agente por última vez. \"Dentro\" mientras sigue conectado."
+        },
+        "sessions": {
+          "text": "Cuántas veces inició sesión el agente. Un cierre de sesión, o el reinicio diario del turno, termina una sesión."
+        },
+        "loggedInTotal": {
+          "text": "Tiempo total que el agente estuvo conectado.",
+          "formula": "listo + en llamada + cierre + no disponible + no molestar"
+        },
+        "ready": {
+          "text": "Disponible: conectado y esperando una llamada."
+        },
+        "onCall": {
+          "text": "En una llamada."
+        },
+        "wrapUp": {
+          "text": "Terminando el trabajo tras una llamada."
+        },
+        "break": {
+          "text": "La parte no remunerada de No disponible: motivos no marcados como productivos, como el almuerzo. Pase el cursor por el número para ver los motivos."
+        },
+        "notReady": {
+          "text": "En pausa por cualquier motivo, productivo o no. Pase el cursor por el número para ver los motivos."
+        },
+        "dnd": {
+          "text": "Conectado pero en No molestar: no le llegan llamadas de cola ni directas."
+        },
+        "occupancy": {
+          "text": "Del tiempo que estuvo disponible, cuánto dedicó a trabajar. Más del 85% durante mucho tiempo es señal de agotamiento.",
+          "formula": "(en llamada + cierre) ÷ (en llamada + cierre + listo)"
+        }
+      }
     },
-    "goReady": "Disponible",
-    "notReady": "No disponible",
     "noReasons": "Sin códigos de motivo",
     "unpaid": "pausa",
-    "dnd": "No molestar",
-    "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "state": {
       "ready": "Disponible",
       "onCall": "En llamada",
       "notReady": "No disponible",
       "dnd": "No molestar",
-      "available": "Libre"
+      "available": "Libre",
+      "loggedOut": "Desconectado",
+      "wrapUp": "Post-llamada",
+      "queueLabel": "Cola: {{queue}}",
+      "deviceAsleep": "Listo, pero el teléfono está en reposo; se activa con la próxima llamada"
+    },
+    "codes": {
+      "deleteFailed": "No se pudo eliminar ese código de motivo.",
+      "deleteTitle": "¿Eliminar código de motivo?",
+      "labelPlaceholder": "Descanso",
+      "listTitle": "Códigos de motivo"
+    },
+    "finishWrap": "Terminar el cierre",
+    "pickReason": "No disponible, con un motivo",
+    "timeline": {
+      "open": "Mostrar cada cambio de estado",
+      "period": "{{from}} a {{to}}",
+      "stateWithReason": "{{state}} · {{reason}}",
+      "forbidden": "No tiene permiso para ver la actividad de este agente.",
+      "empty": "Sin actividad en este periodo",
+      "emptyHint": "Este agente no inició sesión en las fechas seleccionadas.",
+      "leftOnDnd": "salió en No molestar",
+      "sessionLength": "Sesión",
+      "queue": "Cola {{queue}}",
+      "ongoing": "en curso · {{duration}}",
+      "source": {
+        "ami": "teléfono",
+        "supervisor": "supervisor"
+      }
     }
   },
   "logs": {
-    "title": "Registros",
     "tabs": {
       "system": "Sistema",
-      "deliveries": "Envíos a CRM"
+      "deliveries": "Envíos a CRM",
+      "audit": "Registro de auditoría"
     },
     "system": {
       "title": "Flujo de eventos AMI",
@@ -793,11 +1395,7 @@
       "amiHint": "Activar o desactivar el registro de eventos AMI",
       "sipHint": "Intercalar mensajes SIP sin procesar en el flujo",
       "sipFail": "No se pudo cambiar el rastreo SIP",
-      "pause": "Pausar",
-      "resume": "Reanudar",
       "export": "Exportar",
-      "clear": "Limpiar",
-      "live": "En vivo",
       "paused": "Pausado",
       "waiting": "Esperando actividad AMI…",
       "pausedHint": "Flujo en pausa: reanuda para recibir eventos AMI.",
@@ -807,14 +1405,11 @@
     },
     "deliveries": {
       "allStatuses": "Todos los resultados",
-      "allDirections": "Todas las direcciones",
       "searchPlaceholder": "llamante, destino, ID de llamada…",
       "time": "Hora",
-      "direction": "Dirección",
       "call": "Llamada",
       "endpoint": "Endpoint",
       "result": "Resultado",
-      "latency": "Latencia",
       "attempt": "Intento",
       "request": "Solicitud",
       "response": "Respuesta",
@@ -826,17 +1421,47 @@
       "resendFail": "Error al reenviar.",
       "resentFrom": "Reenviado desde #{{id}}",
       "truncatedHint": "El cuerpo de la solicitud se truncó al registrarse: no se puede reenviar.",
-      "copy": "Copiar",
-      "copied": "Copiado",
       "showingCount": "Mostrando {{count}}",
       "status": {
         "success": "Entregado",
-        "failed": "Fallido"
-      }
-    }
+        "failed": "Fallido",
+        "pending": "Reintentando",
+        "delivered": "Entregado",
+        "abandoned": "Abandonado",
+        "unresolved": "No entregados"
+      },
+      "detailFail": "No se pudo cargar este envío.",
+      "detailTitle": "Envío #{{id}}",
+      "details": "Solicitud y respuesta",
+      "detailsFor": "Detalles del envío {{id}}",
+      "resendTitle": "¿Reenviar el envío #{{id}}?",
+      "retry": "Reintentar ahora",
+      "retryHint": "Enviar esta entrega de nuevo ahora, con la misma clave de idempotencia.",
+      "retryOk": "Entregado al reintentar.",
+      "retryStillFailing": "Reintentado: el CRM aún no lo aceptó.",
+      "retryFail": "El reintento falló.",
+      "nextAttempt": "Próximo intento {{when}}",
+      "tries": "{{count}}/{{max}} intentos",
+      "totals": "Entregas por estado",
+      "trigger": "Enviado",
+      "triggers": {
+        "hangup": "Al colgar",
+        "wrapup": "Tras el cierre",
+        "resend": "A mano (reenvío)"
+      },
+      "idempotencyKey": "Clave de idempotencia",
+      "search": "Buscar envíos"
+    },
+    "amiToggle": "Registrar eventos AMI",
+    "amiToggleError": "No se pudo cambiar el flujo de eventos AMI.",
+    "offTitle": "El registro está desactivado",
+    "pausedTitle": "Flujo en pausa",
+    "sipToggle": "Mostrar rastreo SIP",
+    "waitingDesc": "Los eventos aparecen aquí a medida que Asterisk los informa.",
+    "waitingTitle": "Esperando actividad AMI"
   },
   "notReady": {
-    "title": "Códigos de No Disponible",
+    "title": "Códigos de no disponible",
     "description": "Motivos de pausa que los agentes seleccionan al pasar a No Disponible.",
     "subtitle": "Códigos de motivo que los agentes eligen al pasar a No Disponible. Los códigos productivos cuentan como trabajo pagado; los descansos no.",
     "add": "Añadir código",
@@ -844,46 +1469,34 @@
     "label": "Etiqueta",
     "productive": "Productivo",
     "active": "Activo",
-    "actions": "Acciones",
     "system": "Sistema",
     "yes": "Sí",
     "break": "Descanso",
-    "enabled": "Habilitado",
-    "disabled": "Deshabilitado",
-    "edit": "Editar",
-    "delete": "Eliminar",
     "none": "Aún no hay códigos",
     "addTitle": "Nuevo código de motivo",
     "editTitle": "Editar código de motivo",
-    "cancel": "Cancelar",
-    "save": "Guardar",
-    "saving": "Guardando…",
     "saveFailed": "Error al guardar",
     "confirmDelete": "¿Eliminar este código?",
     "basic": "Básico",
     "color": "Color",
     "order": "Orden",
-    "status": "Estado",
     "productiveHint": "Cuenta como trabajo pagado (p. ej. Reunión, Formación) en lugar de descanso en la adherencia.",
-    "activeHint": "Los códigos inactivos se ocultan del selector del agente."
+    "activeHint": "Los códigos inactivos se ocultan del selector del agente.",
+    "systemHint": "Lo usa el propio OpDesk; no se puede editar ni eliminar.",
+    "reservedCode": "Los códigos que empiezan por __ están reservados para el sistema."
   },
   "contacts": {
-    "title": "Contactos",
     "loading": "Cargando contactos…",
     "loadError": "Error al cargar los contactos",
     "addContact": "Añadir contacto",
     "editContact": "Editar contacto",
     "updateContact": "Actualizar contacto",
     "formDesc": "Los contactos se muestran donde aparece el número del llamante: paneles, extensiones y el softphone.",
-    "name": "Nombre",
-    "namePlaceholder": "Nombre completo",
-    "phone": "Número de teléfono",
     "phonePlaceholder": "ej. +20 100 000 0000",
     "company": "Empresa",
     "companyPlaceholder": "Empresa (opcional)",
     "notes": "Notas",
     "notesPlaceholder": "Notas (opcional)",
-    "cancel": "Cancelar",
     "nameRequired": "El nombre es obligatorio",
     "phoneRequired": "El número de teléfono debe contener dígitos",
     "saveError": "Error al guardar el contacto",
@@ -896,9 +1509,16 @@
     "searchLabel": "Buscar contactos",
     "noContacts": "Aún no hay contactos. Los contactos añadidos aquí o resueltos desde el CRM aparecen en todas las pantallas de llamadas.",
     "noMatches": "Ningún contacto coincide con tu búsqueda",
+    "showingCount": "Mostrando {{count}}",
     "sourceManual": "Manual",
     "sourceCrm": "CRM",
-    "call": "Llamar a {{name}}"
+    "sourceApi": "API",
+    "call": "Llamar a {{name}}",
+    "deleteTitle": "¿Eliminar contacto?",
+    "details": "Detalles",
+    "emptyTitle": "Aún no hay contactos",
+    "noMatchesTitle": "No hay contactos coincidentes",
+    "source": "Origen"
   },
   "mobileSetup": {
     "titleFor": "Configurar app móvil — {{name}}",
@@ -909,12 +1529,10 @@
     "passwordOn": "Un escaneo inicia sesión. Trata el código como la propia contraseña.",
     "passwordOff": "Seguro para imprimir o compartir: la app pide la contraseña.",
     "json": "JSON de la cuenta",
-    "copied": "Copiado",
-    "copy": "Copiar",
     "download": "PNG",
     "formatLink": "Referencia del formato de cuenta",
     "button": "QR de la app móvil",
-    "introAuto": "Escanea este código en Medut Softphone (pantalla de inicio de sesión → Escanear QR) para añadir la extensión {{ext}}. La app elige sola la mejor conexión."
+    "intro": "Escanee este código en Medut Softphone (pantalla de inicio de sesión → Escanear QR) para añadir la extensión {{ext}}. Incluye la conexión que la PBX espera para esta extensión: transporte, cifrado e ICE."
   },
   "mobileWake": {
     "saved": "Guardado. Plan de marcado de Asterisk recargado.",
@@ -937,12 +1555,10 @@
     "replace": "Reemplazar",
     "upload": "Subir",
     "keepExisting": "Mantener la actual",
-    "remove": "Eliminar",
     "title": "Activación móvil",
     "description": "Despierta un softphone móvil cerrado para las llamadas entrantes (RFC 8599). El teléfono pone su token push en su SIP REGISTER; OpDesk le envía un push, retiene la llamada hasta que se vuelve a registrar y luego la deja sonar.",
     "recommended": "App recomendada: Medut Softphone",
     "general": "Activación móvil",
-    "enabled": "Activado",
     "enabledHint": "Antes de marcar una extensión con vínculo push, envía el push y retiene la llamada mientras la app despierta.",
     "hold": "Tiempo de retención (segundos)",
     "holdHint": "Máximo que espera quien llama a que el teléfono despierte y se registre. De 8 a 30.",
@@ -972,19 +1588,14 @@
     "devices": {
       "title": "Dispositivos registrados (RFC 8599)",
       "none": "Ninguno todavía. Un dispositivo aparece aquí cuando se registra con pn-provider, pn-prid y pn-param en su Contact.",
-      "extension": "Extensión",
       "provider": "Proveedor",
       "token": "Token",
       "app": "App",
       "lastSeen": "Última vez",
       "forget": "Olvidar este dispositivo"
-    },
-    "saving": "Guardando…",
-    "save": "Guardar"
+    }
   },
   "account": {
-    "section": "Cuenta",
-    "loginPassword": "Cambiar contraseña",
     "sipPassword": "Cambiar contraseña SIP",
     "showNewQr": "Mostrar el nuevo QR móvil",
     "sipNote": "Todos los teléfonos y softphones de tu extensión cierran sesión y deben volver a iniciarla con la nueva contraseña (escanea el nuevo QR).",
@@ -998,20 +1609,215 @@
     "show": "Mostrar",
     "generate": "Generar",
     "confirm": "Confirmar la nueva contraseña",
-    "mismatch": "Las contraseñas no coinciden.",
-    "saving": "Guardando…",
-    "save": "Cambiar contraseña"
+    "mismatch": "Las contraseñas no coinciden."
   },
   "profile": {
     "title": "Mi perfil",
-    "account": "Cuenta",
     "accountDesc": "Tus datos de inicio de sesión.",
-    "name": "Nombre",
-    "username": "Usuario",
-    "role": "Rol",
     "languageDesc": "El idioma en que se muestra OpDesk en este navegador.",
     "passwordDesc": "La contraseña con la que inicias sesión en OpDesk.",
     "sipDesc": "La contraseña con la que se registran tus teléfonos y softphones.",
     "qrDesc": "Escanéalo con Medut Softphone para añadir tu extensión."
+  },
+  "callStatus": {
+    "ANSWERED": "Contestada",
+    "BUSY": "Ocupado",
+    "FAILURE": "Fallida",
+    "ABANDONED": "Abandonada",
+    "DROPPED": "Cortada",
+    "UNANSWERED": "No contestada",
+    "MISSED": "Perdida",
+    "VOICEMAIL": "Buzón de voz",
+    "UNREACHABLE": "Inalcanzable",
+    "NETWORK_ERROR": "Error de red"
+  },
+  "contactLookup": {
+    "secMatching": "Coincidencia de números",
+    "secRequest": "Qué preguntar y cómo leer la respuesta"
+  },
+  "dashboard": {
+    "direction": {},
+    "alert": {
+      "understaffed": "{{queue}}: {{waiting}} en espera y ningún agente disponible para atender.",
+      "pastTarget": "{{queue}}: una persona lleva {{wait}} esperando, más que el objetivo de {{target}}."
+    },
+    "kpi": {
+      "available": "Libres",
+      "longestWait": "Espera más larga",
+      "ringing": "Sonando",
+      "waiting": "Llamadas en espera",
+      "peopleReached": "{{reached}} de {{people}} números contactados",
+      "totalSplitInternal": "{{in}} entrantes · {{out}} salientes · {{internal}} internas"
+    },
+    "now": "Ahora",
+    "queues": {
+      "agents": "Agentes",
+      "available": "Libres",
+      "busy": "Ocupados",
+      "longestWait": "Máx. espera",
+      "none": "No hay colas en tu ámbito",
+      "paused": "En pausa",
+      "title": "Colas — en vivo",
+      "waiting": "En espera"
+    },
+    "tip": {
+      "activeCalls": {
+        "text": "Llamadas en curso ahora mismo."
+      },
+      "queueAgents": {
+        "text": "Agentes de esta cola y lo que están haciendo."
+      },
+      "queueLongest": {
+        "text": "La espera más larga actual en esta cola."
+      },
+      "queueWaiting": {
+        "text": "Llamantes en espera en esta cola ahora mismo."
+      },
+      "ringing": {
+        "text": "Teléfonos sonando ahora mismo."
+      },
+      "waiting": {
+        "text": "Llamantes en espera de que alguien conteste."
+      },
+      "longestWaitLive": {
+        "text": "Cuánto tiempo lleva esperando la persona que más ha esperado. Se pone en rojo pasado un minuto."
+      }
+    },
+    "todaySoFar": "Hoy hasta ahora",
+    "todayUnavailable": "El resumen de hoy no está disponible para tu rol.",
+    "trend": {
+      "title": "Volumen de 7 días"
+    },
+    "waitingForData": "Esperando datos en vivo…",
+    "workforce": {
+      "offline": "Desconectados",
+      "title": "Disponibilidad de agentes",
+      "total": "{{count}} agentes"
+    }
+  },
+  "metrics": {
+    "totalCalls": "Total de llamadas",
+    "answered": "Respondidas",
+    "answerRate": "Tasa de respuesta",
+    "contactRate": "Tasa de contacto",
+    "contactRateOf": "Tasa de contacto {{rate}}",
+    "abandoned": "Abandonadas",
+    "abandonRate": "Tasa de abandono",
+    "abandonRateOf": "Tasa de abandono {{rate}}",
+    "aht": "TMO",
+    "sla": "SLA",
+    "fcr": "FCR",
+    "avgWait": "Espera media",
+    "tip": {
+      "answerRate": {
+        "text": "Proporción de los números externos distintos con los que realmente se habló, sin importar cuántas llamadas tomó cada uno. Cuenta personas: diez intentos a una persona que al final contesta cuentan como una persona contactada. Las llamadas internas entre extensiones quedan fuera.",
+        "formula": "números que contestaron ÷ números distintos"
+      },
+      "contactRate": {
+        "text": "Proporción de llamadas que conectaron: cuenta cada llamada, así que un número intentado cinco veces cuenta cinco veces. La tasa de respuesta cuenta en cambio a las personas.",
+        "formula": "contestadas ÷ llamadas"
+      },
+      "aht": {
+        "text": "Tiempo medio de conversación de una llamada contestada.",
+        "formula": "tiempo de conversación ÷ contestadas"
+      },
+      "totalCalls": {
+        "text": "Todas las llamadas del período: entrantes, salientes e internas."
+      },
+      "answered": {
+        "text": "Llamadas que realmente se conectaron y tuvieron tiempo de conversación."
+      },
+      "abandoned": {
+        "text": "Llamantes que colgaron en una cola antes de que un agente contestara. Una llamada directa a una extensión que no se contestó no es un abandono.",
+        "formula": "llamadas de cola no contestadas"
+      },
+      "abandonRate": {
+        "formula": "no respondidas ÷ ofrecidas",
+        "text": "Cuántos llamantes de cola colgaron antes de que un agente contestara."
+      },
+      "missed": {
+        "text": "Tus llamadas de hoy que no conectaron.",
+        "formula": "llamadas − contestadas"
+      },
+      "sla": {
+        "formula": "respondidas a tiempo ÷ respondidas",
+        "text": "Con qué frecuencia las llamadas de cola respondidas se contestaron dentro del umbral de SLA de la cola."
+      },
+      "fcr": {
+        "formula": "llamantes sin contacto repetido ÷ llamantes respondidos",
+        "text": "Llamantes cuya primera llamada de cola respondida resolvió el asunto: sin contacto repetido dentro de la ventana de FCR — ninguna otra llamada suya a una cola, respondida o no, ni una devolución de llamada nuestra dentro de la ventana de devolución. Los números se comparan por sus últimos nueve dígitos; los llamantes anónimos e internos no cuentan."
+      },
+      "avgWait": {
+        "formula": "espera total ÷ llamantes",
+        "text": "Cuánto esperan los llamantes en cola hasta que alguien contesta."
+      },
+      "talkTime": {
+        "formula": "suma del tiempo de conversación",
+        "text": "Tiempo total que las llamadas salientes pasaron con un cliente en línea, sin contar la post-llamada."
+      }
+    },
+    "missed": "Perdidas",
+    "talkTime": "Tiempo de conversación"
+  },
+  "fields": {
+    "agent": "Agente",
+    "extension": "Extensión",
+    "queue": "Cola",
+    "duration": "Duración",
+    "direction": "Dirección",
+    "name": "Nombre",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "fullName": "Nombre completo",
+    "role": "Rol",
+    "phoneNumber": "Número de teléfono"
+  },
+  "direction": {
+    "inbound": "Entrante",
+    "outbound": "Saliente",
+    "internal": "Interna",
+    "all": "Todas las direcciones"
+  },
+  "callStatusTip": {
+    "ANSWERED": "Alguien contestó y las dos partes hablaron.",
+    "UNANSWERED": "Sonó hasta agotar el tiempo, o nuestro lado colgó mientras sonaba.",
+    "BUSY": "El destinatario estaba ocupado o rechazó la llamada.",
+    "MISSED": "El llamante colgó mientras todavía sonaba.",
+    "VOICEMAIL": "El buzón de voz atendió la llamada.",
+    "UNREACHABLE": "El teléfono estaba apagado, sin registrar o fuera de servicio.",
+    "FAILURE": "No se pudo realizar la llamada, por ejemplo un número equivocado.",
+    "NETWORK_ERROR": "Falló la ruta o el operador: congestión o sin circuito.",
+    "ABANDONED": "El llamante colgó mientras esperaba en una cola.",
+    "DROPPED": "La llamada se contestó y luego se cortó de forma anómala."
+  },
+  "audit": {
+    "loadError": "No se pudo cargar el registro de auditoría.",
+    "time": "Hora",
+    "actor": "Quién",
+    "action": "Acción",
+    "entity": "Qué",
+    "summary": "Detalles",
+    "showDetail": "Qué cambió",
+    "ip": "IP",
+    "refresh": "Actualizar",
+    "actorSearch": "Buscar por usuario",
+    "actorPlaceholder": "Usuario o extensión…",
+    "allActions": "Todas las acciones",
+    "entityType": "Tipo de entidad",
+    "allEntities": "Todo",
+    "loading": "Cargando el registro de auditoría…",
+    "caption": "Registro de auditoría",
+    "emptyTitle": "Sin entradas de auditoría",
+    "emptyDesc": "Nada coincide con los filtros actuales.",
+    "emptyRange": "No se cambió nada en este periodo.",
+    "loadMore": "Cargar más",
+    "actions": {
+      "create": "Crear",
+      "update": "Actualizar",
+      "delete": "Eliminar",
+      "apply": "Aplicar",
+      "login": "Inicio de sesión",
+      "logout": "Cierre de sesión"
+    }
   }
 }

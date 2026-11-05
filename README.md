@@ -1,15 +1,19 @@
 <div dir="rtl">
 
-# Voiz Contact Center
+# Voiz Console
+
+<a href="./screenshots/cc-fa-stats1.png">
+  <img src="./screenshots/cc-fa-stats1.png" alt="داشبورد آمار مرکز تماس Voiz" width="100%">
+</a>
 
 ### پنل حرفه‌ای مدیریت، پایش و تحلیل مرکز تماس مبتنی بر Asterisk
 
-[![نسخه](https://img.shields.io/badge/نسخه-Voiz%20Contact%20Center-0f766e?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
-[![زبان](https://img.shields.io/badge/رابط%20کاربری-فارسی%20و%20RTL-2563eb?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
-[![Backend](https://img.shields.io/badge/Backend-Python%20%7C%20FastAPI-3776ab?style=for-the-badge&logo=python&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Version](https://img.shields.io/badge/Version-Voiz%20Contact%20Center-0f766e?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
+[![Language](https://img.shields.io/badge/Language-Persian%20%7C%20RTL-2563eb?style=for-the-badge)](https://github.com/voipiran/voiz-contact-center)
+[![Backend](https://img.shields.io/badge/Backend-Node.js%20%7C%20NestJS-3776ab?style=for-the-badge&logo=node.js&logoColor=white)](https://nestjs.com/)
 [![Frontend](https://img.shields.io/badge/Frontend-React%20%7C%20TypeScript-149eca?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![PBX](https://img.shields.io/badge/PBX-Asterisk%20%7C%20Issabel%20%7C%20FreePBX-f59e0b?style=for-the-badge)](https://www.asterisk.org/)
-[![License](https://img.shields.io/badge/مجوز-GPL--3.0-22c55e?style=for-the-badge)](LICENSE)
+[![License](https://img.shields.io/badge/License-GPL--3.0-22c55e?style=for-the-badge)](LICENSE)
 
 **Voiz Contact Center** یک راهکار بومی و یکپارچه برای مدیریت مرکز تماس است که روی Asterisk اجرا می‌شود و اطلاعات تماس، داخلی‌ها، صف‌ها و عملکرد کارشناسان را در یک پنل وب مدرن در اختیار مدیران و کاربران قرار می‌دهد.
 
@@ -22,9 +26,10 @@
 ## فهرست مطالب
 
 - [معرفی کوتاه](#معرفی-کوتاه)
+- [نصب سریع](#نصب-سریع)
+- [تصاویر محیط برنامه](#تصاویر-محیط-برنامه)
 - [قابلیت‌ها](#قابلیت‌ها)
 - [پیش‌نیازها](#پیشنیازها)
-- [نصب سریع](#نصب-سریع)
 - [راه‌اندازی اتصال مرکز تماس](#راهاندازی-اتصال-مرکز-تماس)
 - [معماری و فناوری‌ها](#معماری-و-فناوریها)
 - [ساختار پروژه](#ساختار-پروژه)
@@ -36,6 +41,71 @@
 Voiz Contact Center برای تیم‌هایی طراحی شده است که می‌خواهند بدون جایگزین‌کردن Asterisk، یک لایه مدیریتی و عملیاتی کامل روی سیستم تلفنی خود داشته باشند. سامانه رویدادهای Asterisk را از طریق AMI دریافت می‌کند، وضعیت زنده را از طریق WebSocket به مرورگر می‌رساند و داده‌های تماس و گزارش‌ها را از طریق API در اختیار رابط کاربری قرار می‌دهد.
 
 این راهکار برای استفاده در مرکز تماس، واحد فروش، پشتیبانی، نظرسنجی و تیم‌های خدمات مشتری مناسب است و می‌تواند در کنار تنظیمات فعلی Issabel یا FreePBX نصب شود.
+
+## نصب سریع
+
+### روش پیشنهادی: دریافت نسخه اصلی با tarball
+
+دستور زیر را روی سرور PBX اجرا کنید:
+
+```bash
+cd /opt && \
+rm -rf voiz-console voiz-console.tar.gz && \
+curl -fL https://github.com/voipiran/voiz-console/archive/refs/heads/main.tar.gz \
+  -o voiz-console.tar.gz && \
+tar -xzf voiz-console.tar.gz && \
+mv voiz-console-main voiz-console && \
+cd voiz-console && \
+sudo bash install.sh
+```
+
+### روش جایگزین: دریافت با Git
+
+```bash
+sudo rm -rf /opt/voiz-console
+sudo git clone --depth 1 https://github.com/voipiran/voiz-console.git \
+  /opt/voiz-console
+cd /opt/voiz-console
+sudo bash install.sh
+```
+
+اسکریپت `install.sh` محیط لازم را آماده می‌کند، نسخه bundled برنامه را در مسیر عملیاتی `/opt/OpDesk` قرار می‌دهد، Node.js و Python مورد نیاز را بررسی / نصب می‌کند و سرویس‌های لازم را برای اجرا آماده می‌سازد. نصب‌کننده به‌صورت عمدی کد را از پروژه والد Clone نمی‌کند؛ نسخه هماهنگ‌شده Voiz از همین مخزن استفاده می‌شود.
+
+در ابتدای نصب، اگر `curl` و `openssl` از قبل روی سیستم موجود باشند، هیچ بسته‌ای برای ابزارهای پایه نصب نمی‌شود. نصب Python، Nginx و وابستگی‌های runtime در مراحل بعدی و فقط در صورت نیاز انجام می‌شود؛ در آن مراحل مدیر بسته سیستم‌عامل ممکن است متادیتای Repositoryهای فعال را بررسی کند.
+
+### اجرای مستقیم نسخه موجود در مخزن
+
+اگر پروژه از قبل روی سرور قرار دارد:
+
+```bash
+cd /opt/voiz-console
+sudo bash install.sh
+```
+
+> اجرای نصب با `sudo` توصیه می‌شود، چون اسکریپت با مسیرهای سیستمی، تنظیمات Asterisk و سرویس‌های سیستم‌عامل کار می‌کند.
+
+## تصاویر محیط برنامه
+
+برای مشاهده‌ی بزرگ هر تصویر، روی آن کلیک کنید.
+
+<table>
+  <tr>
+    <td><a href="./screenshots/cc-fa-dashboard1.png"><img src="./screenshots/cc-fa-dashboard1.png" alt="داشبورد فارسی" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-queue1.png"><img src="./screenshots/cc-fa-queue1.png" alt="پایش صف" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-stats1.png"><img src="./screenshots/cc-fa-stats1.png" alt="آمار مرکز تماس" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-webphone1.png"><img src="./screenshots/cc-fa-webphone1.png" alt="وب‌فون" width="180"></a></td>
+    <td><a href="./screenshots/extensions.png"><img src="./screenshots/extensions.png" alt="داخلی‌ها" width="180"></a></td>
+    <td><a href="./screenshots/call_log.png"><img src="./screenshots/call_log.png" alt="تاریخچه تماس" width="180"></a></td>
+  </tr>
+  <tr>
+    <td><a href="./screenshots/dashboard_dark.png"><img src="./screenshots/dashboard_dark.png" alt="داشبورد تاریک" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-queue1-dark.png"><img src="./screenshots/cc-fa-queue1-dark.png" alt="صف در حالت تاریک" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-stats1-dark.png"><img src="./screenshots/cc-fa-stats1-dark.png" alt="آمار در حالت تاریک" width="180"></a></td>
+    <td><a href="./screenshots/cc-fa-webphone1-white.png"><img src="./screenshots/cc-fa-webphone1-white.png" alt="وب‌فون روشن" width="180"></a></td>
+    <td><a href="./screenshots/softphone.png"><img src="./screenshots/softphone.png" alt="سافت‌فون" width="180"></a></td>
+    <td><a href="./screenshots/mobile_qr.png"><img src="./screenshots/mobile_qr.png" alt="ورود موبایل با QR" width="180"></a></td>
+  </tr>
+</table>
 
 ## قابلیت‌ها
 
@@ -95,48 +165,6 @@ Voiz Contact Center برای تیم‌هایی طراحی شده است که م�
 
 > **نکته پورت‌ها:** در Issabel و FreePBX معمولاً Apache پورت‌های ۸۰ و ۴۴۳ را در اختیار دارد. اسکریپت نصب در صورت نیاز پورت جایگزین HTTPS (پیش‌فرض `8443`) را پیشنهاد می‌کند. پیش از نصب، وضعیت سرویس‌های فعال و فایروال را بررسی کنید.
 
-## نصب سریع
-
-### روش پیشنهادی: دریافت نسخه اصلی با tarball
-
-دستور زیر را روی سرور PBX اجرا کنید:
-
-```bash
-cd /opt && \
-rm -rf voiz-contact-center voiz-contact-center.tar.gz && \
-curl -fL https://github.com/voipiran/voiz-contact-center/archive/refs/heads/main.tar.gz \
-  -o voiz-contact-center.tar.gz && \
-tar -xzf voiz-contact-center.tar.gz && \
-mv voiz-contact-center-main voiz-contact-center && \
-cd voiz-contact-center && \
-sudo bash install.sh
-```
-
-### روش جایگزین: دریافت با Git
-
-```bash
-sudo rm -rf /opt/voiz-contact-center
-sudo git clone --depth 1 https://github.com/voipiran/voiz-contact-center.git \
-  /opt/voiz-contact-center
-cd /opt/voiz-contact-center
-sudo bash install.sh
-```
-
-اسکریپت `install.sh` محیط لازم را آماده می‌کند، نسخه bundled برنامه را در مسیر عملیاتی `/opt/OpDesk` قرار می‌دهد، Node.js و Python مورد نیاز را بررسی / نصب می‌کند و سرویس‌های لازم را برای اجرا آماده می‌سازد. نصب‌کننده به‌صورت عمدی کد را از پروژه والد Clone نمی‌کند؛ نسخه هماهنگ‌شده Voiz از همین مخزن استفاده می‌شود.
-
-در ابتدای نصب، اگر `curl` و `openssl` از قبل روی سیستم موجود باشند، هیچ بسته‌ای برای ابزارهای پایه نصب نمی‌شود. نصب Python، Nginx و وابستگی‌های runtime در مراحل بعدی و فقط در صورت نیاز انجام می‌شود؛ در آن مراحل مدیر بسته سیستم‌عامل ممکن است متادیتای Repositoryهای فعال را بررسی کند.
-
-### اجرای مستقیم نسخه موجود در مخزن
-
-اگر پروژه از قبل روی سرور قرار دارد:
-
-```bash
-cd /opt/voiz-contact-center
-sudo bash install.sh
-```
-
-> اجرای نصب با `sudo` توصیه می‌شود، چون اسکریپت با مسیرهای سیستمی، تنظیمات Asterisk و سرویس‌های سیستم‌عامل کار می‌کند.
-
 ## راه‌اندازی اتصال مرکز تماس
 
 اسکریپت `contactcenter.sh` تنظیمات تکمیلی اتصال Voiz به Asterisk را انجام می‌دهد. این مرحله را بعد از نصب اصلی اجرا کنید:
@@ -179,7 +207,7 @@ sudo bash contactcenter.sh
 مرورگر (React + WebRTC)
         │ HTTPS / WSS
         ▼
-Nginx ───────► FastAPI / Uvicorn ───────► Asterisk
+Nginx ───────► NestJS / Node.js ───────► Asterisk
                   │   │                     │
                   │   ├── MySQL / MariaDB  ├── AMI
                   │   ├── CRM Webhook      └── SIP / RTP
@@ -189,7 +217,7 @@ Nginx ───────► FastAPI / Uvicorn ───────► Asteri
 
 | لایه | فناوری‌ها |
 |---|---|
-| Backend | Python 3.11+، FastAPI، Uvicorn، asyncio، WebSocket |
+| Backend | Node.js 20+، NestJS، Express، TypeScript، WebSocket |
 | Frontend | React 18، TypeScript، Vite، React Router |
 | تلفن تحت وب | SIP.js، WebRTC و Asterisk HTTP/WebSocket |
 | پایگاه داده | MySQL / MariaDB، دیتابیس Asterisk و CDR |

@@ -16,14 +16,26 @@
     "activeCalls": "المكالمات النشطة",
     "queues": "قوائم الانتظار",
     "callHistory": "سجل المكالمات",
+    "calls": "المكالمات",
     "softphone": "الهاتف",
     "groups": "المجموعات",
     "users": "المستخدمون",
     "analytics": "التحليلات",
+    "recordings": "التسجيلات",
     "openMenu": "فتح القائمة",
     "closeMenu": "إغلاق القائمة",
     "logs": "السجلات",
-    "contacts": "جهات الاتصال"
+    "contacts": "جهات الاتصال",
+    "admin": "الإدارة",
+    "collapseSidebar": "طي الشريط الجانبي",
+    "dashboard": "لوحة المعلومات",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "group": {
+      "work": "العمل",
+      "reports": "التقارير"
+    },
+    "main": "التنقل الرئيسي",
+    "teams": "الفرق"
   },
   "header": {
     "softphoneRegistered": "الهاتف (مسجّل)",
@@ -37,11 +49,9 @@
     "callNotifications": "إشعارات المكالمات",
     "newNotifications": "{{count}} إشعارات جديدة",
     "notifications": "الإشعارات",
-    "missedBusyCalls": "المكالمات الفائتة والمشغولة",
     "noNewNotifications": "لا توجد إشعارات جديدة",
     "ext": "الفرع",
     "from": "من",
-    "queue": "قائمة الانتظار",
     "read": "مقروء",
     "markRead": "وضع علامة مقروء",
     "markAllRead": "تعليم الكل كمقروء",
@@ -60,12 +70,9 @@
     "waiting": "في الانتظار"
   },
   "login": {
-    "title": "أوب ديسك",
     "subtitle": "لوحة مشغّل Asterisk",
     "extensionLabel": "رقم الفرع أو اسم المستخدم",
     "extensionPlaceholder": "مثال: 1001 أو admin",
-    "passwordLabel": "كلمة المرور",
-    "passwordPlaceholder": "كلمة المرور",
     "signIn": "تسجيل الدخول",
     "signingIn": "جارٍ تسجيل الدخول…",
     "errorEmpty": "أدخل رقم الفرع/اسم المستخدم وكلمة المرور",
@@ -74,10 +81,7 @@
     "errorNetwork": "خطأ في الشبكة. يرجى المحاولة مرة أخرى."
   },
   "extensions": {
-    "title": "الفروع",
     "noExtensions": "لا توجد فروع قيد المراقبة",
-    "sync": "مزامنة",
-    "syncAll": "مزامنة جميع البيانات",
     "webrtcEnabled": "WebRTC مفعّل (انقر للتعطيل)",
     "webrtcDisabled": "WebRTC معطّل (انقر للتفعيل)",
     "webrtcOn": "WebRTC مفعّل",
@@ -93,47 +97,58 @@
       "in_call": "في مكالمة",
       "dialing": "يتصل",
       "unavailable": "غير متاح",
-      "on_hold": "في الانتظار"
-    }
+      "on_hold": "في الانتظار",
+      "dnd": "عدم الإزعاج",
+      "notReady": "غير جاهز",
+      "ready": "جاهز"
+    },
+    "filter": {
+      "allTypes": "جميع الأنواع",
+      "deskPhone": "هاتف مكتبي",
+      "matches": "{{shown}} من {{total}}",
+      "type": "النوع"
+    },
+    "noMatches": "لا توجد فروع مطابقة لعوامل التصفية هذه.",
+    "noMatchesTitle": "لا توجد فروع مطابقة",
+    "search": "البحث في الفروع",
+    "searchPlaceholder": "البحث بالرقم أو الاسم",
+    "dndOff": "عدم الإزعاج: متوقف",
+    "dndOn": "عدم الإزعاج: مفعّل"
   },
   "activeCalls": {
-    "title": "المكالمات النشطة",
     "noActiveCalls": "لا توجد مكالمات نشطة",
-    "sync": "مزامنة",
-    "syncAll": "مزامنة جميع البيانات",
     "table": {
-      "extension": "الفرع",
       "state": "الحالة",
       "talkingTo": "يتحدث مع",
-      "duration": "المدة",
       "talkTime": "وقت الحديث",
-      "actions": "الإجراءات"
+      "direction": "الاتجاه"
+    },
+    "route": {
+      "inbound_queue": "واردة · قائمة انتظار",
+      "inbound_direct": "واردة · مباشرة",
+      "internal": "داخلية",
+      "outbound": "صادرة"
     },
     "actions": {
       "listen": "استماع (صامت)",
       "whisper": "همس للمشغّل",
       "barge": "التدخل في المكالمة",
-      "transfer": "تحويل المكالمة",
-      "endCall": "إنهاء المكالمة"
+      "transfer": "تحويل المكالمة"
     },
     "transfer": {
       "source": "المصدر",
       "option1": "الخيار 1:",
       "transferTo": "تحويل إلى",
       "extOrNumber": "فرع أو رقم",
-      "transfer": "تحويل",
       "option2": "الخيار 2:",
       "takeOver": "استلام المكالمة",
-      "cancel": "إلغاء",
       "legExtension": "الفرع ({{ext}})",
-      "legTalkingTo": "يتحدث مع ({{ext}})"
+      "legTalkingTo": "يتحدث مع ({{ext}})",
+      "takeOverTitle": "تحويل المتصل ({{caller}}) إلى فرعك ({{ext}})"
     }
   },
   "queues": {
-    "title": "قوائم الانتظار",
     "noQueues": "لا توجد قوائم انتظار مُهيّأة",
-    "sync": "مزامنة",
-    "syncAll": "مزامنة جميع البيانات",
     "waiting": "{{count}} في الانتظار",
     "callersWaiting": "المتصلون في الانتظار",
     "members": "الأعضاء ({{count}})",
@@ -142,42 +157,63 @@
     "selectExtension": "ابحث عن فرع أو اسم…",
     "noExtensions": "لا توجد فروع متاحة",
     "loginStatus": "حالة تسجيل الدخول",
-    "statusReady": "جاهز",
-    "statusNotReady": "غير جاهز",
-    "login": "تسجيل الدخول",
     "namePlaceholder": "الاسم (اختياري)",
     "add": "إضافة",
-    "cancel": "إلغاء",
     "noMembers": "لا يوجد أعضاء في قائمة الانتظار",
-    "pause": "إيقاف مؤقت",
     "unpause": "استئناف",
     "removeStatic": "لا يمكن الإزالة: العضو مُهيّأ بشكل ثابت في queues.conf. عدّل الإعدادات وأعد تشغيل Asterisk للإزالة.",
     "removeDynamic": "إزالة من قائمة الانتظار (عضو ديناميكي)",
     "removeCheck": "إزالة من قائمة الانتظار (سيتم التحقق من إمكانية الإزالة)",
-    "removeConfirm": "إزالة {{member}} من قائمة الانتظار {{queue}}؟"
+    "removeConfirm": "إزالة {{member}} من قائمة الانتظار {{queue}}؟",
+    "addMemberTo": "إضافة عضو إلى {{queue}}",
+    "filter": {
+      "agentSearch": "ابحث عن موظف",
+      "allAgents": "جميع الموظفين",
+      "idle": "خاملة",
+      "matches": "{{shown}} من {{total}}",
+      "noReady": "لا يوجد موظفون جاهزون",
+      "waiting": "بها متصلون في الانتظار"
+    },
+    "noMatches": "لا توجد قوائم انتظار مطابقة لعوامل التصفية هذه.",
+    "noMatchesTitle": "لا توجد قوائم انتظار مطابقة",
+    "removeMember": "إزالة العضو",
+    "removeTitle": "إزالة العضو؟",
+    "search": "البحث في قوائم الانتظار",
+    "searchPlaceholder": "البحث باسم قائمة الانتظار أو رقمها",
+    "memberUnavailable": "غير متاح",
+    "memberUnknown": "غير معروف",
+    "pauseReason": "السبب",
+    "pickReason": "اختر سبباً",
+    "pauseTitle": "تعيين {{member}} كغير جاهز",
+    "pauseHint": "تُسجَّل حالة «غير جاهز» دائماً مع سبب، ليميّز تقرير الالتزام بين العمل والاستراحات."
+  },
+  "agentBoard": {
+    "tab": "الوكلاء",
+    "search": "البحث عن وكلاء",
+    "searchPlaceholder": "ابحث بالاسم أو التحويلة",
+    "empty": "لا يوجد وكلاء ضمن نطاقك",
+    "noMatches": "لا يوجد وكلاء يطابقون هذا البحث",
+    "setReady": "تعيين جاهز",
+    "setNotReady": "تعيين غير جاهز",
+    "logoutTitle": "تسجيل خروج {{agent}}؟",
+    "logoutConfirm": "سيغادر {{agent}} كل قوائم الانتظار ويتوقف عن تلقي مكالماتها."
   },
   "callLog": {
-    "title": "سجل المكالمات",
     "viewManage": "عرض وإدارة سجلات المكالمات",
-    "searchPlaceholder": "البحث بالمصدر أو الوجهة...",
+    "searchPlaceholder": "رقم أو اسم أو معرّف المكالمة...",
     "sortOldest": "ترتيب: الأقدم أولاً",
     "sortNewest": "ترتيب: الأحدث أولاً",
     "sortOldestBtn": "الأقدم أولاً",
     "sortNewestBtn": "الأحدث أولاً",
     "dateFrom": "من تاريخ",
     "dateTo": "إلى تاريخ",
-    "today": "اليوم",
-    "yesterday": "أمس",
     "noRecording": "لا يوجد تسجيل",
     "viewQoS": "عرض تقرير جودة الخدمة",
     "showJourney": "عرض مسار المكالمة",
     "loading": "جاري تحميل سجل المكالمات...",
-    "retry": "إعادة المحاولة",
     "noCallsFound": "لا توجد مكالمات",
-    "allStatuses": "جميع الحالات",
-    "allDirections": "جميع الاتجاهات",
     "allApps": "جميع التطبيقات",
-    "supervisionHidden": "الإشراف مخفي ({{count}})",
+    "supervisionOff": "الإشراف مخفي",
     "supervisionShown": "عرض الإشراف",
     "supervision": {
       "LISTEN": "استماع",
@@ -186,36 +222,20 @@
     },
     "totalCalls": "إجمالي المكالمات",
     "showing": "عرض {{start}} إلى {{end}} من أصل {{total}} مكالمة",
+    "showingCapped": "عرض {{start}} إلى {{end}} من أكثر من {{total}} مكالمة",
     "previous": "السابق",
     "next": "التالي",
     "play": "تشغيل",
-    "pause": "إيقاف مؤقت",
     "download": "تحميل",
     "na": "غير متاح",
     "table": {
       "src": "المصدر",
       "dest": "الوجهة",
       "app": "التطبيق",
-      "direction": "الاتجاه",
-      "status": "الحالة",
-      "agent": "المشغّل",
-      "duration": "المدة",
       "talk": "الحديث",
       "recording": "التسجيل",
       "dateTime": "التاريخ والوقت",
-      "callJourney": "مسار المكالمة",
       "qos": "جودة الخدمة"
-    },
-    "status": {
-      "ANSWERED": "تم الرد",
-      "NO_ANSWER": "لا يوجد رد",
-      "BUSY": "مشغول",
-      "FAILURE": "فشلت",
-      "ABANDONED": "تخلَّى المتصل",
-      "CANCELED": "أُلغيت",
-      "DROPPED": "انقطعت",
-      "OUT_OF_REACH": "غير متاح",
-      "in_progress": "جارية"
     },
     "direction": {
       "incoming": "واردة",
@@ -240,7 +260,7 @@
       "low": "منخفض"
     },
     "qos": {
-      "title": "📊 تقرير جودة الخدمة",
+      "title": "تقرير جودة الخدمة",
       "overallScore": "التقييم الإجمالي:",
       "metric": "المقياس",
       "audioFromSystem": "الصوت من النظام (TX)",
@@ -250,9 +270,7 @@
       "dataLoss": "فقدان البيانات",
       "audioScore": "تقييم الصوت (MES)",
       "rtt": "زمن الرحلة ذهاباً وإياباً (RTT)",
-      "close": "إغلاق",
       "packets": "{{count}} حزمة",
-      "agent": "المشغّل",
       "customer": "العميل"
     },
     "journey": {
@@ -272,11 +290,66 @@
         "QUEUE_ENTER": "قائمة انتظار",
         "RING": "يرنّ",
         "ANSWER": "تم الرد",
-        "NO_ANSWER": "لا رد",
         "TRANSFER": "تحويل",
-        "HANGUP": "إنهاء"
-      }
-    }
+        "HANGUP": "إنهاء",
+        "BARGE": "تدخّل",
+        "LISTEN": "استماع",
+        "UNANSWERED": "لم يتم الرد",
+        "WHISPER": "همس",
+        "IVR": "قائمة الرد الصوتي"
+      },
+      "callId": "معرّف المكالمة",
+      "copyId": "نسخ معرّف المكالمة",
+      "supervisor": "المشرف {{id}}",
+      "target": "مراقبة {{id}}",
+      "endedByAgent": "أنهاها الموظف {{id}}",
+      "endedByCustomer": "أنهاها العميل",
+      "endedBySystem": "أنهاها النظام",
+      "forbidden": "غير مسموح لك بعرض هذه المكالمة.",
+      "loadFailed": "تعذّر تحميل مسار هذه المكالمة.",
+      "ivr": "القائمة {{name}}",
+      "selection": "ضغط {{key}}"
+    },
+    "emptyFiltered": "امسح عوامل التصفية أو جرّب بحثًا آخر.",
+    "emptyRange": "جرّب نطاقًا زمنيًا أوسع.",
+    "loadFailed": "تعذّر تحميل سجل المكالمات",
+    "noMatches": "لا توجد مكالمات تطابق \"{{query}}\"",
+    "recordingVadTitle": "{{file}} — انقر لعرض النشاط الصوتي",
+    "search": "البحث في المكالمات",
+    "searchScopeNote": "يشمل البحث كل السجل — النطاق الزمني لا ينطبق على نتائج البحث.",
+    "seek": "تقديم/ترجيع",
+    "typeShort": {
+      "IN": "وارد",
+      "INT": "داخلي",
+      "OUT": "صادر"
+    },
+    "vad": {
+      "overlap": "التداخل",
+      "silence": "الصمت",
+      "speaker1": "المتحدث ١ ({{count}} مقاطع)",
+      "speaker1Short": "المتحدث ١",
+      "speaker2": "المتحدث ٢ ({{count}} مقاطع)",
+      "speaker2Short": "المتحدث ٢",
+      "title": "النشاط الصوتي"
+    },
+    "type": {},
+    "recordingForbidden": "غير مسموح لك بتشغيل هذا التسجيل",
+    "exportCsv": "تنزيل CSV",
+    "exportCsvHint": "تنزيل هذه المكالمات كملف CSV (حتى 50,000 صف)",
+    "exportFailed": "تعذّر تنزيل ملف CSV."
+  },
+  "recordings": {
+    "loading": "جارٍ تحميل التسجيلات…",
+    "loadFailed": "تعذّر تحميل التسجيلات.",
+    "search": "البحث في التسجيلات",
+    "searchPlaceholder": "رقم أو معرّف المكالمة…",
+    "empty": "لا توجد تسجيلات في هذه الفترة.",
+    "size": "الحجم",
+    "showing": "{{start}}–{{end}} من {{total}}",
+    "delete": "حذف التسجيل",
+    "deleteTitle": "حذف هذا التسجيل؟",
+    "deleteMessage": "سيُحذف تسجيل المكالمة من {{from}} إلى {{to}} بتاريخ {{when}} من الخادم. تبقى المكالمة في سجل المكالمات. لا يمكن التراجع عن ذلك.",
+    "deleted": "تم حذف التسجيل."
   },
   "softphone": {
     "title": "الهاتف",
@@ -284,21 +357,15 @@
     "closeDialer": "إغلاق لوحة الاتصال",
     "enterNumber": "أدخل الرقم",
     "browser": "المتصفح",
-    "incomingCall": "مكالمة واردة",
     "hold": "تعليق",
-    "resume": "استئناف",
     "mute": "كتم الصوت",
     "unmute": "إلغاء الكتم",
-    "transfer": "تحويل",
     "transferToExtension": "تحويل إلى فرع",
     "transferPlaceholder": "مثال: 201",
-    "cancel": "إلغاء",
     "decline": "رفض",
     "answer": "رد",
     "log": "السجل",
     "noEntries": "لا توجد إدخالات",
-    "refresh": "تحديث",
-    "endCall": "إنهاء المكالمة",
     "backspace": "حذف",
     "status": {
       "connecting": "جارٍ الاتصال...",
@@ -314,8 +381,36 @@
     "quality_mos": "MOS",
     "quality_jitter": "التذبذب",
     "quality_loss": "الفقد",
-    "quality_rtt": "زمن الاستجابة",
-    "reconnect": "إعادة الاتصال"
+    "reconnect": "إعادة الاتصال",
+    "adminServerHint": {
+      "after": "في الإعدادات.",
+      "before": "للمسؤول: اضبط"
+    },
+    "blindTransfer": "تحويل مباشر",
+    "blindTransferHint": "يُرسل المتصل مباشرة. تخرج من المكالمة الآن.",
+    "callStatus": {
+      "callError": "خطأ في المكالمة",
+      "calling": "جارٍ الاتصال بـ {{number}}...",
+      "inCallWith": "في مكالمة مع {{number}}",
+      "incoming": "مكالمة واردة...",
+      "ringing": "جارٍ الرنين..."
+    },
+    "clearLog": "مسح السجل",
+    "credentialsHint": {
+      "and": "و",
+      "byAdmin": "(يضبطهما المسؤول).",
+      "extension": "الفرع",
+      "secret": "كلمة سر الفرع",
+      "setYour": "اضبط"
+    },
+    "firefoxHint": {
+      "lead": "تستخدم Firefox؟",
+      "open": "افتح",
+      "rest": "في علامة تبويب جديدة، واقبل الشهادة، ثم حاول مرة أخرى."
+    },
+    "levelMic": "الميكروفون (صوتك)",
+    "levelSpeaker": "السماعة (مستوى الصوت الوارد)",
+    "lastCall": "آخر مكالمة"
   },
   "users": {
     "title": "جميع المستخدمين",
@@ -327,26 +422,24 @@
     "noUsers": "لا يوجد مستخدمون بعد. أضف واحداً أعلاه.",
     "loading": "جارٍ تحميل المستخدمين...",
     "adminOnly": "يمكن للمسؤولين فقط إدارة المستخدمين.",
-    "username": "اسم المستخدم *",
-    "password": "كلمة المرور *",
     "newPassword": "كلمة مرور جديدة (اتركها فارغة للإبقاء على الحالية)",
     "keepBlank": "اترك فارغاً للإبقاء",
     "displayName": "اسم العرض",
-    "fullName": "الاسم الكامل",
     "extension": "الفرع (اختياري)",
     "noExtensions": "لا توجد فروع في النظام",
     "webrtcLabel": "هاتف WebRTC",
     "webrtcHint": "السماح لهذا التحويلة بالتسجيل من المتصفح وتطبيق الجوال.",
     "webrtcSaveFailed": "تم حفظ المستخدم، لكن فشل تحديث WebRTC.",
+    "multiDeviceLabel": "المتصفح والهاتف في نفس الوقت",
+    "multiDeviceHint": "السماح لهذه التحويلة بالبقاء مسجّلة على هاتف الويب وتطبيق الجوال معًا (عدد جهات الاتصال 2 بدلاً من 1). يرنّ الجهازان، والرد على أحدهما يوقف رنين الآخر. عند الإيقاف، تسجيل الدخول من جهاز يخرج الجهاز الآخر.",
+    "multiDeviceSaveFailed": "تم حفظ المستخدم، لكن فشل تحديث حد الأجهزة.",
     "role": "الدور",
     "monitorModes": "أوضاع المراقبة (اختر واحداً أو أكثر)",
     "groupsLabel": "المجموعات (يحصل المستخدم على صلاحية الوصول إلى المشغّلين وقوائم الانتظار من المجموعات المحددة)",
     "createNewGroup": "إنشاء مجموعة جديدة",
     "newGroupNamePlaceholder": "اسم المجموعة الجديدة (اختياري)",
-    "account": "الحساب",
     "profile": "الملف الشخصي",
     "access": "الصلاحيات (عبر المجموعات)",
-    "cancel": "إلغاء",
     "selectModes": "اختر الأوضاع...",
     "selectAtLeastOne": "اختر واحداً على الأقل",
     "selectGroups": "اختر مجموعات...",
@@ -377,7 +470,14 @@
     },
     "searchLabel": "البحث في المستخدمين",
     "searchPlaceholder": "اسم المستخدم، الاسم، الرقم الداخلي، المجموعة…",
-    "noMatches": "لا يوجد مستخدم يطابق \"{{query}}\""
+    "noMatches": "لا يوجد مستخدم يطابق \"{{query}}\"",
+    "deleteTitle": "حذف المستخدم؟",
+    "searchExtension": "البحث عن فرع…",
+    "loginPasswordHint": "لتسجيل الدخول إلى OpDesk فقط، ولا تغيّر كلمة مرور SIP.",
+    "sipPassword": "كلمة مرور SIP جديدة",
+    "sipPasswordHint": "كلمة المرور التي تسجّل بها الهواتف والهواتف البرمجية. اتركها فارغة للإبقاء على الحالية. تغييرها يُخرج كل الهواتف المسجّلة على هذه التحويلة.",
+    "sipPasswordRule": "كلمة مرور SIP يجب أن تكون من 8 إلى 64 حرفًا، تحتوي على حروف وأرقام، وبدون مسافات أو علامات اقتباس.",
+    "sipSaveFailed": "تم حفظ المستخدم، لكن تغيير كلمة مرور SIP فشل."
   },
   "groups": {
     "title": "جميع المجموعات",
@@ -389,23 +489,15 @@
     "noGroups": "لا توجد مجموعات بعد. أنشئ واحدة أعلاه.",
     "loading": "جارٍ تحميل المجموعات...",
     "adminOnly": "يمكن للمسؤولين فقط إدارة المجموعات.",
-    "groupName": "اسم المجموعة *",
+    "groupName": "اسم المجموعة",
     "namePlaceholder": "مثال: مبيعات، دعم",
     "agents": "المشغّلون (الفروع التي يمكن للمجموعة الوصول إليها)",
     "queues": "قوائم الانتظار (قوائم الانتظار التي يمكن للمجموعة الوصول إليها)",
     "usersInGroup": "المستخدمون في هذه المجموعة (يحصلون على صلاحية الوصول إلى المشغّلين وقوائم الانتظار أعلاه)",
-    "cancel": "إلغاء",
     "groupSection": "المجموعة",
     "agentsQueues": "المشغّلون وقوائم الانتظار",
-    "usersSection": "المستخدمون",
     "description": "أنشئ مجموعات الصلاحيات: الاسم، المشغّلون (الفروع)، قوائم الانتظار، وعيّن المستخدمين. تُشتق صلاحيات المستخدم من مجموعاته.",
-    "none": "لا يوجد",
     "agentsLabel": "المشغّلون",
-    "queuesLabel": "قوائم الانتظار",
-    "usersLabel": "المستخدمون",
-    "agentsCount": "{{count}} مشغّل",
-    "queuesCount": "{{count}} قوائم",
-    "usersCount": "{{count}} مستخدم",
     "selectAgents": "اختر المشغّلين...",
     "selectQueues": "اختر قوائم الانتظار...",
     "selectUsers": "اختر المستخدمين...",
@@ -421,7 +513,26 @@
     "groupNameRequired": "اسم المجموعة مطلوب",
     "searchLabel": "البحث في المجموعات",
     "searchPlaceholder": "المجموعة، الوكيل، قائمة الانتظار، المستخدم…",
-    "noMatches": "لا توجد مجموعة تطابق \"{{query}}\""
+    "noMatches": "لا توجد مجموعة تطابق \"{{query}}\"",
+    "agentsCount_zero": "لا مشغّلين",
+    "agentsCount_one": "مشغّل واحد",
+    "agentsCount_two": "مشغّلان",
+    "agentsCount_few": "{{count}} مشغّلين",
+    "agentsCount_many": "{{count}} مشغّلًا",
+    "agentsCount_other": "{{count}} مشغّل",
+    "queuesCount_zero": "لا قوائم",
+    "queuesCount_one": "قائمة واحدة",
+    "queuesCount_two": "قائمتان",
+    "queuesCount_few": "{{count}} قوائم",
+    "queuesCount_many": "{{count}} قائمة",
+    "queuesCount_other": "{{count}} قائمة",
+    "usersCount_zero": "لا مستخدمين",
+    "usersCount_one": "مستخدم واحد",
+    "usersCount_two": "مستخدمان",
+    "usersCount_few": "{{count}} مستخدمين",
+    "usersCount_many": "{{count}} مستخدمًا",
+    "usersCount_other": "{{count}} مستخدم",
+    "deleteTitle": "حذف المجموعة؟"
   },
   "supervisor": {
     "listen": {
@@ -450,7 +561,6 @@
     "qualityOfService": "جودة الخدمة",
     "webrtc": "WebRTC",
     "save": "حفظ الإعدادات",
-    "saving": "جارٍ الحفظ...",
     "cancel": "إلغاء",
     "loading": "جارٍ تحميل الإعدادات...",
     "crm": {
@@ -476,6 +586,10 @@
       "verifySSL": "التحقق من شهادات SSL",
       "savedSuccess": "تم حفظ إعدادات CRM بنجاح",
       "loadError": "فشل تحميل إعدادات CRM",
+      "loadFailed": "تعذّر تحميل إعدادات نظام CRM. الحفظ معطّل حتى لا تُستبدل الإعدادات المحفوظة.",
+      "loadFailedSave": "تعذّر تحميل الإعدادات المحفوظة، لذا الحفظ معطّل.",
+      "notActive": "نظام CRM مفعّل لكنه غير نشط: {{reason}}. تُسجَّل المكالمات كعمليات تسليم فاشلة حتى يُصلح ذلك.",
+      "notActiveUnknown": "تعذّر إنشاء الاتصال",
       "saveError": "فشل حفظ إعدادات CRM",
       "durationFormat": "تنسيق المدة",
       "durationHint": "كيف تُرسَل المدة ووقت التحدث. في وضع الثواني تصبح المفاتيح durationInSeconds / talkTimeInSeconds حتى لا يخطئ المستقبِل في قراءة الوحدة.",
@@ -484,16 +598,36 @@
       "keyNamesHint": "أعد تسمية أي حقل إلى المفتاح الذي يتوقعه نظام CRM لديك. اتركه فارغًا لاستخدام الافتراضي.",
       "collisionWarn": "سيُرسَل حقلان بنفس المفتاح ({{keys}}). سيتم تجاهل إعادة التسمية المكرّرة ويحتفظ الحقل بمفتاحه الافتراضي.",
       "outcomeMap": "قيم النتيجة",
-      "outcomeMapHint": "أعد تعيين النتيجة إلى ما يتوقعه نظام CRM لديك (مثل BUSY ← NO_ANSWER). تنطبق على الحالة والتصرّف معًا. اتركه فارغًا للإرسال دون تغيير.",
+      "outcomeMapHint": "أعد تعيين النتيجة إلى ما يتوقعه نظام CRM لديك (مثل BUSY ← UNANSWERED). تنطبق على الحالة والتصرّف معًا. اتركه فارغًا للإرسال دون تغيير.",
       "stateLive": "نشط",
       "stateOff": "متوقف",
-      "enabled": "مُفعَّل",
-      "disabled": "مُعطَّل",
       "offTitle": "تكامل CRM متوقف",
       "pushTarget": "وجهة الإرسال",
       "sync": "مزامنة بيانات المكالمات",
       "syncPaused": "موقوفة مؤقتًا",
-      "fields": "الحقول",
+      "fields": {
+        "agent": "الموظف",
+        "agent_name": "الموظف (الاسم)",
+        "answered_extension": "الفرع المُجيب",
+        "call_id": "معرّف المكالمة",
+        "call_status": "حالة المكالمة",
+        "call_type": "الاتجاه",
+        "callback_at": "موعد معاودة الاتصال",
+        "caller": "المتصل",
+        "caller_name": "اسم المتصل",
+        "datetime": "التاريخ / الوقت",
+        "destination": "الوجهة",
+        "disposition": "الحالة",
+        "duration": "المدة",
+        "hangup_cause": "سبب إنهاء الاتصال",
+        "lead_uuid": "UUID العميل المحتمل",
+        "notes": "الملاحظات",
+        "qos": "جودة الخدمة (JSON)",
+        "queue": "قائمة الانتظار",
+        "queue_wait_time": "الانتظار في قائمة الانتظار (ث)",
+        "talk_time": "مدة التحدث",
+        "uniqueid": "المعرّف الفريد"
+      },
       "connection": "الاتصال",
       "connectionSub": "العنوان الذي يتصل به OpDesk وطريقة المصادقة.",
       "stored": "محفوظ",
@@ -505,17 +639,27 @@
       "syncOffNote": "مزامنة بيانات المكالمات موقوفة — لا تُرسَل أي سجلات. إعدادات الاتصال أعلاه تبقى محفوظة.",
       "syncEndpoint": "مسار نقطة المزامنة",
       "syncEndpointHint": "يُضاف إلى عنوان السيرفر. اتركه فارغًا لاستخدام مسار الاتصال.",
+      "trigger": "متى يتم الإرسال",
+      "triggerHint": "خيار «بعد إنهاء المكالمة» ينتظر حتى ينهي الوكيل الذي رد على المكالمة أعمال ما بعد المكالمة، ليطابق السجل سجل المكالمات النهائي. المكالمات التي لم يُرد عليها تُرسل فورًا.",
+      "triggerHangup": "عند إنهاء المكالمة",
+      "triggerWrapup": "بعد أعمال ما بعد المكالمة",
+      "wrapupTimeout": "أقصى مدة انتظار (بالثواني)",
+      "wrapupTimeoutHint": "يتم الإرسال على أي حال إذا لم تنتهِ أعمال ما بعد المكالمة حتى ذلك الحين.",
+      "retries": "إعادة المحاولة",
+      "retryToggle": "إعادة محاولة الإرسال الفاشل تلقائيًا",
+      "retryDesc": "الإرسال الذي تنتهي مهلته أو يتلقى خطأ من الخادم أو يُقيَّد معدله يُرسل مجددًا بنفس مفتاح عدم التكرار (Idempotency-Key). الإرسال الذي يرفضه نظام CRM ‏(4xx) لا تُعاد محاولته؛ أعد إرساله من السجلات.",
+      "retryMaxAttempts": "عدد المحاولات لكل مكالمة",
+      "retryMaxAttemptsHint": "شاملة المحاولة الأولى (1–20).",
+      "retryDelays": "الانتظار بين المحاولات (بالثواني)",
+      "retryDelaysHint": "مفصولة بفواصل؛ تتكرر القيمة الأخيرة. إذا طلب نظام CRM عبر Retry-After مدة أطول فهي المعتمدة.",
+      "retryLogHint": "كل عملية إرسال وكل إعادة محاولة مدرجة في السجلات ← عمليات تسليم CRM.",
       "httpMethod": "طريقة HTTP",
       "directions": "أرسل هذه الاتجاهات",
-      "dirInbound": "واردة",
-      "dirOutbound": "صادرة",
-      "dirInternal": "داخلية",
       "noDirections": "لم يُحدَّد أي اتجاه — لن يُرسَل شيء.",
       "payload": "حقول الحمولة",
       "payloadSub": "اختر القيم المُرسَلة، وإن لزم، اسم المفتاح الذي تُرسَل به.",
       "selected": "محدَّد",
       "noCatalog": "تعذّر تحميل قائمة الحقول. أعد تحميل الصفحة وحاول مرة أخرى.",
-      "selectAll": "تحديد الكل",
       "clear": "إلغاء التحديد",
       "colField": "الحقل",
       "colSentAs": "يُرسَل باسم",
@@ -550,14 +694,57 @@
       "lookupVerifyPathHint": "مسار حقل الهاتف في السجل المُعاد. لا تُقبل النتيجة إلا إذا طابقت الرقم المطلوب — حماية من نتائج البحث التقريبي الخاطئة.",
       "lookupTtl": "مدة تذكر الأرقام غير المعروفة (ساعات)",
       "lookupTtlHint": "مدة تذكر إجابة \"لا يوجد تطابق\" قبل سؤال CRM عن الرقم مرة أخرى. جهات الاتصال المطابقة تُحفظ في دفتر جهات الاتصال بشكل دائم.",
-      "lookupTestTitle": "اختبار البحث",
       "lookupTestPhone": "رقم الهاتف، مثل ‎+20 100 555 1234",
       "lookupTestRun": "اختبار البحث",
       "lookupTestFound": "تم العثور على جهة الاتصال: {{name}}",
       "lookupTestNoMatch": "استجاب الـ CRM لكن لم يُستخرج اسم. راجع قالب الاسم مقابل الاستجابة أدناه.",
       "lookupTestVerifyFail": "فشل التحقق — {{detail}}",
       "lookupTestError": "فشل اختبار البحث",
-      "lookupTestRaw": "استجابة الـ CRM (مقتطعة)"
+      "lookupTestRaw": "استجابة الـ CRM (مقتطعة)",
+      "apiKeyPh": "مفتاح API الخاص بك",
+      "authLabels": {
+        "api_key": "مفتاح API",
+        "basic_auth": "مصادقة أساسية",
+        "bearer_token": "رمز Bearer",
+        "oauth2": "OAuth2"
+      },
+      "bearerTokenPh": "رمز Bearer الخاص بك",
+      "clientIdPh": "معرّف عميل OAuth2",
+      "clientSecretPh": "سر عميل OAuth2",
+      "deliveryOptions": "خيارات التسليم",
+      "durationSeconds": "بالثواني (323)",
+      "fieldNames": "أسماء الحقول",
+      "fieldsToSend": "الحقول المُرسَلة",
+      "jsonKeyFor": "مفتاح JSON لحقل {{field}}",
+      "pickAtLeastOne": "اختر حقلًا واحدًا على الأقل",
+      "pushDirections": "إرسال اتجاهات المكالمات هذه",
+      "secretSavedHint": "اتركه فارغًا للإبقاء على القيمة المحفوظة",
+      "selectedCount": "{{count}} محدد",
+      "sendOutcomeAs": "إرسال {{outcome}} بالقيمة",
+      "fieldDescs": {
+        "agent": "الفرع المُجيب، يُرسَل كرقم",
+        "agent_name": "اسم العرض للموظف المُجيب",
+        "answered_extension": "الفرع الذي أجاب على المكالمة",
+        "call_status": "قيمة النتيجة الموحّدة",
+        "call_type": "واردة · صادرة · داخلية",
+        "caller": "رقم المتصل أو الفرع",
+        "caller_name": "اسم CallerID، عندما يوفّره Asterisk",
+        "datetime": "بداية المكالمة، بتنسيق ISO 8601",
+        "destination": "الرقم الذي تم الاتصال به",
+        "disposition": "نفس قيمة النتيجة الموحّدة لحالة المكالمة",
+        "duration": "إجمالي مدة المكالمة",
+        "hangup_cause": "رمز سبب إنهاء الاتصال الخام من Asterisk",
+        "queue": "اسم قائمة الانتظار (لمكالمات قوائم الانتظار فقط)",
+        "queue_wait_time": "ثواني الانتظار في قائمة الانتظار قبل الرد",
+        "talk_time": "الرد ← إنهاء الاتصال",
+        "uniqueid": "uniqueid القناة (مفتاح إزالة التكرار لكل جزء)"
+      },
+      "outcome": "النتيجة",
+      "saveNeedsRestart": "تم الحفظ، لكن يلزم إعادة التشغيل للتطبيق.",
+      "sections": "أقسام تكامل CRM",
+      "syncToggle": "إرسال سجلات المكالمات إلى الـ CRM",
+      "testFailed": "فشل اختبار الاتصال",
+      "testOk": "تم الاتصال بنجاح"
     },
     "qos": {
       "title": "جودة الخدمة (QoS)",
@@ -568,7 +755,8 @@
       "enableError": "فشل تفعيل QoS",
       "disableError": "فشل تعطيل QoS",
       "enableConfigError": "فشل تفعيل إعدادات QoS",
-      "disableConfigError": "فشل تعطيل إعدادات QoS"
+      "disableConfigError": "فشل تعطيل إعدادات QoS",
+      "statusError": "تعذّرت قراءة حالة QoS."
     },
     "webrtcSettings": {
       "title": "WebRTC / WebSocket للمقسم",
@@ -594,27 +782,228 @@
       "port": "المنفذ",
       "status": "الحالة",
       "statusEnabled": "مفعّل",
-      "statusDisabled": "معطّل"
+      "statusDisabled": "معطّل",
+      "udpTcpLabel": "إتاحة UDP/TCP على المنفذ 5060 للتطبيقات",
+      "udpTcpDesc": "فعّله فقط إذا كان المنفذ 5060 مفتوحًا على الإنترنت. عند التفعيل، تعرض إعدادات التحويلة للتطبيقات UDP وTCP بجانب WSS وTLS.",
+      "udpTcpError": "تعذّر حفظ إعداد UDP/TCP.",
+      "appsSection": "التطبيقات",
+      "statusError": "تعذّرت قراءة حالة SIP TLS."
+    },
+    "codecs": {
+      "intro": "تستخدم كل التحويلات هذه القائمة، ويعرض Asterisk الترميزات بهذا الترتيب: الأول هو المفضّل. أبقِ Opus في المقدمة لهاتف الويب وتطبيق الجوال، لأن المتصفحات قد تسمع تشويشًا مع G.711. الحفظ يعيد تحميل السنترال؛ ولا تنقطع المكالمات الجارية.",
+      "listLabel": "الترميزات",
+      "hint": "استخدم الأسهم لتغيير الترتيب. ألغِ تحديد ترميز لإيقاف استخدامه؛ يبقى ترميز واحد على الأقل.",
+      "save": "حفظ الترميزات",
+      "saved": "تم حفظ الترميزات وإعادة تحميل السنترال.",
+      "loading": "جارٍ تحميل الترميزات…",
+      "loadFailed": "تعذّر تحميل قائمة الترميزات.",
+      "saveFailed": "تعذّر حفظ الترميزات."
     },
     "tabs": {
       "apiKeys": "مفاتيح API",
       "mobileWake": "إيقاظ الجوال"
     },
-    "adminOnly": "مطلوب صلاحية مسؤول."
+    "adminOnly": "مطلوب صلاحية مسؤول.",
+    "apiKeys": {
+      "add": "إضافة مفتاح",
+      "addTitle": "إضافة مفتاح API",
+      "copyKey": "نسخ المفتاح",
+      "copyNow": "انسخ هذا المفتاح الآن — لن يُعرض مرة أخرى.",
+      "createdTitle": "تم إنشاء مفتاح API",
+      "disable": "تعطيل",
+      "editTitle": "تعديل مفتاح API",
+      "emptyTitle": "لا توجد مفاتيح API بعد",
+      "enable": "تفعيل",
+      "expires": "تاريخ الانتهاء",
+      "expiresHint": "اتركه فارغًا ليبقى المفتاح صالحًا دائمًا.",
+      "groups": {
+        "admin": "الإدارة",
+        "analytics": "التحليلات",
+        "calls": "المكالمات وسجلات CDR",
+        "config": "الإعدادات",
+        "contacts": "جهات الاتصال",
+        "dialer": "الاتصال التلقائي",
+        "other": "أخرى"
+      },
+      "key": "المفتاح",
+      "lastUsed": "آخر استخدام",
+      "loadFailed": "تعذّر تحميل مفاتيح API.",
+      "name": "الاسم",
+      "namePlaceholder": "مثال: تكامل التقارير",
+      "nameRequired": "الاسم مطلوب",
+      "never": "أبدًا",
+      "readOnly": "للقراءة فقط",
+      "revoke": "إلغاء",
+      "revokeFailed": "تعذّر إلغاء مفتاح API",
+      "revokeTitle": "إلغاء مفتاح API؟",
+      "revoked": "تم إلغاء مفتاح API",
+      "saved": "تم حفظ مفتاح API",
+      "scopeRequired": "اختر نطاقًا واحدًا على الأقل",
+      "scopes": "النطاقات",
+      "scopesHint": "لا يمكن للمفتاح استدعاء سوى نقاط النهاية المشمولة بالنطاقات التي تمنحها له.",
+      "selectedCount": "تم تحديد {{count}}",
+      "updateFailed": "تعذّر تحديث مفتاح API",
+      "yourKey": "مفتاحك",
+      "emptyHintIntegrate": "أضف مفتاحًا للتكامل مع OpDesk.",
+      "revokeConfirmNow": "إلغاء مفتاح API \"{{name}}\"؟ سيتوقف أي تكامل يستخدمه عن العمل فورًا.",
+      "scopesNever": "لا يمكن الوصول إلى الإعدادات وإدارة المستخدمين والسجلات بمفتاح أبدًا.",
+      "scopeLabels": {
+        "calls_read": "قراءة المكالمات الجارية والتحويلات الداخلية وقوائم الانتظار والحالة",
+        "calls_originate": "إجراء مكالمات (النقر للاتصال)",
+        "cdr_read": "قراءة سجل المكالمات والتسجيلات",
+        "analytics_read": "قراءة التحليلات والتصدير",
+        "contacts_read": "قراءة دليل جهات الاتصال",
+        "contacts_write": "إضافة جهات اتصال إلى الدليل"
+      }
+    },
+    "home": {
+      "allSettings": "كل الإعدادات",
+      "cat": {
+        "contactCenter": "مركز الاتصال",
+        "telephony": "الاتصالات الهاتفية والشبكة",
+        "recording": "التسجيل والامتثال",
+        "access": "التكاملات والوصول"
+      },
+      "desc": {
+        "analytics": "هدف مستوى الخدمة ونافذة FCR وحد الترك السريع.",
+        "mobileWake": "إرسال تنبيه قبل الاتصال ليتمكن تطبيق الجوال من إعادة التسجيل.",
+        "qos": "التقاط مقاييس جودة المكالمات وتخزينها في سجلات CDR.",
+        "sipTls": "اتصال SIP مشفَّر على المنفذ 5061 للهواتف الناعمة التقليدية.",
+        "codecs": "الترميزات التي تعرضها كل التحويلات، بترتيب الأفضلية.",
+        "crm": "أرسل بيانات المكالمات إلى الـ CRM بعد كل مكالمة، وابحث عن المتصلين برقمهم.",
+        "integrationApiKeys": "بيانات اعتماد بين الأنظمة لواجهة API الخاصة بالتكامل.",
+        "recordingPolicy": "سجّل المكالمات حسب الاتجاه والتحويلة، وحدّد مكان حفظ الملفات ومدة الاحتفاظ بها.",
+        "notReadyCodes": "أسباب عدم الجاهزية، والحد الأقصى لما بعد المكالمة، وإعادة ضبط الوردية اليومية."
+      },
+      "noMatches": "لا توجد إعدادات مطابقة لبحثك.",
+      "searchPlaceholder": "البحث في الإعدادات…",
+      "status": {
+        "keys": "المفاتيح المفعّلة: {{n}}",
+        "noKeys": "لا توجد مفاتيح مفعّلة",
+        "sla": "هدف مستوى الخدمة {{n}} ثانية",
+        "activeCodes": "الأكواد المفعّلة: {{n}}",
+        "crmPush": "إرسال بيانات المكالمات",
+        "noActiveCodes": "لا توجد أكواد مفعّلة",
+        "wakeHold": "انتظار {{n}} ث"
+      },
+      "title": {
+        "apiKeys": "مفاتيح API",
+        "mobileWake": "تنبيه الجوال",
+        "codecs": "ترميزات الصوت",
+        "recording": "تسجيل المكالمات"
+      }
+    },
+    "mobileWake": {
+      "off": "الإيقاظ متوقف",
+      "on": "الإيقاظ مفعّل",
+      "rfcPhones": "هواتف RFC 8599: {{count}}",
+      "sections": "أقسام إيقاظ الهاتف",
+      "statusLabel": "حالة إيقاظ الهاتف",
+      "tabDevices": "الأجهزة",
+      "tabKeys": "مفاتيح الإشعارات",
+      "tabWake": "الإيقاظ"
+    },
+    "pushKeys": {
+      "devices": {
+        "emptyTitle": "لا توجد أجهزة بعد"
+      }
+    },
+    "recording": {
+      "applyFormat": "تطبيق التنسيق",
+      "format": "التنسيق",
+      "formatLabel": "تنسيق التسجيل",
+      "formatWav": "wav (غير مضغوط)",
+      "formatWav49": "wav49 (GSM داخل WAV)",
+      "loadError": "تعذّر تحميل سياسة التسجيل.",
+      "master": "تسجيل المكالمات",
+      "formatHint": "ينطبق على الملف المدمج وكلا الجزأين المنفصلين. wav هو الأعلى جودة؛ wav49/gsm يوفّران مساحة القرص.",
+      "masterDescMixMonitor": "سجّل كل مكالمة فعلية (داخلية، وواردة وصادرة عبر الخط الخارجي) باستخدام MixMonitor. يُحفظ الملف المدمج في مجلد المراقبة الافتراضي ويُربط بسجل CDR.",
+      "inbound": "الواردة",
+      "outbound": "الصادرة",
+      "internal": "الداخلية",
+      "retentionLoadFailed": "تعذّرت قراءة إعدادات الاحتفاظ.",
+      "enabledMsg": "تم تفعيل تسجيل المكالمات.",
+      "disabledMsg": "تم إيقاف تسجيل المكالمات.",
+      "directionUpdateFailed": "تعذّر تحديث تسجيل المكالمات {{direction}}.",
+      "extUpdateFailed": "تعذّر تحديث التسجيل للتحويلة {{ext}}.",
+      "bulkEnabledCount": "التسجيل مفعّل لـ {{count}} تحويلة.",
+      "bulkDisabledCount": "التسجيل متوقف لـ {{count}} تحويلة.",
+      "bulkEnabledAll": "التسجيل مفعّل لكل التحويلات.",
+      "bulkDisabledAll": "التسجيل متوقف لكل التحويلات.",
+      "bulkFailed": "فشل التحديث الجماعي.",
+      "retentionSaved": "تم حفظ إعدادات الاحتفاظ.",
+      "retentionSaveFailed": "تعذّر حفظ إعدادات الاحتفاظ.",
+      "cleanupDone": "اكتمل التنظيف: حُذف {{n}} ملف.",
+      "cleanupFailed": "فشل التنظيف.",
+      "cleanup": "نظّف الآن",
+      "saving": "جارٍ الحفظ…",
+      "saveChanges": "حفظ التغييرات",
+      "loading": "جارٍ تحميل سياسة التسجيل…",
+      "sections": "أقسام تسجيل المكالمات",
+      "tabPolicy": "السياسة",
+      "tabLocal": "التخزين المحلي",
+      "byDirection": "التسجيل حسب الاتجاه",
+      "perExtension": "لكل تحويلة: {{on}} من {{total}} قيد التسجيل",
+      "searchExtensions": "ابحث في التحويلات",
+      "searchExtensionsPlaceholder": "التحويلة أو الاسم…",
+      "applyToMatches": "تطبيق على النتائج ({{n}}):",
+      "applyToAll": "تطبيق على الكل:",
+      "recordAll": "سجّل الكل",
+      "recordNone": "لا تسجّل أيًّا",
+      "perExtensionCaption": "التسجيل لكل تحويلة",
+      "noExtensions": "لا توجد تحويلات",
+      "noExtensionMatches": "لا توجد تحويلات مطابقة",
+      "colExtension": "التحويلة",
+      "colRecording": "التسجيل",
+      "on": "مفعّل",
+      "off": "متوقف",
+      "pageInfo": "{{from}}–{{to}} من {{total}}",
+      "perExtensionNote": "ينطبق إعداد التحويلة على المكالمات التي تجريها (الصادرة والداخلية). المكالمات الخارجية الواردة تتبع مفتاح «الواردة» أعلاه.",
+      "storageUsed": "المساحة المستخدمة",
+      "ofGb": "من {{n}} غيغابايت",
+      "diskFree": "المساحة الحرة على القرص",
+      "ofSize": "من {{size}}",
+      "totalRecordings": "المكالمات المسجلة",
+      "location": "الموقع",
+      "directory": "مجلد التسجيلات",
+      "directoryFixedHint": "المجلد الذي يسجّل فيه المقسم المكالمات. يستخدمه التشغيل والإحصاءات أعلاه والاحتفاظ؛ يحدده المسجّل ولذلك لا يمكن تغييره من هنا.",
+      "retention": "الاحتفاظ",
+      "localDays": "احذف التسجيلات بعد (أيام)",
+      "keepForever": "فارغ = الاحتفاظ دائمًا",
+      "example": "مثال: {{value}}",
+      "localMax": "الحد الأقصى للتخزين (غيغابايت)",
+      "localMaxHint": "تُحذف أقدم التسجيلات أولًا عند تجاوز هذا الحد. فارغ = بلا حد.",
+      "vadFiles": "ملفات النشاط الصوتي",
+      "vadDelete": "احذف ملفات كل متحدث بعد التحليل",
+      "vadDeleteDesc": "ملفات ‎-sp1/-sp2 لازمة لفترة قصيرة فقط لحساب النشاط الصوتي؛ مفعّل افتراضيًا.",
+      "hookConflict": "التسجيل مُفعّل، لكن OpDesk ليس هو من يسجّل: الملف {{files}} يعرّف بالفعل خطافات predial في السنترال (يوجد مسجّل مكالمات آخر مثبّت). مفاتيح الاتجاه والتحويلات أدناه لن يكون لها أي تأثير حتى يتم إيقاف ذلك المسجّل."
+    },
+    "webhooks": {
+      "metaDirections": "{{method}} · {{active}}/{{total}} اتجاهات"
+    },
+    "contactCenter": {
+      "title": "ما بعد المكالمة وإعادة ضبط الوردية",
+      "description": "عمل ما بعد المكالمة، والخروج اليومي الذي يُنهي كل وردية.",
+      "wrapUpLabel": "الحد الأقصى لما بعد المكالمة (ثوانٍ)",
+      "wrapUpHelp": "المدة التي يبقى فيها الموظف متوقفًا بعد مكالمة طابور قبل أن يعود «جاهز». يمكنه الإنهاء أسرع من قائمة حالته، لذا فهذا حد أقصى وليس تأخيرًا ثابتًا. القيمة 0 توقف الإنهاء التلقائي. يسري من المكالمة المكتملة التالية.",
+      "shiftResetLabel": "إعادة ضبط الوردية اليومية",
+      "shiftResetHelp": "في هذا الوقت من كل يوم يُسجَّل خروج كل موظف متصل من طوابيره، كي لا تمتد وردية مفتوحة إلى التالية ويعرض تقرير التزام الموظفين وردية واحدة لكل يوم. الموظف الذي في مكالمة يُسجَّل خروجه عند انتهائها، والموظف في وضع عدم الإزعاج يُترك كما هو. امسح الحقل لإيقاف إعادة الضبط.",
+      "wrapUpLoadFailed": "تعذّرت قراءة إعداد ما بعد المكالمة.",
+      "shiftResetLoadFailed": "تعذّرت قراءة وقت إعادة ضبط الوردية.",
+      "wrapUpOffSaved": "تم إيقاف الإنهاء التلقائي: يبقى الموظفون في ما بعد المكالمة حتى ينهوه.",
+      "wrapUpSaved": "تم ضبط الحد الأقصى على {{n}} ث. يسري من المكالمة المكتملة التالية.",
+      "wrapUpSaveFailed": "تعذّر حفظ إعداد ما بعد المكالمة.",
+      "shiftResetSaved": "يُسجَّل خروج الموظفين من طوابيرهم عند {{time}} كل يوم.",
+      "shiftResetOffSaved": "تم إيقاف إعادة ضبط الوردية اليومية: يبقى الموظفون متصلين حتى يسجلوا خروجهم.",
+      "shiftResetSaveFailed": "تعذّر حفظ وقت إعادة ضبط الوردية.",
+      "saving": "جارٍ الحفظ…",
+      "save": "حفظ التغييرات"
+    }
   },
   "time": {
     "justNow": "الآن",
     "minutesAgo": "منذ {{count}} د",
-    "hoursAgo": "منذ {{count}} س",
-    "yesterday": "أمس"
-  },
-  "reason": {
-    "busy": "مشغول",
-    "noanswer": "لا رد",
-    "failed": "فشل",
-    "switched_off": "مغلق",
-    "invalid_number": "رقم غير صالح",
-    "completed": "مكتمل"
+    "hoursAgo": "منذ {{count}} س"
   },
   "common": {
     "incomingCall": "مكالمة واردة",
@@ -622,10 +1011,56 @@
     "retry": "إعادة المحاولة",
     "prev": "السابق",
     "next": "التالي",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "actions": "الإجراءات",
+    "advanced": "متقدم",
+    "clear": "مسح",
+    "clearFilters": "مسح عوامل التصفية",
+    "close": "إغلاق",
+    "delete": "حذف",
+    "deleteFailed": "فشل الحذف",
+    "disabled": "مُعطّل",
+    "dismiss": "تجاهل",
+    "done": "تم",
+    "edit": "تعديل",
+    "enabled": "مُفعّل",
+    "moveDown": "نقل {{name}} لأسفل",
+    "moveUp": "نقل {{name}} لأعلى",
+    "movedToPosition": "تم نقل {{name}} إلى الموضع {{position}} من {{total}}",
+    "nextPage": "الصفحة التالية",
+    "pagination": "التنقل بين الصفحات",
+    "previous": "السابق",
+    "previousPage": "الصفحة السابقة",
+    "refresh": "تحديث",
+    "remove": "إزالة",
+    "requestFailed": "فشل الطلب",
+    "saveChanges": "حفظ التغييرات",
+    "status": "الحالة",
+    "save": "حفظ",
+    "saving": "جارٍ الحفظ…",
+    "copy": "نسخ",
+    "copied": "تم النسخ",
+    "selectAll": "تحديد الكل",
+    "sync": "مزامنة",
+    "syncAll": "مزامنة جميع البيانات",
+    "pause": "إيقاف مؤقت",
+    "resume": "استئناف",
+    "transfer": "تحويل",
+    "endCall": "إنهاء المكالمة",
+    "exporting": "جارٍ التصدير…",
+    "exportFailed": "فشل التصدير. حاول مرة أخرى.",
+    "logIn": "تسجيل الدخول",
+    "changePassword": "تغيير كلمة المرور",
+    "none": "لا يوجد",
+    "live": "مباشر",
+    "today": "اليوم",
+    "yesterday": "أمس",
+    "allStatuses": "جميع الحالات",
+    "inCall": "في مكالمة",
+    "latency": "زمن الاستجابة",
+    "account": "الحساب"
   },
   "analytics": {
-    "title": "التحليلات",
     "subtitle": "مؤشرات أداء مركز الاتصال",
     "loading": "جارٍ تحميل التحليلات...",
     "error": "فشل تحميل بيانات التحليلات",
@@ -638,8 +1073,6 @@
       "drilldown": "استعراض تفصيلي"
     },
     "period": {
-      "today": "اليوم",
-      "yesterday": "أمس",
       "last7": "آخر 7 أيام",
       "last30": "آخر 30 يومًا",
       "thisMonth": "هذا الشهر",
@@ -647,33 +1080,25 @@
       "label": "النطاق الزمني"
     },
     "kpi": {
-      "sla": "مستوى الخدمة",
       "slaDesc": "المكالمات المجابة ضمن الحد الزمني",
-      "fcr": "معدل الحل من أول اتصال",
       "fcrDesc": "حل المشكلة من أول اتصال",
-      "abandonment": "معدل التخلي",
+      "fcrCallers": "{{repeat}} من {{callers}} متصلًا عادوا",
+      "provisional": "مؤقت",
       "abandonmentDesc": "نسبة المكالمات المتخلى عنها",
-      "aht": "متوسط وقت المعالجة",
       "ahtDesc": "متوسط مدة المكالمة",
-      "volume": "إجمالي المكالمات",
-      "answeredCalls": "مُجابة",
-      "abandonedCalls": "متخلى عنها",
-      "answerRate": "معدل الإجابة",
-      "avgWait": "متوسط الانتظار",
       "na": "غير متاح",
       "outboundCalls": "صادرة",
       "outboundVolume": "المكالمات الصادرة",
-      "outboundAnswerRate": "معدل إجابة الصادرة",
-      "outboundAht": "متوسط مدة الصادرة",
       "outboundTrend": "صادرة",
-      "inboundAnswerRate": "معدل إجابة الواردة",
       "inboundAnswerRateDesc": "المكالمات الواردة المُجابة",
-      "avgWaitKpi": "متوسط وقت الانتظار",
       "avgWaitDesc": "متوسط وقت الانتظار في الطابور",
       "shortAbandon": "التخلي السريع",
       "shortAbandonDesc": "مكالمات أُغلقت قبل الحد الزمني",
-      "market": "وقت التحدث للسوق",
-      "marketDesc": "إجمالي وقت المكالمات الصادرة"
+      "recovered": "متصلون مُستعادون",
+      "recoveredOf": "{{recovered}} من {{abandoned}} متصلًا تركوا الانتظار",
+      "netAbandon": "صافي معدل الترك",
+      "marketDesc": "إجمالي وقت المكالمات الصادرة",
+      "unansweredCalls": "لم يتم الرد"
     },
     "delta": {
       "vsPrevPeriod": "مقارنةً بالفترة السابقة"
@@ -682,41 +1107,38 @@
       "title": "أداء الطوابير",
       "queue": "الطابور",
       "total": "الإجمالي",
-      "answered": "مُجابة",
-      "abandoned": "متخلى عنها",
-      "sla": "مستوى الخدمة %",
-      "aht": "متوسط وقت المعالجة",
-      "avgWait": "متوسط الانتظار",
       "peakHour": "ساعة الذروة",
       "heatmapLow": "منخفض",
       "heatmapHigh": "مرتفع",
       "queues": "طوابير",
-      "heatmapTitle": "حجم المكالمات حسب الساعة واليوم"
+      "heatmapTitle": "حجم المكالمات حسب الساعة واليوم",
+      "belowTarget": "أقل من هدف مستوى الخدمة",
+      "compareBy": "المقارنة حسب",
+      "compareTitle": "مقارنة قوائم الانتظار",
+      "offered": "المعروضة",
+      "detailTitle": "تفاصيل قائمة الانتظار",
+      "allQueues": "كل قوائم الانتظار",
+      "waitTitle": "كم انتظر المتصلون",
+      "heatmapCell": "{{day}} {{hour}}: {{count}} مكالمة ({{abandoned}} متخلى عنها)"
     },
     "agents": {
-      "title": "أداء الموظفين",
       "rank": "#",
-      "agent": "الموظف",
-      "answered": "مُجابة",
-      "aht": "متوسط وقت المعالجة",
       "slaContrib": "مستوى الخدمة %",
       "trend7d": "اتجاه 7 أيام",
-      "agents": "وكلاء"
+      "agents": "وكلاء",
+      "compareTitle": "مقارنة الوكلاء",
+      "compareBy": "المقارنة حسب"
     },
     "drilldown": {
       "title": "استعراض تفصيلي",
       "filterQueue": "الطابور...",
       "filterAgent": "الموظف...",
-      "allDirections": "جميع الاتجاهات",
-      "allDispositions": "جميع الحالات",
+      "allQueues": "كل قوائم الانتظار",
+      "allAgents": "كل الوكلاء",
       "records": "سجلات",
       "date": "التاريخ",
-      "direction": "الاتجاه",
       "src": "المتصل",
       "dst": "الوجهة",
-      "queue": "الطابور",
-      "agent": "الموظف",
-      "duration": "المدة",
       "talk": "وقت التحدث",
       "waitTime": "الانتظار",
       "disposition": "الحالة",
@@ -725,62 +1147,256 @@
       "page": "صفحة",
       "exportCsv": "تصدير CSV",
       "exportXlsx": "تصدير XLSX",
-      "exporting": "جارٍ التصدير...",
-      "exportFailed": "فشل التصدير. يرجى المحاولة مرة أخرى.",
-      "clearFilters": "مسح"
+      "exportCapped": "يحتوي التصدير على أول {{cap}} من هذه المكالمات البالغة {{total}}. ضيّق المدى أو عوامل التصفية لتصدير الباقي."
     },
     "settings": {
-      "title": "التحليلات",
       "slaSection": "حدود مستوى الخدمة",
       "slaPerQueue": "ثوانٍ للإجابة — تجاوز لكل طابور (يستخدم الافتراضي العام إن لم يُحدد)",
       "slaDefault": "الحد الافتراضي",
+      "slaOverride": "الحد",
+      "slaRemove": "استخدام الافتراضي",
+      "slaPickQueue": "اختر قائمة انتظار",
+      "slaAdd": "إضافة حد خاص",
       "fcrSection": "إعدادات الحل من أول اتصال والتخلي",
-      "fcrWindow": "نافذة إعادة الاتصال",
+      "fcrWindow": "نافذة FCR",
+      "fcrWindowHint": "أيام · 0 يوقف FCR",
+      "callbackWindow": "نافذة معاودة الاتصال",
+      "callbackWindowHint": "ساعات · معاودة اتصالنا تُحسب تواصلًا متكررًا ومتصلًا مُستعادًا · 0 يوقفها",
       "shortAbandon": "حد التخلي السريع",
       "save": "حفظ إعدادات التحليلات",
-      "saved": "تم الحفظ!"
+      "saved": "تم الحفظ!",
+      "saveFailed": "تعذّر الحفظ",
+      "unitDays": "أيام",
+      "unitSeconds": "ثانية"
+    },
+    "directions": {},
+    "overview": {
+      "byDirection": "المكالمات حسب الاتجاه",
+      "inboundOutcomes": "نتائج المكالمات الواردة",
+      "queueService": "خدمة قوائم الانتظار",
+      "viaQueue": "قائمة الانتظار",
+      "direct": "مباشرة",
+      "byHour": "المكالمات حسب ساعة اليوم"
+    },
+    "tip": {
+      "agents": {
+        "trend": {
+          "text": "المكالمات المُجابة يوميًا، آخر 7 أيام."
+        },
+        "compare": {
+          "text": "جميع الوكلاء على مقياس واحد في كل مرة، الأعلى أولاً. اختر المقياس من القائمة."
+        },
+        "rank": {
+          "text": "الترتيب حسب مكالمات العملاء المُجابة. المكالمات الداخلية لا تُحسب."
+        },
+        "totalAll": {
+          "text": "كل مكالمات العملاء التي تولاها هذا الوكيل، الواردة والصادرة. المكالمات الداخلية تُحسب على حدة."
+        },
+        "answered": {
+          "text": "مكالمات العملاء التي أتمها هذا الوكيل: الترتيب يعتمد عليها."
+        },
+        "inbound": {
+          "text": "المكالمات التي وردت إلى هذا الوكيل."
+        },
+        "outbound": {
+          "text": "المكالمات التي أجراها هذا الوكيل."
+        },
+        "internal": {
+          "text": "مكالمات بين الفروع. تُعرض لما تستغرقه من وقت، لكنها ليست عملًا مع العملاء: لا تدخل في الإجمالي ولا تُحسب في الترتيب."
+        },
+        "slaContribution": {
+          "text": "كم مرة ردّ هذا الوكيل على مكالمات قوائم الانتظار في الوقت المحدد. فارغ إن لم يتلقَّ مكالمات من قوائم الانتظار.",
+          "formula": "المُجابة في الوقت ÷ مكالمات قوائم الانتظار المُجابة"
+        }
+      },
+      "kpi": {
+        "shortAbandonShare": {
+          "formula": "الإغلاق السريع ÷ المعروضة",
+          "text": "المتصلون الواردون الذين أغلقوا الخط ضمن حد الترك السريع — غالبًا أخطاء في الطلب."
+        },
+        "recovered": {
+          "text": "المتصلون الذين تركوا الانتظار في قائمة انتظار ثم اتصل بهم وكيل خلال {{hours}} ساعة. يُحسب بالأشخاص: ثلاث مرات ترك ومعاودة اتصال واحدة تعني متصلًا واحدًا مُستعادًا.",
+          "formula": "المتصلون الذين عُووِد الاتصال بهم ÷ المتصلون الذين تركوا"
+        },
+        "netAbandon": {
+          "text": "معدل الترك بعد استبعاد مكالمات المتصلين الذين عاودنا الاتصال بهم. أما معدل الترك نفسه فما زال يحسبها.",
+          "formula": "(المتروكة − مكالمات المتصلين المُستعادين المتروكة) ÷ المعروضة"
+        }
+      },
+      "overview": {
+        "inboundOutcomes": {
+          "text": "المكالمات الواردة يومياً: التي تم الرد عليها، والتي لم يرد عليها أحد — المتروكة في قوائم الانتظار والمباشرة الفائتة معاً."
+        },
+        "queueService": {
+          "text": "كيف عاملت قوائم الانتظار من انتظر فيها: سرعة الرد، وكم منهم ترك الانتظار، وهل اضطروا للاتصال مجدداً."
+        },
+        "byDirection": {
+          "text": "المكالمات الواردة والصادرة والداخلية يوميًا."
+        },
+        "byHour": {
+          "text": "كل مكالمات الفترة حسب الساعة التي بدأت فيها — واردة وصادرة وداخلية: أكثر ساعات اليوم ازدحامًا."
+        }
+      },
+      "queues": {
+        "avgWait": {
+          "formula": "إجمالي الانتظار ÷ المتصلين",
+          "text": "كم ينتظر المتصلون في هذا الطابور، شاملًا من انصرف."
+        },
+        "card": {
+          "text": "قائمة الانتظار هذه خلال الفترة: المكالمات المعروضة عليها، وكم منها رد عليه وكيل، وكم منها تُرك، ومدى جودة خدمتها."
+        },
+        "compare": {
+          "text": "كل قوائم الانتظار على مؤشر واحد في كل مرة، الأفضل أولاً: الأعلى لمستوى الخدمة والمعدلات، والأدنى لمعدل الترك والانتظار. اختر المؤشر من القائمة."
+        },
+        "detail": {
+          "text": "قائمة انتظار واحدة، أو كلها معًا: المكالمات المُجابة والمتروكة يوميًا، وكم انتظر المتصلون، ومتى تصل المكالمات."
+        },
+        "wait": {
+          "text": "المكالمات حسب مدة انتظار المتصل في قائمة الانتظار: المُجابة منها، ومن ترك الانتظار."
+        },
+        "heatmap": {
+          "text": "متى تصلك المكالمات، حسب اليوم والساعة. الأغمق أكثر ازدحامًا."
+        },
+        "peakHour": {
+          "text": "أكثر ساعات اليوم ازدحامًا، عبر كامل المدى."
+        },
+        "slaAnswered": {
+          "formula": "المُجابة في الوقت ÷ المُجابة",
+          "text": "كم مرة رُدّ على المكالمات المُجابة في قائمة الانتظار هذه ضمن حد مستوى الخدمة الخاص بها. الهدف هو 80%."
+        }
+      },
+      "drilldown": {
+        "status": {
+          "text": "كيف انتهت المكالمة، بنفس الكلمات المستخدمة في سجل المكالمات."
+        }
+      }
+    },
+    "export": {
+      "csv": "تنزيل CSV",
+      "failed": "تعذّر التنزيل. حاول مرة أخرى.",
+      "overviewTitle": "أرقام الفترة كملف CSV",
+      "trendCsv": "CSV يومي",
+      "trendTitle": "المكالمات لكل يوم كملف CSV",
+      "queuesTitle": "أرقام كل قائمة انتظار كملف CSV",
+      "heatmapTitle": "المكالمات حسب يوم الأسبوع والساعة كملف CSV",
+      "agentsTitle": "أرقام كل وكيل كملف CSV"
+    },
+    "agentCalls": {
+      "open": "عرض مكالمات هذا الوكيل",
+      "calls": "المكالمات",
+      "other": "لم تتصل",
+      "otherHint": "لم يرد الطرف الآخر، أو كان مشغولًا أو غير متاح، أو تعطل الخط",
+      "missedHint": "رنّت لدى هذا الوكيل ولم يتلقها، بما فيها مكالمات ردّ عليها زميل",
+      "number": "الرقم",
+      "takenBy": "تلقاها {{id}}",
+      "callCount_one": "مكالمة واحدة",
+      "callCount_other": "{{count}} مكالمة",
+      "callCount_few": "{{count}} مكالمات",
+      "callCount_many": "{{count}} مكالمة",
+      "callCount_zero": "لا مكالمات",
+      "callCount_two": "مكالمتان"
     }
   },
   "agent": {
     "adherence": {
       "title": "التزام الموظفين",
       "subtitle": "وقت الدخول والجاهزية والمكالمات والاستراحة لكل موظف للفترة المحددة.",
-      "agent": "الموظف",
       "login": "الدخول",
       "logout": "الخروج",
       "loggedIn": "مدة الدخول",
-      "ready": "جاهز",
-      "onCall": "في مكالمة",
-      "wrapUp": "ما بعد المكالمة",
-      "notReady": "غير جاهز",
       "occupancy": "الإشغال",
       "stillIn": "الآن",
       "empty": "لا يوجد نشاط للموظفين في هذه الفترة",
       "exportCsv": "CSV",
       "exportXlsx": "Excel",
-      "exporting": "جارٍ التصدير…",
-      "exportFailed": "فشل التصدير. حاول مرة أخرى."
+      "sessions": "الجلسات",
+      "break": "استراحة",
+      "dnd": "عدم الإزعاج",
+      "tip": {
+        "source": {
+          "text": "مبني على الحالة التي يحددها الوكلاء بأنفسهم، لا على هواتفهم."
+        },
+        "login": {
+          "text": "وقت أول تسجيل دخول للوكيل خلال الفترة."
+        },
+        "logout": {
+          "text": "وقت آخر تسجيل خروج للوكيل. تظهر «متصل» ما دام مسجلاً للدخول."
+        },
+        "sessions": {
+          "text": "عدد مرات تسجيل دخول الوكيل. تنتهي الجلسة بتسجيل الخروج أو بإعادة ضبط الوردية اليومية."
+        },
+        "loggedInTotal": {
+          "text": "إجمالي الوقت الذي كان فيه الوكيل مسجلاً للدخول.",
+          "formula": "جاهز + في مكالمة + ما بعد المكالمة + غير جاهز + عدم الإزعاج"
+        },
+        "ready": {
+          "text": "متاح: مسجل للدخول وينتظر مكالمة."
+        },
+        "onCall": {
+          "text": "في مكالمة."
+        },
+        "wrapUp": {
+          "text": "ينهي أعماله بعد مكالمة."
+        },
+        "break": {
+          "text": "الجزء غير المدفوع من «غير جاهز»: الأسباب غير المصنفة كعمل منتج، مثل الغداء. مرّر المؤشر فوق الرقم لرؤية الأسباب."
+        },
+        "notReady": {
+          "text": "متوقف مؤقتاً لأي سبب، منتجاً كان أم لا. مرّر المؤشر فوق الرقم لرؤية الأسباب."
+        },
+        "dnd": {
+          "text": "مسجل للدخول لكن في وضع عدم الإزعاج: لا تصله مكالمات قوائم الانتظار ولا المكالمات المباشرة."
+        },
+        "occupancy": {
+          "text": "من الوقت الذي كان فيه متاحاً، كم منه قضاه في العمل. تجاوز 85% لفترة طويلة علامة على الإرهاق.",
+          "formula": "(في مكالمة + ما بعد المكالمة) ÷ (في مكالمة + ما بعد المكالمة + جاهز)"
+        }
+      }
     },
-    "goReady": "جاهز",
-    "notReady": "غير جاهز",
     "noReasons": "لا توجد رموز",
     "unpaid": "استراحة",
-    "dnd": "عدم الإزعاج",
-    "login": "تسجيل الدخول",
     "logout": "تسجيل الخروج",
     "state": {
       "ready": "جاهز",
       "onCall": "في مكالمة",
       "notReady": "غير جاهز",
       "dnd": "عدم الإزعاج",
-      "available": "متاح"
+      "available": "متاح",
+      "loggedOut": "غير متصل",
+      "wrapUp": "ما بعد المكالمة",
+      "queueLabel": "قائمة الانتظار: {{queue}}",
+      "deviceAsleep": "جاهز، لكن الهاتف في وضع السكون؛ يستيقظ مع المكالمة التالية"
+    },
+    "codes": {
+      "deleteFailed": "تعذّر حذف رمز السبب.",
+      "deleteTitle": "حذف رمز السبب؟",
+      "labelPlaceholder": "استراحة",
+      "listTitle": "رموز الأسباب"
+    },
+    "finishWrap": "إنهاء ما بعد المكالمة",
+    "pickReason": "غير جاهز، مع ذكر السبب",
+    "timeline": {
+      "open": "عرض كل تغيير في الحالة",
+      "period": "من {{from}} إلى {{to}}",
+      "stateWithReason": "{{state}} · {{reason}}",
+      "forbidden": "غير مسموح لك برؤية نشاط هذا الوكيل.",
+      "empty": "لا يوجد نشاط في هذه الفترة",
+      "emptyHint": "لم يسجل هذا الوكيل الدخول خلال التواريخ المحددة.",
+      "leftOnDnd": "غادر على وضع عدم الإزعاج",
+      "sessionLength": "الجلسة",
+      "queue": "قائمة الانتظار {{queue}}",
+      "ongoing": "مستمر · {{duration}}",
+      "source": {
+        "ami": "الهاتف",
+        "supervisor": "المشرف"
+      }
     }
   },
   "logs": {
-    "title": "السجلات",
     "tabs": {
       "system": "النظام",
-      "deliveries": "عمليات إرسال CRM"
+      "deliveries": "عمليات إرسال CRM",
+      "audit": "سجل التدقيق"
     },
     "system": {
       "title": "بث أحداث AMI",
@@ -795,11 +1411,7 @@
       "amiHint": "تشغيل أو إيقاف تسجيل أحداث AMI",
       "sipHint": "دمج رسائل SIP الأولية في البث",
       "sipFail": "فشل تغيير تتبّع SIP",
-      "pause": "إيقاف مؤقت",
-      "resume": "استئناف",
       "export": "تصدير",
-      "clear": "مسح",
-      "live": "مباشر",
       "paused": "متوقف مؤقتًا",
       "waiting": "في انتظار نشاط AMI…",
       "pausedHint": "البث متوقف مؤقتًا — استأنف لاستقبال أحداث AMI.",
@@ -809,14 +1421,11 @@
     },
     "deliveries": {
       "allStatuses": "كل النتائج",
-      "allDirections": "كل الاتجاهات",
       "searchPlaceholder": "المتصل، الوجهة، معرّف المكالمة…",
       "time": "الوقت",
-      "direction": "الاتجاه",
       "call": "المكالمة",
       "endpoint": "نقطة النهاية",
       "result": "النتيجة",
-      "latency": "زمن الاستجابة",
       "attempt": "المحاولة",
       "request": "الطلب",
       "response": "الاستجابة",
@@ -828,14 +1437,44 @@
       "resendFail": "فشلت إعادة الإرسال.",
       "resentFrom": "أُعيد إرسالها من رقم {{id}}",
       "truncatedHint": "تم اقتطاع نص الطلب عند التسجيل — لا يمكن إعادة إرساله.",
-      "copy": "نسخ",
-      "copied": "تم النسخ",
       "showingCount": "عرض {{count}}",
       "status": {
         "success": "تم التسليم",
-        "failed": "فشل"
-      }
-    }
+        "failed": "فشل",
+        "pending": "قيد إعادة المحاولة",
+        "delivered": "تم التسليم",
+        "abandoned": "توقفت المحاولات",
+        "unresolved": "لم يتم التسليم"
+      },
+      "detailFail": "تعذّر تحميل عملية الإرسال هذه.",
+      "detailTitle": "عملية الإرسال رقم {{id}}",
+      "details": "الطلب والاستجابة",
+      "detailsFor": "تفاصيل عملية الإرسال {{id}}",
+      "resendTitle": "إعادة إرسال العملية رقم {{id}}؟",
+      "retry": "أعد المحاولة الآن",
+      "retryHint": "أرسل هذا التسليم مجددًا الآن بنفس مفتاح عدم التكرار.",
+      "retryOk": "تم التسليم عند إعادة المحاولة.",
+      "retryStillFailing": "تمت إعادة المحاولة، لكن نظام CRM لم يقبله بعد.",
+      "retryFail": "فشلت إعادة المحاولة.",
+      "nextAttempt": "المحاولة التالية {{when}}",
+      "tries": "{{count}}/{{max}} محاولات",
+      "totals": "عمليات التسليم حسب الحالة",
+      "trigger": "أُرسل",
+      "triggers": {
+        "hangup": "عند إنهاء المكالمة",
+        "wrapup": "بعد أعمال ما بعد المكالمة",
+        "resend": "يدويًا (إعادة إرسال)"
+      },
+      "idempotencyKey": "مفتاح عدم التكرار",
+      "search": "البحث في عمليات الإرسال"
+    },
+    "amiToggle": "تسجيل أحداث AMI",
+    "amiToggleError": "تعذّر تبديل بث أحداث AMI.",
+    "pausedTitle": "البث متوقف مؤقتًا",
+    "sipToggle": "عرض تتبع SIP",
+    "waitingDesc": "تظهر الأحداث هنا فور إبلاغ Asterisk عنها.",
+    "waitingTitle": "في انتظار نشاط AMI",
+    "offTitle": "التسجيل متوقف"
   },
   "notReady": {
     "title": "أكواد عدم الجاهزية",
@@ -846,46 +1485,34 @@
     "label": "الاسم",
     "productive": "إنتاجي",
     "active": "مفعّل",
-    "actions": "إجراءات",
     "system": "نظام",
     "yes": "نعم",
     "break": "استراحة",
-    "enabled": "مفعّل",
-    "disabled": "معطّل",
-    "edit": "تعديل",
-    "delete": "حذف",
     "none": "لا توجد أكواد بعد",
     "addTitle": "كود سبب جديد",
     "editTitle": "تعديل كود السبب",
-    "cancel": "إلغاء",
-    "save": "حفظ",
-    "saving": "جارٍ الحفظ…",
     "saveFailed": "فشل الحفظ",
     "confirmDelete": "حذف هذا الكود؟",
     "basic": "أساسي",
     "color": "اللون",
     "order": "ترتيب العرض",
-    "status": "الحالة",
     "productiveHint": "يُحتسب كوقت عمل مدفوع (مثل اجتماع أو تدريب) وليس استراحة في تقرير الالتزام.",
-    "activeHint": "الأكواد غير المفعّلة تُخفى من قائمة اختيار الموظف."
+    "activeHint": "الأكواد غير المفعّلة تُخفى من قائمة اختيار الموظف.",
+    "systemHint": "يستخدمه OpDesk نفسه؛ لا يمكن تعديله أو حذفه.",
+    "reservedCode": "الرموز التي تبدأ بـ __ محجوزة للنظام."
   },
   "contacts": {
-    "title": "جهات الاتصال",
     "loading": "جارٍ تحميل جهات الاتصال…",
     "loadError": "فشل تحميل جهات الاتصال",
     "addContact": "إضافة جهة اتصال",
     "editContact": "تعديل جهة الاتصال",
     "updateContact": "تحديث جهة الاتصال",
     "formDesc": "تظهر جهات الاتصال أينما يظهر رقم المتصل: لوحات المتابعة والتحويلات والهاتف البرمجي.",
-    "name": "الاسم",
-    "namePlaceholder": "الاسم الكامل",
-    "phone": "رقم الهاتف",
     "phonePlaceholder": "مثال: ‎+20 100 000 0000",
     "company": "الشركة",
     "companyPlaceholder": "الشركة (اختياري)",
     "notes": "ملاحظات",
     "notesPlaceholder": "ملاحظات (اختياري)",
-    "cancel": "إلغاء",
     "nameRequired": "الاسم مطلوب",
     "phoneRequired": "يجب أن يحتوي رقم الهاتف على أرقام",
     "saveError": "فشل حفظ جهة الاتصال",
@@ -898,9 +1525,16 @@
     "searchLabel": "البحث في جهات الاتصال",
     "noContacts": "لا توجد جهات اتصال بعد. تظهر الجهات المضافة هنا أو المستخرجة من CRM في كل شاشات المكالمات.",
     "noMatches": "لا توجد جهات اتصال مطابقة لبحثك",
+    "showingCount": "عرض {{count}}",
     "sourceManual": "يدوي",
     "sourceCrm": "CRM",
-    "call": "اتصال بـ {{name}}"
+    "sourceApi": "واجهة API",
+    "call": "اتصال بـ {{name}}",
+    "deleteTitle": "حذف جهة الاتصال؟",
+    "details": "التفاصيل",
+    "emptyTitle": "لا توجد جهات اتصال بعد",
+    "noMatchesTitle": "لا توجد جهات اتصال مطابقة",
+    "source": "المصدر"
   },
   "mobileSetup": {
     "titleFor": "إعداد تطبيق الجوال — {{name}}",
@@ -911,12 +1545,10 @@
     "passwordOn": "مسح واحد يكفي لتسجيل الدخول. تعامل مع الرمز ككلمة المرور نفسها.",
     "passwordOff": "آمن للطباعة أو المشاركة: سيطلب التطبيق كلمة المرور.",
     "json": "JSON الحساب",
-    "copied": "تم النسخ",
-    "copy": "نسخ",
     "download": "PNG",
     "formatLink": "مرجع صيغة الحساب",
     "button": "رمز QR لتطبيق الجوال",
-    "introAuto": "امسح هذا الرمز في Medut Softphone (شاشة تسجيل الدخول ← مسح QR) لإضافة التحويلة {{ext}}. يختار التطبيق أفضل اتصال بنفسه."
+    "intro": "امسح هذا الرمز في Medut Softphone (شاشة تسجيل الدخول ← مسح QR) لإضافة التحويلة {{ext}}. يحمل الرمز إعدادات الاتصال التي يتوقعها السنترال لهذه التحويلة: النقل والتشفير وICE."
   },
   "mobileWake": {
     "saved": "تم الحفظ. أُعيد تحميل خطة اتصال Asterisk.",
@@ -939,12 +1571,10 @@
     "replace": "استبدال",
     "upload": "رفع",
     "keepExisting": "إبقاء الحالي",
-    "remove": "حذف",
     "title": "إيقاظ الجوال",
     "description": "إيقاظ هاتف جوال مغلق للمكالمات الواردة (RFC 8599). يضع الهاتف رمز الإشعارات في طلب SIP REGISTER؛ يرسل OpDesk إشعارًا، ويُبقي المكالمة حتى يعيد الهاتف التسجيل، ثم يتركها ترن.",
     "recommended": "التطبيق الموصى به: Medut Softphone",
     "general": "إيقاظ الجوال",
-    "enabled": "مفعّل",
     "enabledHint": "قبل الاتصال بتحويلة لها ربط إشعارات، أرسل إشعارًا وأبقِ المكالمة حتى يستيقظ التطبيق.",
     "hold": "مدة الانتظار (ثوانٍ)",
     "holdHint": "أقصى مدة ينتظرها المتصل حتى يستيقظ الهاتف ويعيد التسجيل. من 8 إلى 30.",
@@ -974,19 +1604,14 @@
     "devices": {
       "title": "الأجهزة المسجلة (RFC 8599)",
       "none": "لا يوجد بعد. يظهر الجهاز هنا بعد أن يسجّل ومعه pn-provider وpn-prid وpn-param في Contact.",
-      "extension": "التحويلة",
       "provider": "المزوّد",
       "token": "الرمز",
       "app": "التطبيق",
       "lastSeen": "آخر ظهور",
       "forget": "نسيان هذا الجهاز"
-    },
-    "saving": "جارٍ الحفظ…",
-    "save": "حفظ"
+    }
   },
   "account": {
-    "section": "الحساب",
-    "loginPassword": "تغيير كلمة المرور",
     "sipPassword": "تغيير كلمة مرور SIP",
     "showNewQr": "عرض رمز QR الجديد للجوال",
     "sipNote": "سيُسجَّل خروج كل هاتف وتطبيق على تحويلتك، ويجب تسجيل الدخول مجددًا بكلمة المرور الجديدة (امسح رمز QR الجديد).",
@@ -1000,20 +1625,215 @@
     "show": "إظهار",
     "generate": "توليد",
     "confirm": "تأكيد كلمة المرور الجديدة",
-    "mismatch": "كلمتا المرور غير متطابقتين.",
-    "saving": "جارٍ الحفظ…",
-    "save": "تغيير كلمة المرور"
+    "mismatch": "كلمتا المرور غير متطابقتين."
   },
   "profile": {
     "title": "ملفي الشخصي",
-    "account": "الحساب",
     "accountDesc": "بيانات تسجيل الدخول الخاصة بك.",
-    "name": "الاسم",
-    "username": "اسم المستخدم",
-    "role": "الدور",
     "languageDesc": "اللغة التي يظهر بها OpDesk على هذا المتصفح.",
     "passwordDesc": "كلمة المرور التي تسجّل بها الدخول إلى OpDesk.",
     "sipDesc": "كلمة المرور التي تسجّل بها هواتفك والهواتف البرمجية.",
     "qrDesc": "امسح الرمز بتطبيق Medut Softphone لإضافة تحويلتك."
+  },
+  "callStatus": {
+    "ANSWERED": "تم الرد",
+    "BUSY": "مشغول",
+    "FAILURE": "فشلت",
+    "ABANDONED": "تخلَّى المتصل",
+    "DROPPED": "انقطعت",
+    "UNANSWERED": "لم يتم الرد",
+    "MISSED": "فائتة",
+    "VOICEMAIL": "البريد الصوتي",
+    "UNREACHABLE": "يتعذر الوصول",
+    "NETWORK_ERROR": "خطأ في الشبكة"
+  },
+  "contactLookup": {
+    "secMatching": "مطابقة الأرقام",
+    "secRequest": "ماذا نسأل، وكيف نقرأ الإجابة"
+  },
+  "dashboard": {
+    "direction": {},
+    "alert": {
+      "understaffed": "{{queue}}: {{waiting}} في الانتظار ولا يوجد وكيل جاهز للرد.",
+      "pastTarget": "{{queue}}: انتظر أحد المتصلين {{wait}}، متجاوزًا الهدف {{target}}."
+    },
+    "kpi": {
+      "available": "متاح",
+      "longestWait": "أطول انتظار",
+      "ringing": "يرن",
+      "waiting": "مكالمات في الانتظار",
+      "peopleReached": "تم الوصول إلى {{reached}} من {{people}} رقمًا",
+      "totalSplitInternal": "{{in}} واردة · {{out}} صادرة · {{internal}} داخلية"
+    },
+    "now": "الآن",
+    "queues": {
+      "agents": "الموظفون",
+      "available": "متاح",
+      "busy": "مشغول",
+      "longestWait": "الأطول",
+      "none": "لا توجد قوائم انتظار ضمن نطاقك",
+      "paused": "متوقف",
+      "title": "قوائم الانتظار — مباشر",
+      "waiting": "في الانتظار"
+    },
+    "tip": {
+      "activeCalls": {
+        "text": "مكالمات جارية الآن."
+      },
+      "queueAgents": {
+        "text": "موظفو هذا الطابور وما يفعلونه."
+      },
+      "queueLongest": {
+        "text": "أطول مدة انتظار في هذا الطابور."
+      },
+      "queueWaiting": {
+        "text": "متصلون ينتظرون في هذا الطابور الآن."
+      },
+      "ringing": {
+        "text": "هواتف ترن الآن."
+      },
+      "waiting": {
+        "text": "متصلون في الانتظار حتى يرد أحد."
+      },
+      "longestWaitLive": {
+        "text": "المدة التي ينتظرها أطول المتصلين انتظارًا حتى الآن. يتحول إلى الأحمر بعد دقيقة واحدة."
+      }
+    },
+    "todaySoFar": "اليوم حتى الآن",
+    "todayUnavailable": "ملخص اليوم غير متاح لدورك.",
+    "waitingForData": "بانتظار البيانات المباشرة…",
+    "workforce": {
+      "offline": "غير متصل",
+      "title": "توفر الموظفين",
+      "total": "{{count}} موظف"
+    },
+    "trend": {
+      "title": "حجم آخر 7 أيام"
+    }
+  },
+  "metrics": {
+    "totalCalls": "إجمالي المكالمات",
+    "answered": "تم الرد",
+    "answerRate": "معدل الرد",
+    "contactRate": "معدل الاتصال",
+    "contactRateOf": "معدل الاتصال {{rate}}",
+    "abandoned": "متروكة",
+    "abandonRate": "معدل الترك",
+    "abandonRateOf": "معدل الترك {{rate}}",
+    "aht": "متوسط وقت المعالجة",
+    "sla": "مستوى الخدمة",
+    "fcr": "معدل الحل من أول اتصال",
+    "avgWait": "متوسط الانتظار",
+    "tip": {
+      "answerRate": {
+        "text": "نسبة الأرقام الخارجية المختلفة التي تم التحدث معها فعليًا — مهما كان عدد المكالمات لكل منها. يحسب الأشخاص، فعشر محاولات لشخص واحد ردّ في النهاية تُحسب شخصًا واحدًا. المكالمات الداخلية بين الفروع مستبعدة.",
+        "formula": "الأرقام التي ردّت ÷ الأرقام المختلفة"
+      },
+      "contactRate": {
+        "text": "نسبة المكالمات التي تمت — كل مكالمة تُحسب، فالرقم الذي اتُّصل به خمس مرات يُحسب خمس مرات. أما معدل الرد فيحسب الأشخاص وراء المكالمات.",
+        "formula": "تم الرد ÷ المكالمات"
+      },
+      "aht": {
+        "text": "متوسط مدة التحدث في المكالمة التي تم الرد عليها.",
+        "formula": "مدة التحدث ÷ تم الرد"
+      },
+      "totalCalls": {
+        "text": "كل مكالمات هذه الفترة — واردة وصادرة وداخلية."
+      },
+      "answered": {
+        "text": "مكالمات اتصلت فعلًا وسجّلت وقت تحدث."
+      },
+      "abandoned": {
+        "text": "المتصلون الذين أغلقوا الخط في قائمة الانتظار قبل أن يرد وكيل. المكالمة المباشرة إلى فرع ولم يُرد عليها ليست تركًا.",
+        "formula": "مكالمات قوائم الانتظار التي لم يُرد عليها"
+      },
+      "abandonRate": {
+        "formula": "غير المُجابة ÷ المعروضة",
+        "text": "كم من متصلي قوائم الانتظار أغلقوا الخط قبل أن يرد وكيل."
+      },
+      "missed": {
+        "text": "مكالماتك اليوم التي لم تتم.",
+        "formula": "المكالمات − تم الرد"
+      },
+      "sla": {
+        "formula": "المُجابة في الوقت ÷ المُجابة",
+        "text": "كم مرة رُدّ على مكالمات قوائم الانتظار المُجابة ضمن حد مستوى الخدمة لقائمة الانتظار."
+      },
+      "fcr": {
+        "formula": "المتصلون دون تواصل متكرر ÷ المتصلون المُجابون",
+        "text": "المتصلون الذين حسمت أول مكالمة مُجابة لهم في قائمة الانتظار أمرهم: لا تواصل متكرر خلال نافذة FCR — لا مكالمة أخرى منهم إلى قائمة انتظار، مُجابة أو لا، ولا معاودة اتصال منا خلال نافذة معاودة الاتصال. تُقارن الأرقام بآخر تسعة أرقام، ولا يُحسب المتصلون المجهولون والداخليون."
+      },
+      "avgWait": {
+        "formula": "إجمالي الانتظار ÷ المتصلين",
+        "text": "كم ينتظر متصلو الطابور قبل أن يرد أحد."
+      },
+      "talkTime": {
+        "formula": "مجموع وقت التحدث",
+        "text": "إجمالي الوقت الذي قضته المكالمات الصادرة مع العميل على الخط، دون العمل بعد المكالمة."
+      }
+    },
+    "missed": "فائتة",
+    "talkTime": "وقت التحدث"
+  },
+  "fields": {
+    "agent": "الموظف",
+    "extension": "الفرع",
+    "queue": "قائمة الانتظار",
+    "duration": "المدة",
+    "direction": "الاتجاه",
+    "name": "الاسم",
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "fullName": "الاسم الكامل",
+    "role": "الدور",
+    "phoneNumber": "رقم الهاتف"
+  },
+  "direction": {
+    "inbound": "واردة",
+    "outbound": "صادرة",
+    "internal": "داخلية",
+    "all": "جميع الاتجاهات"
+  },
+  "callStatusTip": {
+    "ANSWERED": "رد أحدهم وتحدث الطرفان.",
+    "UNANSWERED": "رنّ الهاتف حتى انتهت المهلة، أو أنهى طرفنا المكالمة أثناء الرنين.",
+    "BUSY": "كان المتلقي مشغولًا أو رفض المكالمة.",
+    "MISSED": "أنهى المتصل المكالمة بينما كان الهاتف لا يزال يرنّ.",
+    "VOICEMAIL": "استقبل البريد الصوتي المكالمة.",
+    "UNREACHABLE": "كان الهاتف مغلقًا أو غير مسجَّل أو خارج الخدمة.",
+    "FAILURE": "تعذّر إجراء المكالمة، مثل رقم خاطئ.",
+    "NETWORK_ERROR": "فشل المسار أو مزوّد الخدمة: ازدحام أو لا توجد دائرة متاحة.",
+    "ABANDONED": "أنهى المتصل المكالمة أثناء انتظاره في قائمة الانتظار.",
+    "DROPPED": "تم الرد على المكالمة ثم انقطعت بشكل غير طبيعي."
+  },
+  "audit": {
+    "loadError": "تعذّر تحميل سجل التدقيق.",
+    "time": "الوقت",
+    "actor": "مَن",
+    "action": "الإجراء",
+    "entity": "ماذا",
+    "summary": "التفاصيل",
+    "showDetail": "ما الذي تغيّر",
+    "ip": "IP",
+    "refresh": "تحديث",
+    "actorSearch": "ابحث حسب المستخدم",
+    "actorPlaceholder": "اسم المستخدم أو التحويلة…",
+    "allActions": "كل الإجراءات",
+    "entityType": "نوع العنصر",
+    "allEntities": "الكل",
+    "loading": "جارٍ تحميل سجل التدقيق…",
+    "caption": "سجل التدقيق",
+    "emptyTitle": "لا توجد إدخالات تدقيق",
+    "emptyDesc": "لا شيء يطابق عوامل التصفية الحالية.",
+    "emptyRange": "لم يتغير شيء في هذه الفترة.",
+    "loadMore": "تحميل المزيد",
+    "actions": {
+      "create": "إنشاء",
+      "update": "تعديل",
+      "delete": "حذف",
+      "apply": "تطبيق",
+      "login": "تسجيل الدخول",
+      "logout": "تسجيل الخروج"
+    }
   }
 }

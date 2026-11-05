@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # OpDesk production start script.
-# VOIPIRAN: Frontend must be built before deployment.
-# VOIPIRAN: Production server must never build the frontend.
+# VOIPIRAN: Frontend is pre-built; NestJS backend is compiled during install.
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -37,9 +36,12 @@ cd "$PROJECT_ROOT" || {
     exit 1
 }
 
-# Load NVM for development mode only.
+# Load NVM so systemd can find the Node.js runtime installed by the installer.
 export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  . "$NVM_DIR/nvm.sh"
+  nvm use --silent default >/dev/null 2>&1 || true
+fi
 
 if [[ "$MODE" == "production" ]]; then
 
@@ -63,42 +65,17 @@ cd "$PROJECT_ROOT/backend" || {
     exit 1
 }
 
-python_supports_opdesk() {
-  "$1" -c 'from contextlib import asynccontextmanager' >/dev/null 2>&1
-}
-
-if [ -n "${PYTHON_BIN:-}" ] &&
-   command -v "$PYTHON_BIN" >/dev/null 2>&1 &&
-   python_supports_opdesk "$PYTHON_BIN"; then
-  :
-else
-  PYTHON_BIN=""
-  for candidate in \
-    /usr/bin/python3.13 \
-    /usr/bin/python3.12 \
-    /usr/bin/python3.11 \
-    /usr/local/bin/python3.13 \
-    /usr/local/bin/python3.12 \
-    /usr/local/bin/python3.11 \
-    python3.13 \
-    python3.12 \
-    python3.11 \
-    python3 \
-    python; do
-    if command -v "$candidate" >/dev/null 2>&1 &&
-       python_supports_opdesk "$candidate"; then
-      PYTHON_BIN="$candidate"
-      break
-    fi
-  done
-fi
-
-if [ -z "${PYTHON_BIN:-}" ]; then
-  echo -e "${RED}Error: Python 3.11+ was not found${NC}"
+if ! command -v node >/dev/null 2>&1; then
+  echo -e "${RED}Error: Node.js 20+ was not found${NC}"
   exit 1
 fi
 
-"$PYTHON_BIN" server.py &
+if [ ! -f "$PROJECT_ROOT/backend/dist/main.js" ]; then
+  echo -e "${RED}Error: backend/dist/main.js not found; run install.sh to build the backend${NC}"
+  exit 1
+fi
+
+node "$PROJECT_ROOT/backend/dist/main.js" &
 BACKEND_PID=$!
 
 if [[ "$MODE" == "production" ]]; then

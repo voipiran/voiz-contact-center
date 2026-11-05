@@ -1,0 +1,46 @@
+/* Settings sections added with the recording policy, contact-center timing and the audit log.
+   Tokens only; logical properties so Arabic (RTL) mirrors without overrides. */
+
+/* One inner tab of the Call Recording card: its sections stacked with the card's rhythm. */
+.rec-tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.audit-summary {
+  max-inline-size: 36rem;
+  overflow-wrap: anywhere;
+}
+
+/* The change a row recorded, folded under its summary; LTR, since it is JSON. */
+.audit-detail {
+  margin-block-start: var(--space-1);
+}
+
+.audit-detail > summary {
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.audit-detail > pre {
+  margin-block-start: var(--space-1);
+  padding: var(--space-2);
+  max-block-size: 20rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+}
+
+.audit-actor {
+  white-space: nowrap;
+}
+
+.audit-more {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-3);
+  border-block-start: 1px solid var(--border-subtle);
+}
