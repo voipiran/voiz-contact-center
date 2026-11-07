@@ -44,7 +44,7 @@ Voiz Contact Center برای تیم‌هایی طراحی شده است که م�
 
 ## نصب سریع
 
-### روش پیشنهادی: دریافت نسخه اصلی با tarball
+### نصب کامل روی Issabel
 
 دستور زیر را روی سرور PBX اجرا کنید:
 
@@ -56,31 +56,37 @@ curl -fL https://github.com/voipiran/voiz-console/archive/refs/heads/main.tar.gz
 tar -xzf voiz-console.tar.gz && \
 mv voiz-console-main voiz-console && \
 cd voiz-console && \
-sudo bash install.sh
+sudo bash contactcenter.sh
 ```
 
-### روش جایگزین: دریافت با Git
+`contactcenter.sh` نصب کامل Issabel را اجرا می‌کند و خودش `install-console.sh` و سپس `voipiran-patch/apply.sh` را اجرا می‌کند. روی Issabel فقط همین دستور را اجرا کنید؛ `install-console.sh` را جداگانه قبل از آن اجرا نکنید.
+
+### نصب کنسول روی FreePBX یا اجرای نصب‌کننده به‌تنهایی
 
 ```bash
 sudo rm -rf /opt/voiz-console
 sudo git clone --depth 1 https://github.com/voipiran/voiz-console.git \
-  /opt/voiz-console
+/opt/voiz-console
 cd /opt/voiz-console
-sudo bash install.sh
+sudo bash install-console.sh
 ```
 
-اسکریپت `install.sh` محیط لازم را آماده می‌کند، نسخه bundled برنامه را در مسیر عملیاتی `/opt/OpDesk` قرار می‌دهد، Node.js و Python مورد نیاز را بررسی / نصب می‌کند و سرویس‌های لازم را برای اجرا آماده می‌سازد. نصب‌کننده به‌صورت عمدی کد را از پروژه والد Clone نمی‌کند؛ نسخه هماهنگ‌شده Voiz از همین مخزن استفاده می‌شود.
+اسکریپت `install-console.sh` محیط لازم را آماده می‌کند، نسخه bundled برنامه را در مسیر عملیاتی `/opt/OpDesk` قرار می‌دهد، Node.js و Python مورد نیاز را بررسی / نصب می‌کند و سرویس‌های لازم را برای اجرا آماده می‌سازد. نصب‌کننده به‌صورت عمدی کد را از پروژه والد Clone نمی‌کند؛ نسخه هماهنگ‌شده Voiz از همین مخزن استفاده می‌شود.
+
+فایل `install.sh` نسخه‌ی اصلی OpDesk از شاخه‌ی upstream است و فقط برای مقایسه و بررسی تغییرات نگه‌داری می‌شود؛ برای نصب Voiz آن را اجرا نکنید. تغییرات مهم upstream باید پس از بررسی، به‌صورت انتخابی به `install-console.sh` منتقل شوند تا تنظیمات اختصاصی Voiz حفظ شوند.
 
 در ابتدای نصب، اگر `curl` و `openssl` از قبل روی سیستم موجود باشند، هیچ بسته‌ای برای ابزارهای پایه نصب نمی‌شود. نصب Python، Nginx و وابستگی‌های runtime در مراحل بعدی و فقط در صورت نیاز انجام می‌شود؛ در آن مراحل مدیر بسته سیستم‌عامل ممکن است متادیتای Repositoryهای فعال را بررسی کند.
 
 ### اجرای مستقیم نسخه موجود در مخزن
 
-اگر پروژه از قبل روی سرور قرار دارد:
+اگر پروژه از قبل روی سرور Issabel قرار دارد، نصب کامل را فقط با این دستور اجرا کنید:
 
 ```bash
 cd /opt/voiz-console
-sudo bash install.sh
+sudo bash contactcenter.sh
 ```
+
+برای FreePBX یا اجرای مستقل نصب‌کننده‌ی کنسول، از `sudo bash install-console.sh` استفاده کنید؛ `contactcenter.sh` مخصوص Issabel است.
 
 > اجرای نصب با `sudo` توصیه می‌شود، چون اسکریپت با مسیرهای سیستمی، تنظیمات Asterisk و سرویس‌های سیستم‌عامل کار می‌کند.
 
@@ -167,14 +173,14 @@ sudo bash install.sh
 
 ## راه‌اندازی اتصال مرکز تماس
 
-اسکریپت `contactcenter.sh` تنظیمات تکمیلی اتصال Voiz به Asterisk را انجام می‌دهد. این مرحله را بعد از نصب اصلی اجرا کنید:
+اسکریپت `contactcenter.sh` نصب کامل Issabel را هماهنگ می‌کند: وابستگی‌های اختصاصی را نصب می‌کند، `install-console.sh` را اجرا می‌کند و سپس سفارشی‌سازی‌های `voipiran-patch/apply.sh` را اعمال می‌کند. بنابراین روی Issabel آن را یک‌بار به‌عنوان دستور اصلی نصب اجرا کنید، نه بعد از اجرای جداگانه‌ی `install-console.sh`:
 
 ```bash
 cd /opt/voiz-contact-center
 sudo bash contactcenter.sh
 ```
 
-این اسکریپت در صورت امکان اطلاعات اتصال دیتابیس Issabel / FreePBX را تشخیص می‌دهد و تنظیمات مورد نیاز ChanSpy و Feature Codeهای نظارت تماس را در Asterisk اعمال می‌کند. اگر اطلاعات دیتابیس به‌صورت خودکار پیدا نشود، اسکریپت آن‌ها را به‌صورت تعاملی درخواست می‌کند.
+این اسکریپت روی Issabel اطلاعات اتصال دیتابیس را می‌خواند و تنظیمات مورد نیاز ChanSpy و Feature Codeهای نظارت تماس را در Asterisk اعمال می‌کند. اگر اطلاعات دیتابیس به‌صورت خودکار پیدا نشود، اسکریپت آن‌ها را به‌صورت تعاملی درخواست می‌کند.
 
 پس از پایان نصب:
 
@@ -258,7 +264,8 @@ voiz-contact-center/
 ├── screenshots/         # تصاویر معرفی رابط کاربری
 ├── docs/                # راهنماهای فنی و API
 ├── contactcenter.sh     # تنظیمات تکمیلی Asterisk و ChanSpy
-├── install.sh           # نصب و آماده‌سازی محیط
+├── install.sh           # نسخه اصلی OpDesk برای مقایسه (اجرا نکنید)
+├── install-console.sh   # نصب و آماده‌سازی محیط Voiz
 └── start.sh             # اجرای توسعه‌ای و production
 ```
 

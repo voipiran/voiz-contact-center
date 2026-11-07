@@ -3,6 +3,10 @@
 How to install OpDesk on an Issabel or FreePBX server, run it, and keep it up to date.
 The short version is in the [README](../../README.md#install). This guide has the details.
 
+> This guide describes the upstream OpDesk `install.sh`. For this Voiz package, use
+> [`install-console.sh`](../../install-console.sh); the root `install.sh` is kept for upstream comparison
+> and is not the Voiz installation entry point.
+
 ## Supported systems
 
 | PBX | OS | Native install | Notes |

@@ -71,7 +71,7 @@ if ! command -v node >/dev/null 2>&1; then
 fi
 
 if [ ! -f "$PROJECT_ROOT/backend/dist/main.js" ]; then
-  echo -e "${RED}Error: backend/dist/main.js not found; run install.sh to build the backend${NC}"
+  echo -e "${RED}Error: backend/dist/main.js not found; run install-console.sh to build the backend${NC}"
   exit 1
 fi
 

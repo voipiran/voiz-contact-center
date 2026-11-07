@@ -11,7 +11,7 @@
 #   - modify frontend source files
 #
 # Production flow:
-#   Main OpDesk install.sh
+#   Voiz-specific OpDesk installer (install-console.sh)
 #          ↓
 #   apply.sh
 #          ↓
@@ -427,7 +427,7 @@ fi
 #
 # IMPORTANT:
 # Do not disable the service here.
-# install.sh creates/enables the service.
+# install-console.sh creates/enables the service.
 # apply.sh only makes sure it is enabled and starts it.
 # ===============================================================
 

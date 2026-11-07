@@ -187,7 +187,7 @@ ON DUPLICATE KEY UPDATE defaultcode='*35', enabled='1';"
 # Responsibilities:
 #   1. Install VOIPIRAN ContactCenter RPM dependencies
 #   2. Install VOIPIRAN ContactCenter Python dependencies
-#   3. Run the main OpDesk install.sh
+#   3. Run the Voiz-specific OpDesk installer
 #   4. Verify /opt/OpDesk
 #   5. Apply VOIPIRAN customizations
 #   6. Reload Asterisk and restart Apache
@@ -199,7 +199,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # VOIPIRAN ContactCenter paths
 PATCH_ROOT="$SCRIPT_DIR/voipiran-patch"
-MAIN_INSTALLER="$SCRIPT_DIR/install.sh"
+MAIN_INSTALLER="$SCRIPT_DIR/install-console.sh"
 
 # RPM dependencies
 RPM_BASE_URL="https://voipiran.io/clover/contactcenter-rpms"
@@ -568,7 +568,7 @@ fi
 # ===============================================================
 
 if [ ! -f "$MAIN_INSTALLER" ]; then
-    echo -e "${RED}ERROR: Main OpDesk install.sh was not found:${NC}"
+    echo -e "${RED}ERROR: Voiz installer install-console.sh was not found:${NC}"
     echo "$MAIN_INSTALLER"
     exit 1
 fi
@@ -576,20 +576,20 @@ fi
 
 echo ""
 echo "====================================="
-echo "Running Main OpDesk Installer"
+echo "Running Voiz Installer"
 echo "====================================="
 echo ""
 
 chmod +x "$MAIN_INSTALLER"
 
 bash "$MAIN_INSTALLER" || {
-    echo -e "${RED}Main OpDesk installer failed!${NC}"
+    echo -e "${RED}Voiz installer failed!${NC}"
     exit 1
 }
 
 
 echo ""
-echo -e "${GREEN}Main OpDesk installation completed successfully.${NC}"
+echo -e "${GREEN}Voiz installation completed successfully.${NC}"
 
 
 # ===============================================================
